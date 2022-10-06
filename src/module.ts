@@ -5,21 +5,19 @@ import {
   resolveModule,
   createResolver
 } from '@nuxt/kit'
+import { name, version } from '../package.json'
 
 export default defineNuxtModule({
   meta: {
-    name: 'nuxt-ssr-lit',
+    name,
+    version,
     configKey: 'nuxtSsrLit'
   },
   async setup () {
     const { resolve } = createResolver(import.meta.url)
-    const resolveRuntimeModule = (path: string) =>
-      resolveModule(path, {
-        paths: resolve('./runtime')
-      })
+    const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve('./runtime') })
 
     addPlugin(resolveRuntimeModule('./plugins/shim.server'))
-    addPlugin(resolveRuntimeModule('./plugins/litSsr.server'))
     addPlugin(resolveRuntimeModule('./plugins/shim.client'))
     addPlugin(resolveRuntimeModule('./plugins/hydrateSupport.client'))
 

@@ -5,13 +5,14 @@ export class MyElement extends LitElement {
   static styles = css`
     .my-element {
       background-color: black;
-      color: green;
+      color: white;
       padding: 16px;
     }
 
     button {
-      background: green;
-      color: white;
+      background: wite;
+      color: black;
+      border-radius: 4px;
       border: none;
       padding: 8px;
       margin: 12px 0;
@@ -20,9 +21,10 @@ export class MyElement extends LitElement {
   `
 
   @property()
-    name?: string = 'World'
+    name?: string = 'default'
 
   onButtonClick () {
+    console.log('Lit button clicked')
     const event = new CustomEvent('my-event', {
       detail: {
         message: 'Something important happened'
@@ -34,13 +36,11 @@ export class MyElement extends LitElement {
   render () {
     return html`
     <div class="my-element">
-      # Start Lit element
       <slot name="prepend">Default prepend text</slot>
       <div>
         <button type="button" @click="${this.onButtonClick}">Lit button with name "${this.name}"</button>
       </div>
       <slot name="append">Default append text</slot>
-      # End Lit element
     </div>`
   }
 }
