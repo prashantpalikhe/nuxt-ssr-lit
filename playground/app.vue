@@ -4,9 +4,11 @@
       Nuxt SSR Lit
     </h1>
 
-    <button class="bg-white text-black p-2 my-4" @click="updateValues">
-      Update values with Vue button
+    <button @click="updateValues">
+      Update Lit element from Vue
     </button>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt error quis ipsa. Nisi animi quia corporis non dignissimos, earum dolore odit adipisci quam veritatis maxime sunt, fuga aut, saepe reiciendis?</p>
 
     <SsrLitWrapper>
       <my-element :name="name" @my-event="updateValues">
@@ -20,6 +22,8 @@
         </span>
       </my-element>
     </SsrLitWrapper>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quaerat et non vel enim sed exercitationem repellat, iure, ducimus repudiandae quod debitis, id tempore magni dignissimos. Velit porro quae quam.</p>
   </div>
 </template>
 
@@ -28,15 +32,15 @@ import { ref } from 'vue'
 import './my-element'
 
 const name = ref('foo')
-const prependText = ref('I am a prepend component')
-const appendText = ref('I am an append component')
+const prependText = ref('Vue component in prepend slot')
+const appendText = ref('Vue component in append slot')
 
 function updateValues () {
   const now = new Date()
   const time = now.toLocaleTimeString()
 
-  name.value = `foo (${time})`
-  prependText.value = `I am a prepend component (${time})`
-  appendText.value = `I am an append component (${time})`
+  name.value = `foo (Updated: ${time})`
+  prependText.value = `Vue component in prepend slot (Updated: ${time})`
+  appendText.value = `Vue component in append slot (Updated: ${time})`
 }
 </script>

@@ -3,16 +3,19 @@ import { property } from 'lit/decorators.js'
 
 export class MyElement extends LitElement {
   static styles = css`
-    :host {
-      font-size: 16px;
+    .my-element {
+      background-color: black;
       color: green;
+      padding: 16px;
     }
 
     button {
-      background: #eee;
+      background: green;
+      color: white;
       border: none;
       padding: 8px;
       margin: 12px 0;
+      cursor: pointer;
     }
   `
 
@@ -30,12 +33,14 @@ export class MyElement extends LitElement {
 
   render () {
     return html`
-    <div>
+    <div class="my-element">
+      # Start Lit element
       <slot name="prepend">Default prepend text</slot>
       <div>
         <button type="button" @click="${this.onButtonClick}">Lit button with name "${this.name}"</button>
       </div>
       <slot name="append">Default append text</slot>
+      # End Lit element
     </div>`
   }
 }
