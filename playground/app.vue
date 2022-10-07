@@ -25,7 +25,15 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quaerat et non vel enim sed exercitationem repellat, iure, ducimus repudiandae quod debitis, id tempore magni dignissimos. Velit porro quae quam.</p>
 
     <LitWrapper>
-      <my-element />
+      <my-element>
+        <span slot="prepend">
+          <LitWrapper>
+            <my-element @my-event="handleNestedLitButtonClick">
+              <div slot="prepend">I am a Lit element within another Lit element</div>
+            </my-element>
+          </LitWrapper>
+        </span>
+      </my-element>
     </LitWrapper>
 
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quaerat et non vel enim sed exercitationem repellat, iure, ducimus repudiandae quod debitis, id tempore magni dignissimos. Velit porro quae quam.</p>
@@ -53,5 +61,9 @@ function updateValues () {
   name.value = `foo (Updated: ${time})`
   prependText.value = `Vue component in prepend slot (Updated: ${time})`
   appendText.value = `Regular paragraph in append slot (Updated: ${time})`
+}
+
+function handleNestedLitButtonClick () {
+  alert('You clicked the nested Lit element!')
 }
 </script>
