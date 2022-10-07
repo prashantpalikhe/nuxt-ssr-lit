@@ -46,7 +46,7 @@ Once you have installed the module to your Nuxt project, wrap your Lit custom el
 
 Now, your Lit custom element should be server-side rendered and client-side hydrated. 🙌
 
-## Development
+## 👨‍💻 Development
 
 - Run `npm run dev:prepare` to generate type stubs.
 - Use `npm run dev` to start [playground](./playground) in development mode.
