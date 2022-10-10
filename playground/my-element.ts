@@ -38,7 +38,7 @@ export class MyElement extends LitElement {
     <div class="my-element">
       <slot name="prepend">Default prepend text</slot>
       <div>
-        <button type="button" @click="${this.onButtonClick}">Lit button with name "${this.name}"</button>
+        <button type="button" @click="${this.onButtonClick}"><slot>Lit button with name "${this.name}"</slot></button>
       </div>
       <slot name="append">Default append text</slot>
     </div>`

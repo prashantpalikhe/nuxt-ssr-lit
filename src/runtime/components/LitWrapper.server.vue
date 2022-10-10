@@ -52,11 +52,20 @@ export default defineComponent({
 
   methods: {
     resolveSlots () {
-      const slotVnodes = (this.litElementVnode.children || []).filter(vnode => Boolean(vnode.props.slot))
+      let children = this.litElementVnode.children || []
+      if (!Array.isArray(children)) {
+        children = [children]
+      }
 
-      const slotVnodeToHtmlPromises = slotVnodes.map(slotVnode => renderToString(slotVnode))
+      const childToHtmlPromises = children.map((child) => {
+        if (child.__v_isVNode) {
+          return renderToString(child)
+        }
 
-      return Promise.all(slotVnodeToHtmlPromises)
+        return Promise.resolve(child)
+      })
+
+      return Promise.all(childToHtmlPromises)
     },
 
     attachPropsToRenderer (renderer) {

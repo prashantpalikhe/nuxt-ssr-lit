@@ -39,6 +39,14 @@
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quaerat et non vel enim sed exercitationem repellat, iure, ducimus repudiandae quod debitis, id tempore magni dignissimos. Velit porro quae quam.</p>
 
     <LitWrapper>
+      <my-element>
+        This is using the default slot
+      </my-element>
+    </LitWrapper>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores quaerat et non vel enim sed exercitationem repellat, iure, ducimus repudiandae quod debitis, id tempore magni dignissimos. Velit porro quae quam.</p>
+
+    <LitWrapper>
       <p>
         I am a regular paragraph wrapped by the LitWrapper
       </p>
