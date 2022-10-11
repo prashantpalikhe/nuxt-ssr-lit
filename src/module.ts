@@ -3,15 +3,25 @@ import {
   addPlugin,
   addComponentsDir,
   resolveModule,
-  createResolver
+  createResolver,
+  addVitePlugin
 } from '@nuxt/kit'
 import { name, version } from '../package.json'
 
-export default defineNuxtModule({
+export interface NuxtSsrLitOptions {
+  litElementPrefix: string,
+  templateSources?: string[]
+}
+
+export default defineNuxtModule<NuxtSsrLitOptions>({
   meta: {
     name,
     version,
     configKey: 'nuxtSsrLit'
+  },
+  defaults: {
+    litElementPrefix: '',
+    templateSources: ['pages', 'components', 'layouts', 'app.vue']
   },
   async setup (options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
@@ -25,5 +35,28 @@ export default defineNuxtModule({
 
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || []
     nuxt.options.nitro.moduleSideEffects.push('@lit-labs/ssr/lib/render-lit-html.js')
+
+    const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false)
+    nuxt.options.vue.compilerOptions.isCustomElement = tag => tag.startsWith(options.litElementPrefix) || isCustomElement(tag)
+
+    const srcDir = nuxt.options.srcDir
+
+    addVitePlugin({
+      name: 'autoLitWrapper',
+      transform (code, id) {
+        const skipTransform = id.includes('node_modules') || !options.templateSources.some(dir => id.includes(`${srcDir}/${dir}`))
+
+        if (skipTransform) { return }
+
+        const openTagRegex = new RegExp(`<(${options.litElementPrefix}[a-z-]+)`, 'g')
+        const endTagRegex = new RegExp(`<\\/(${options.litElementPrefix}[a-z-]+)>`, 'g')
+
+        const result = code
+          .replace(openTagRegex, '<LitWrapper><$1')
+          .replace(endTagRegex, '</$1></LitWrapper>')
+
+        return result
+      }
+    })
   }
 })
