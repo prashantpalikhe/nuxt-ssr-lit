@@ -24,9 +24,6 @@ export default defineNuxtModule({
     await addComponentsDir({ path: resolve('./runtime/components') })
 
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || []
-    nuxt.options.nitro.moduleSideEffects.push(
-      '@lit-labs/ssr/lib/render-lit-html.js',
-      '@lit-labs/ssr/lib/dom-shim.js'
-    )
+    nuxt.options.nitro.moduleSideEffects.push('@lit-labs/ssr/lib/render-lit-html.js')
   }
 })
