@@ -8,7 +8,7 @@ _Note: This module is for Nuxt3._
 
 ### Installation
 
-Install `nuxt-ssr-lit`. 
+Install `nuxt-ssr-lit`.
 
 ```shell
 npm install nuxt-ssr-lit
@@ -24,27 +24,13 @@ import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   modules: [
-    "nuxt-ssr-lit"
+    ["nuxt-ssr-lit", {litElementPrefix: 'acme-'}],
     // ...
   ]
 });
 ```
 
-### Getting started
-
-Once you have installed the module to your Nuxt project, wrap your Lit custom elements with `<LitWrapper />` component provided by the module. The component is auto-imported.
-
-```HTML
-<template>
-  <LitWrapper>
-    <my-lit-custom-element :my-prop="myValue" @my-event="myEventHandler">
-      <div slot="my-slot">Foo bar</div>
-    </my-lit-custom-element>
-  </LitWrapper>
-</template>
-```
-
-Now, your Lit custom element should be server-side rendered and client-side hydrated. 🙌
+That's it! Now all the Lit elements prefixed with `acme-` will be Server-Side Rendered.
 
 ## 👨‍💻 Development
 
