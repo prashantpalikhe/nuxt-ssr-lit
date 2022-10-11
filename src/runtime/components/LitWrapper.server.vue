@@ -45,7 +45,8 @@ export default defineComponent({
       const slots = resolvedSlots.join('')
 
       this.litSsrHtml = `<${this.litElementTagName}><template shadowroot="open">${shadowContents}</template>${slots}</${this.litElementTagName}>`
-    } catch {
+    } catch (e) {
+      console.error(e)
       this.litSsrHtml = ''
     }
   },
