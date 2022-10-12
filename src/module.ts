@@ -6,8 +6,8 @@ import {
   createResolver,
   addVitePlugin
 } from '@nuxt/kit'
-import MagicString from 'magic-string'
 import { name, version } from '../package.json'
+import autoLitWrapper from './runtime/plugins/autoLitWrapper'
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string;
@@ -51,42 +51,6 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     const srcDir = nuxt.options.srcDir
 
-    addVitePlugin({
-      name: 'autoLitWrapper',
-      transform (code, id) {
-        const skipTransform =
-          id.includes('node_modules') ||
-          !options.templateSources.some(dir =>
-            id.includes(`${srcDir}/${dir}`)
-          )
-
-        if (skipTransform) {
-          return
-        }
-        // Borrowed from https://github.com/nuxt/framework/blob/26b1c9ca0ece63d4ea6731d75b83fbe253022485/packages/nuxt/src/components/tree-shake.ts#L67-L74
-        const s = new MagicString(code)
-
-        const openTagRegex = new RegExp(
-          `<(${options.litElementPrefix}[a-z-]+)`,
-          'g'
-        )
-        const endTagRegex = new RegExp(
-          `<\\/(${options.litElementPrefix}[a-z-]+)>`,
-          'g'
-        )
-
-        s.replace(openTagRegex, '<LitWrapper><$1').replace(
-          endTagRegex,
-          '</$1></LitWrapper>'
-        )
-        // No need to check for s.hasChanged() - nuxt warns about sourcemap potentially being wrong if it's not re-generated
-        return {
-          code: s.toString(),
-          map: nuxt.options.sourcemap.server
-            ? s.generateMap({ source: id, includeContent: true })
-            : undefined
-        }
-      }
-    })
+    addVitePlugin(autoLitWrapper({ litElementPrefix: options.litElementPrefix, templateSources: options.templateSources, srcDir, sourcemap: nuxt.options.sourcemap }))
   }
 })
