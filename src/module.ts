@@ -4,9 +4,9 @@ import {
   addComponentsDir,
   resolveModule,
   createResolver,
-  addVitePlugin,
-} from "@nuxt/kit";
-import { name, version } from "../package.json";
+  addVitePlugin
+} from '@nuxt/kit'
+import { name, version } from '../package.json'
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string;
@@ -17,67 +17,67 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
   meta: {
     name,
     version,
-    configKey: "nuxtSsrLit",
+    configKey: 'nuxtSsrLit'
   },
   defaults: {
-    litElementPrefix: "",
-    templateSources: ["pages", "components", "layouts", "app.vue"],
+    litElementPrefix: '',
+    templateSources: ['pages', 'components', 'layouts', 'app.vue']
   },
-  async setup(options, nuxt) {
-    const { resolve } = createResolver(import.meta.url);
+  async setup (options, nuxt) {
+    const { resolve } = createResolver(import.meta.url)
     const resolveRuntimeModule = (path: string) =>
-      resolveModule(path, { paths: resolve("./runtime") });
+      resolveModule(path, { paths: resolve('./runtime') })
 
-    addPlugin(resolveRuntimeModule("./plugins/shim.server"));
-    addPlugin(resolveRuntimeModule("./plugins/shim.client"));
-    addPlugin(resolveRuntimeModule("./plugins/hydrateSupport.client"));
+    addPlugin(resolveRuntimeModule('./plugins/shim.server'))
+    addPlugin(resolveRuntimeModule('./plugins/shim.client'))
+    addPlugin(resolveRuntimeModule('./plugins/hydrateSupport.client'))
 
-    await addComponentsDir({ path: resolve("./runtime/components") });
+    await addComponentsDir({ path: resolve('./runtime/components') })
 
     nuxt.options.nitro.moduleSideEffects =
-      nuxt.options.nitro.moduleSideEffects || [];
+      nuxt.options.nitro.moduleSideEffects || []
     nuxt.options.nitro.moduleSideEffects.push(
       ...[
-        "@lit-labs/ssr/lib/render-lit-html.js",
-        "@lit-labs/ssr/lib/install-global-dom-shim.js",
+        '@lit-labs/ssr/lib/render-lit-html.js',
+        '@lit-labs/ssr/lib/install-global-dom-shim.js'
       ]
-    );
+    )
 
     const isCustomElement =
-      nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
-    nuxt.options.vue.compilerOptions.isCustomElement = (tag) =>
-      tag.startsWith(options.litElementPrefix) || isCustomElement(tag);
+      nuxt.options.vue.compilerOptions.isCustomElement || (() => false)
+    nuxt.options.vue.compilerOptions.isCustomElement = tag =>
+      tag.startsWith(options.litElementPrefix) || isCustomElement(tag)
 
-    const srcDir = nuxt.options.srcDir;
+    const srcDir = nuxt.options.srcDir
 
     addVitePlugin({
-      name: "autoLitWrapper",
-      transform(code, id) {
+      name: 'autoLitWrapper',
+      transform (code, id) {
         const skipTransform =
-          id.includes("node_modules") ||
-          !options.templateSources.some((dir) =>
+          id.includes('node_modules') ||
+          !options.templateSources.some(dir =>
             id.includes(`${srcDir}/${dir}`)
-          );
+          )
 
         if (skipTransform) {
-          return;
+          return
         }
 
         const openTagRegex = new RegExp(
           `<(${options.litElementPrefix}[a-z-]+)`,
-          "g"
-        );
+          'g'
+        )
         const endTagRegex = new RegExp(
           `<\\/(${options.litElementPrefix}[a-z-]+)>`,
-          "g"
-        );
+          'g'
+        )
 
         const result = code
-          .replace(openTagRegex, "<LitWrapper><$1")
-          .replace(endTagRegex, "</$1></LitWrapper>");
+          .replace(openTagRegex, '<LitWrapper><$1')
+          .replace(endTagRegex, '</$1></LitWrapper>')
 
-        return result;
-      },
-    });
-  },
-});
+        return result
+      }
+    })
+  }
+})
