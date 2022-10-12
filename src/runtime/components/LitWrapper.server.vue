@@ -1,9 +1,9 @@
 
 <template>
-  <div v-if="litSsrHtml" v-html="litSsrHtml" />
-  <div v-else>
+  <span v-if="litSsrHtml" v-html="litSsrHtml" />
+  <span v-else>
     <slot />
-  </div>
+  </span>
 </template>
 
 <script lang="ts">
@@ -16,7 +16,7 @@ import { isCustomElementTag, getCustomElementConstructor } from '../utils/custom
 export default defineComponent({
   name: 'LitWrapper',
 
-  data () {
+  data() {
     const defaultSlot = this.$slots.default?.()
     const litElementVnode = defaultSlot?.[0]
     const litElementTagName = litElementVnode?.type
@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
 
-  async serverPrefetch () {
+  async serverPrefetch() {
     if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
       return
     }
@@ -52,7 +52,7 @@ export default defineComponent({
   },
 
   methods: {
-    resolveSlots () {
+    resolveSlots() {
       let children = this.litElementVnode.children || []
       if (!Array.isArray(children)) {
         children = [children]
@@ -69,7 +69,7 @@ export default defineComponent({
       return Promise.all(childToHtmlPromises)
     },
 
-    attachPropsToRenderer (renderer) {
+    attachPropsToRenderer(renderer) {
       const CustomElementConstructor = getCustomElementConstructor(this.litElementTagName)
       const props = this.litElementVnode.props
 
@@ -82,7 +82,7 @@ export default defineComponent({
       }
     },
 
-    getShadowContents (renderer) {
+    getShadowContents(renderer) {
       const yieldedShadowContents = renderer.renderShadow({})
 
       let shadowContents = ''
