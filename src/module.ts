@@ -6,6 +6,7 @@ import {
   createResolver,
   addVitePlugin
 } from '@nuxt/kit'
+import MagicString from 'magic-string'
 import { name, version } from '../package.json'
 
 export interface NuxtSsrLitOptions {
@@ -62,6 +63,8 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
         if (skipTransform) {
           return
         }
+        // Borrowed from https://github.com/nuxt/framework/blob/26b1c9ca0ece63d4ea6731d75b83fbe253022485/packages/nuxt/src/components/tree-shake.ts#L67-L74
+        const s = new MagicString(code)
 
         const openTagRegex = new RegExp(
           `<(${options.litElementPrefix}[a-z-]+)`,
@@ -72,11 +75,17 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
           'g'
         )
 
-        const result = code
-          .replace(openTagRegex, '<LitWrapper><$1')
-          .replace(endTagRegex, '</$1></LitWrapper>')
-
-        return result
+        s.replace(openTagRegex, '<LitWrapper><$1').replace(
+          endTagRegex,
+          '</$1></LitWrapper>'
+        )
+        // No need to check for s.hasChanged() - nuxt warns about sourcemap potentially being wrong if it's not re-generated
+        return {
+          code: s.toString(),
+          map: nuxt.options.sourcemap.server
+            ? s.generateMap({ source: id, includeContent: true })
+            : undefined
+        }
       }
     })
   }
