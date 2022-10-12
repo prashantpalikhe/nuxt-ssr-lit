@@ -1,9 +1,9 @@
 
 <template>
-  <div v-if="litSsrHtml" v-html="litSsrHtml" />
-  <div v-else>
+  <span v-if="litSsrHtml" v-html="litSsrHtml" />
+  <span v-else>
     <slot />
-  </div>
+  </span>
 </template>
 
 <script lang="ts">
@@ -46,6 +46,7 @@ export default defineComponent({
 
       this.litSsrHtml = `<${this.litElementTagName}><template shadowroot="open">${shadowContents}</template>${slots}</${this.litElementTagName}>`
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e)
       this.litSsrHtml = ''
     }
