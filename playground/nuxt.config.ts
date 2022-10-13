@@ -1,8 +1,6 @@
-import { defineNuxtConfig } from 'nuxt/config'
-import NuxtSsrLit from '..'
+import { defineNuxtConfig } from "nuxt/config";
+import NuxtSsrLit from "..";
 
 export default defineNuxtConfig({
-  modules: [
-    [NuxtSsrLit, { litElementPrefix: 'my-' }]
-  ]
-})
+  modules: [[NuxtSsrLit, { litElementPrefix: ["my-", "simple-"] }]],
+});
