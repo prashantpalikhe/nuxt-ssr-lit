@@ -7,6 +7,7 @@ import {
   addVitePlugin
 } from '@nuxt/kit'
 import { name, version } from '../package.json'
+import autoLitWrapper from './runtime/plugins/autoLitWrapper'
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string;
@@ -50,34 +51,6 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     const srcDir = nuxt.options.srcDir
 
-    addVitePlugin({
-      name: 'autoLitWrapper',
-      transform (code, id) {
-        const skipTransform =
-          id.includes('node_modules') ||
-          !options.templateSources.some(dir =>
-            id.includes(`${srcDir}/${dir}`)
-          )
-
-        if (skipTransform) {
-          return
-        }
-
-        const openTagRegex = new RegExp(
-          `<(${options.litElementPrefix}[a-z-]+)`,
-          'g'
-        )
-        const endTagRegex = new RegExp(
-          `<\\/(${options.litElementPrefix}[a-z-]+)>`,
-          'g'
-        )
-
-        const result = code
-          .replace(openTagRegex, '<LitWrapper><$1')
-          .replace(endTagRegex, '</$1></LitWrapper>')
-
-        return result
-      }
-    })
+    addVitePlugin(autoLitWrapper({ litElementPrefix: options.litElementPrefix, templateSources: options.templateSources, srcDir, sourcemap: nuxt.options.sourcemap }))
   }
 })
