@@ -19,7 +19,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
-    "lint": "eslint src/**/*.* --fix",
+    "lint": "eslint \"src/**/*.*\"  --fix",
     "test": "vitest run tests",
     "test:watch": "vitest"
   },
@@ -34,8 +34,14 @@
     "@nuxt/schema": "^3.0.0-rc.11",
     "@nuxt/test-utils-edge": "^3.0.0-rc.12-27759910.9e6d292",
     "@nuxtjs/eslint-config-typescript": "latest",
-    "eslint": "latest",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.6.0",
     "nuxt": "^3.0.0-rc.11",
+    "prettier": "^2.7.1",
     "vitest": "^0.24.1"
   }
 }

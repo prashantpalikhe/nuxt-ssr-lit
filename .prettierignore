@@ -1,0 +1,8 @@
+node_modules
+coverage/
+dist
+.nuxt
+.output
+__snapshots__/
+*.mdx
+.github/
