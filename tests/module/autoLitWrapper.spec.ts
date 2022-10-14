@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, test, beforeAll, expect } from "vitest";
 import autoLitWrapper from "../../src/runtime/plugins/autoLitWrapper";
 
-describe("Lit wrapper plugin", () => {
+describe.skip("Lit wrapper plugin", () => {
   let sampleMyElement = "";
   let samplePage = "";
   let sampleMultiComponentPage = "";
@@ -51,7 +51,7 @@ describe("Lit wrapper plugin", () => {
     );
   });
 
-  test.only("Wraps the code when multiple different components are present", () => {
+  test("Wraps the code when multiple different components are present", () => {
     const plugin = autoLitWrapper({
       litElementPrefix: "my-",
       srcDir: "src",
