@@ -60,15 +60,16 @@ describe("Lit wrapper plugin", () => {
       sampleNestedComponentPage,
       "src/pages/nested-lit-element-in-slot.vue"
     );
-    console.log(t.code);
-    expect(t.code).toContain(
-      `<LitWrapper><my-element>
-      <span slot="prepend">
-        <my-element @my-event="handleNestedLitElementClick">
-          <div slot="prepend">I am a Lit element within another Lit element</div>
-        </my-element>
-      </span>
-    </my-element></LitWrapper>`
+    const expectedCode = `<LitWrapper><my-element>
+    <span slot="prepend">
+    <LitWrapper><my-element @my-event="handleNestedLitElementClick">
+        <div slot="prepend">I am a Lit element within another Lit element</div>
+      </my-element></LitWrapper>
+    </span>
+  </my-element></LitWrapper>`;
+
+    expect(t.code.replace(/\s+/g, "")).toContain(
+      expectedCode.replace(/\s+/g, "")
     );
   });
 
