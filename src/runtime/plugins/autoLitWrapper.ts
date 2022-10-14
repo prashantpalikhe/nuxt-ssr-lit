@@ -32,8 +32,6 @@ export default function autoLitWrapper({
       const openTagRegex = new RegExp(`<(${prefix}[a-z-]+)`, "g");
       const endTagRegex = new RegExp(`<\\/(${prefix}[a-z-]+)>`, "g");
 
-      console.log("open", openTagRegex);
-
       s.replace(openTagRegex, "<LitWrapper><$1").replace(endTagRegex, "</$1></LitWrapper>");
       // No need to check for s.hasChanged() - nuxt warns about sourcemap potentially being wrong if it's not re-generated
       return {

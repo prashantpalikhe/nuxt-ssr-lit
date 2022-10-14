@@ -4,28 +4,20 @@ import { describe, it, expect } from "vitest";
 import { setup, $fetch } from "@nuxt/test-utils-edge";
 describe("ssr", async () => {
   await setup({
-    rootDir: fileURLToPath(new URL("../../playground", import.meta.url)),
+    rootDir: fileURLToPath(new URL("../../playground", import.meta.url))
   });
   it("renders the index page with a single simple element", async () => {
     // Get response to a server-rendered page with `$fetch`.
     const html = await $fetch("/");
     expect(html).toContain('<my-element><template shadowroot="open"><style>');
-    expect(html).toContain(
-      "<!--/lit-part--></template>I am a SSR-ed Lit element</my-element>"
-    );
+    expect(html).toContain("<!--/lit-part--></template>I am a SSR-ed Lit element</my-element>");
   });
-  it("renders multiple different element tags when supplied", async () => {
+  it.only("renders multiple different element tags when supplied", async () => {
     // Get response to a server-rendered page with `$fetch`.
     const html = await $fetch("/multiple-different-element-tags");
     expect(html).toContain('<my-element><template shadowroot="open"><style>');
-    expect(html).toContain(
-      "<!--/lit-part--></template>I am a SSR-ed Lit element</my-element>"
-    );
-    expect(html).toContain(
-      '<simple-button><template shadowroot="open"><style>'
-    );
-    expect(html).toContain(
-      "<!--/lit-part--></template>I am a SSR-ed Lit element</simple-button>"
-    );
+    expect(html).toContain("<!--/lit-part--></template>I am a SSR-ed Lit element</my-element>");
+    expect(html).toContain('<simple-button><template shadowroot="open"><style>');
+    expect(html).toContain("<!--/lit-part--></template>I am a SSR-ed Lit element</simple-button>");
   });
 });
