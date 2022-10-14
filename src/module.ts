@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-import {
-  defineNuxtModule,
-  addPlugin,
-  addComponentsDir,
-  resolveModule,
-  createResolver,
-  addVitePlugin,
-} from "@nuxt/kit";
-=======
 import { defineNuxtModule, addPlugin, addComponentsDir, resolveModule, createResolver, addVitePlugin } from "@nuxt/kit";
->>>>>>> main
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
@@ -45,7 +34,9 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
     nuxt.options.vue.compilerOptions.isCustomElement = (tag) =>
-      tag.startsWith(options.litElementPrefix) || isCustomElement(tag);
+      (Array.isArray(options.litElementPrefix)
+        ? options.litElementPrefix.some((p) => tag.startsWith(p))
+        : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
 
     const srcDir = nuxt.options.srcDir;
 
