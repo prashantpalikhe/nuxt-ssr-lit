@@ -1,12 +1,15 @@
 <template>
-  <span v-if="litSsrHtml" v-html="litSsrHtml" />
-  <span v-else>
+  <div class="lit-wrapper" v-if="litSsrHtml" v-html="litSsrHtml" />
+  <div v-else>
     <slot />
-  </span>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+// Note - these two imports need to be in this order and before the lit-element-renderer. Importing them as a plugin places these _after_ the renderer import so they **must** be in this file
+// The dom-shim installation is a singleton and will only run once with minimal overhead.
+import "@lit-labs/ssr/lib/install-global-dom-shim.js";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
@@ -43,7 +46,9 @@ export default defineComponent({
       const resolvedSlots = (await this.resolveSlots()) || [];
       const slots = resolvedSlots.join("");
 
-      this.litSsrHtml = `<${this.litElementTagName}><template shadowroot="open">${shadowContents}</template>${slots}</${this.litElementTagName}>`;
+      this.litSsrHtml = `<${this.litElementTagName}${this.getAttributesToRender(
+        renderer
+      )}><template shadowroot="open">${shadowContents}</template>${slots}</${this.litElementTagName}>`;
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
@@ -75,11 +80,25 @@ export default defineComponent({
 
       if (props) {
         for (const [key, value] of Object.entries(props)) {
+          // check if this is a reactive property
           if (key in CustomElementConstructor.prototype) {
             renderer.setProperty(key, value);
+          } else {
+            renderer.setAttribute(key, value);
           }
         }
       }
+    },
+
+    getAttributesToRender(renderer) {
+      const yieldedAttrs = renderer.renderAttributes();
+
+      let attrContents = "";
+      for (const chunk of yieldedAttrs) {
+        attrContents += chunk;
+      }
+
+      return attrContents;
     },
 
     getShadowContents(renderer) {
@@ -95,3 +114,8 @@ export default defineComponent({
   }
 });
 </script>
+<style lang="css">
+.lit-wrapper {
+  display: inline-block;
+}
+</style>
