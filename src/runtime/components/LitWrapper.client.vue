@@ -1,10 +1,10 @@
 <template>
-  <span class="lit-wrapper">
+  <div class="lit-wrapper">
     <slot />
-  </span>
+  </div>
 </template>
 <style lang="css">
 .lit-wrapper {
-  display: inline-block;
+  display: unset;
 }
 </style>

@@ -116,6 +116,6 @@ export default defineComponent({
 </script>
 <style lang="css">
 .lit-wrapper {
-  display: inline-block;
+  display: unset;
 }
 </style>
