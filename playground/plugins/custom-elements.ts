@@ -1,4 +1,5 @@
-import '@/my-element'
-import { defineNuxtPlugin } from '#app'
+import { defineNuxtPlugin } from "#app";
+import "@/my-element";
+import "@/simple-button";
 
-export default defineNuxtPlugin(() => {})
+export default defineNuxtPlugin(() => {});

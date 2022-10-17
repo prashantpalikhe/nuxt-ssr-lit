@@ -1,10 +1,4 @@
-import {
-  css,
-  html,
-  LitElement,
-  PropertyDeclarations,
-  TemplateResult,
-} from "lit";
+import { css, html, LitElement, PropertyDeclarations, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
 const styles = css`
@@ -60,15 +54,13 @@ const styles = css`
 export default class SimpleButton extends LitElement {
   static styles = styles;
 
+  static properties = {
+    disabled: { type: Boolean, reflect: true }
+  };
+
   constructor() {
     super();
     this.disabled = false;
-  }
-
-  static get properties(): PropertyDeclarations {
-    return {
-      disabled: { type: Boolean, reflect: true },
-    };
   }
 
   _button?: HTMLButtonElement | null;
