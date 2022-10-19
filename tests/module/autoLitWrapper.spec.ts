@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, test, beforeAll, expect } from "vitest";
-import autoLitWrapper from "../../src/runtime/plugins/autoLitWrapper";
+import autoLitWrapper from "../../src/runtime/plugins/nuxt3/autoLitWrapper";
 
 describe("Lit wrapper plugin", () => {
   let sampleMyElement = "";

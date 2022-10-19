@@ -1,5 +1,5 @@
 import MagicString from "magic-string";
-import type { NuxtSsrLitOptions } from "../../module";
+import type { NuxtSsrLitOptions } from "../../../module";
 
 interface AutoLitWrapperOptions extends NuxtSsrLitOptions {
   srcDir: string; // Location of your source code root i.e. from `nuxt.options.srcDir`
@@ -17,7 +17,7 @@ export default function autoLitWrapper({
 }: AutoLitWrapperOptions) {
   return {
     name: "autoLitWrapper",
-    transform(code, id) {
+    transform(code: string, id: string) {
       const skipTransform =
         id.includes("node_modules") || !templateSources?.some((dir) => id.includes(`${srcDir}/${dir}`));
       if (skipTransform) {
