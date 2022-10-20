@@ -1,4 +1,4 @@
-import "@lit-labs/ssr/lib/install-global-dom-shim.js";
+import "@lit-labs/ssr/lib/install-global-dom-shim";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";

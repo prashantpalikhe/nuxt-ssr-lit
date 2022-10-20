@@ -14,6 +14,10 @@
   "files": [
     "dist"
   ],
+  "sideEffects": [
+    "@lit-labs/ssr/lib/install-global-dom-shim.js",
+    "@lit-labs/ssr/lib/render-lit-html.js"
+  ],
   "scripts": {
     "prepack": "nuxt-module-build",
     "dev": "nuxi dev playground",
@@ -27,7 +31,8 @@
     "@lit-labs/ssr": "^2.2.3",
     "@nuxt/kit": "^3.0.0-rc.11",
     "@webcomponents/template-shadowroot": "^0.1.0",
-    "magic-string": "^0.26.7"
+    "magic-string": "^0.26.7",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.1.7",
