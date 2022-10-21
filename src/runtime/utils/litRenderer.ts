@@ -8,7 +8,6 @@ export async function renderLitElement(tagName: string, vNode: any): Promise<str
   if (!vNode || !isCustomElementTag(tagName)) {
     return;
   }
-
   try {
     const renderer = new LitElementRenderer(tagName);
 
@@ -38,7 +37,7 @@ function resolveSlots(vNode: any): Promise<any> {
 
   const childToHtmlPromises = children.map((child) => {
     if (child.__v_isVNode) {
-      return renderToString(child);
+      return ""; //renderToString(child);
     }
 
     return Promise.resolve(child);

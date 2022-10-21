@@ -6,7 +6,9 @@ import {
   createResolver,
   addVitePlugin,
   isNuxt2,
-  isNuxt3
+  isNuxt3,
+  extendWebpackConfig,
+  addComponent
 } from "@nuxt/kit";
 import { Nuxt } from "@nuxt/schema";
 import { name, version } from "../package.json";
@@ -38,7 +40,7 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
 }
 
 async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
-  nuxt.options.build.transpile = ["@lit-labs/ssr", "lit", "@lit-labs/ssr/lib/install-global-dom-shim.js"];
+  nuxt.options.build.transpile = ["@lit-labs/ssr", "lit"];
   // nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
   // nuxt.options.nitro.moduleSideEffects.push(
   //   "@lit-labs/ssr/lib/install-global-dom-shim.js",
@@ -51,6 +53,13 @@ async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
     ...nuxt.options.alias,
     "node-fetch": resolve(__dirname, "../node_modules/node-fetch")
   };
+
+  extendWebpackConfig((config) => {
+    config.module.rules.push({
+      test: /\.js$/,
+      loader: require.resolve("@open-wc/webpack-import-meta-loader")
+    });
+  });
 
   const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
@@ -84,13 +93,15 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     const srcDir = nuxt.options.srcDir;
 
-    addVitePlugin(
-      autoLitWrapper({
-        litElementPrefix: options.litElementPrefix,
-        templateSources: options.templateSources,
-        srcDir,
-        sourcemap: nuxt.options.sourcemap
-      })
-    );
+    if (isNuxt3()) {
+      addVitePlugin(
+        autoLitWrapper({
+          litElementPrefix: options.litElementPrefix,
+          templateSources: options.templateSources,
+          srcDir,
+          sourcemap: nuxt.options.sourcemap
+        })
+      );
+    }
   }
 });
