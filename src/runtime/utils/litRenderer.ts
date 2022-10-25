@@ -1,10 +1,22 @@
+// Notes on placement of the DOM shim
+/* It must be placed above the render-lit-html file or that fails as it needs the shim APIs
+ * It must also be placed AFTER the vue-router has initialised. The only way to do that in Nuxt 3 is to have it
+ * here, directly before the render-lit-html file.
+ * For Nuxt 2, it does not have to be here, but it _must_ be present before the components are loaded,
+ * so therefore it is registered as a plugin
+ * Having it twice for Nuxt 2 does nothing as the shim is a singleton and will not overwrite itself if it is
+ * already installed
+ */
 import "@lit-labs/ssr/lib/install-global-dom-shim";
 import "@lit-labs/ssr/lib/render-lit-html.js";
-import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
 import { isCustomElementTag, getCustomElementConstructor } from "./customElements";
 
-export async function renderLitElement(tagName: string, vNode: any): Promise<string | undefined> {
+// export type RenderToStringRenderer = (input: App | VNode, context?: SSRContext) =>  Promise<string>
+
+// This `any` could a VNode from Vue3 or Vue2
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function renderLitElement(tagName: string, vNode: any, renderToString: any): Promise<string | undefined> {
   if (!vNode || !isCustomElementTag(tagName)) {
     return;
   }
@@ -16,7 +28,7 @@ export async function renderLitElement(tagName: string, vNode: any): Promise<str
     renderer.connectedCallback();
 
     const shadowContents = getShadowContents(renderer);
-    const resolvedSlots = (await resolveSlots(vNode)) || [];
+    const resolvedSlots = (await resolveSlots(vNode, renderToString)) || [];
     const slots = resolvedSlots.join("");
 
     return `<${tagName}${getAttributesToRender(
@@ -29,7 +41,8 @@ export async function renderLitElement(tagName: string, vNode: any): Promise<str
   }
 }
 
-function resolveSlots(vNode: any): Promise<any> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function resolveSlots(vNode: any, renderToString: any): Promise<any> {
   let children = vNode.children || [];
   if (!Array.isArray(children)) {
     children = [children];

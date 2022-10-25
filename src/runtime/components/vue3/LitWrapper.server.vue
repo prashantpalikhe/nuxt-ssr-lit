@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { renderToString } from "@vue/server-renderer";
 import { renderLitElement } from "../../utils/litRenderer";
 
 export default defineComponent({
@@ -25,7 +26,7 @@ export default defineComponent({
   },
 
   async serverPrefetch() {
-    this.litSsrHtml = await renderLitElement(this.litElementTagName, this.litElementVnode);
+    this.litSsrHtml = await renderLitElement(this.litElementTagName, this.litElementVnode, renderToString);
   }
 });
 </script>

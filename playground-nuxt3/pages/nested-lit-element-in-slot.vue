@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-function handleNestedLitElementClick () {
-  alert('You clicked the nested Lit element!')
+function handleNestedLitElementClick() {
+  alert("You clicked the nested Lit element!");
 }
 </script>

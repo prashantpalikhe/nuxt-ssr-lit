@@ -20,9 +20,13 @@
   ],
   "scripts": {
     "prepack": "nuxt-module-build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev": "npm run dev:nuxt3",
+    "dev:nuxt2": "npm --prefix playground-nuxt2 run dev",
+    "dev:nuxt3": "nuxi dev playground-nuxt3",
+    "dev:build": "npm run dev:build:nuxt3",
+    "dev:build:nuxt2": "npm --prefix playground-nuxt2 run build",
+    "dev:build:nuxt3": "nuxi build playground-nuxt3",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground-nuxt3 && nuxt prepare playground-nuxt2",
     "lint": "eslint \"src/**/*.*\"  --fix",
     "test": "vitest run tests",
     "test:watch": "vitest"
@@ -33,13 +37,17 @@
     "@open-wc/webpack-import-meta-loader": "^0.4.7",
     "@webcomponents/template-shadowroot": "^0.1.0",
     "magic-string": "^0.26.7",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "vue2": "npm:vue@^2.7.13"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.1.7",
     "@nuxt/schema": "^3.0.0-rc.11",
-    "@nuxt/test-utils-edge": "^3.0.0-rc.12-27759910.9e6d292",
+    "@nuxt/test-utils": "npm:@nuxt/test-utils-edge@^3.0.0-rc.13-27778352.91eab1b",
+    "@nuxt/test-utils-edge": "^3.0.0-rc.13-27778165.452766e",
+    "@nuxt2/test-utils": "npm:@nuxt/test-utils@^0.2.2",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
+    "@playwright/test": "^1.27.1",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "eslint": "^8.25.0",
@@ -47,6 +55,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
     "nuxt": "^3.0.0-rc.11",
+    "nuxt2": "npm:nuxt@^2.15.8",
+    "playwright": "^1.27.1",
     "prettier": "^2.7.1",
     "vitest": "^0.24.1"
   }
