@@ -6,7 +6,7 @@
         "dev": "nuxt",
         "build": "nuxt build",
         "start": "nuxt start",
-        "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+        "test": "node --experimental-vm-modules node_modules/.bin/jest"
     },
     "dependencies": {
         "core-js": "^3.26.0",

@@ -57,7 +57,7 @@ async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
     // This rule works at build and dev time, but not in test
     config.module?.rules.push({
       test: /\.js$/i,
-      use: "@open-wc/webpack-import-meta-loader"
+      use: require.resolve("@open-wc/webpack-import-meta-loader")
     });
   });
 
