@@ -15,6 +15,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Nuxt 3 Playground dependencies
+        run: cd playground-nuxt3 && npm ci
+
+      - name: Install Nuxt 2 Playground dependencies
+        run: cd playground-nuxt2 && npm ci
+
       - name: Build packages
         run: npm run build
 
