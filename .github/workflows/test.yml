@@ -1,0 +1,26 @@
+name: PR Check
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Test Nuxt 3
+        run: npm Test
+
+      - name: Test Nuxt 2
+        run: npm run test:nuxt2
+    

@@ -19,6 +19,7 @@
     "@lit-labs/ssr/lib/render-lit-html.js"
   ],
   "scripts": {
+    "build": "npm run dev:prepare && npm run prepack",
     "prepack": "nuxt-module-build",
     "dev": "npm run dev:nuxt3",
     "dev:nuxt2": "npm --prefix playground-nuxt2 run dev",
@@ -29,6 +30,7 @@
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground-nuxt3 && nuxt prepare playground-nuxt2",
     "lint": "eslint \"src/**/*.*\"  --fix",
     "test": "vitest run tests",
+    "test:nuxt2": "npm --prefix playground-nuxt2 run test",
     "test:watch": "vitest"
   },
   "dependencies": {
