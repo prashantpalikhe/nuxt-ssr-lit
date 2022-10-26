@@ -1,7 +1,4 @@
 {
   "private": true,
-  "name": "my-module-playground",
-  "dependencies": {
-    "lit": "^2.4.0"
-  }
+  "name": "nuxt3-playground"
 }

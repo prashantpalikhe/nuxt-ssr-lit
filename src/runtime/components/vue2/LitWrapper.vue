@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-const LitElementSsr = import("./LitElementSsr.js");
+import LitElementSsr from "./LitElementSsr.vue";
 export default {
   name: "LitWrapper",
   components: { LitElementSsr },

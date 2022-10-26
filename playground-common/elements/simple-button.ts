@@ -1,11 +1,5 @@
-import {
-  css,
-  html,
-  LitElement,
-  PropertyDeclarations,
-  TemplateResult,
-} from 'lit'
-import { customElement } from 'lit/decorators.js'
+import { css, html, LitElement, PropertyDeclarations, TemplateResult } from "lit";
+import { customElement } from "lit/decorators.js";
 
 const styles = css`
   :host {
@@ -55,42 +49,42 @@ const styles = css`
     color: #919191;
     cursor: not-allowed;
   }
-`
+`;
 
 export default class SimpleButton extends LitElement {
-  static styles = styles
-  disabled = false
+  static styles = styles;
+  disabled = false;
 
   constructor() {
-    super()
-    this.disabled = false
+    super();
+    this.disabled = false;
   }
 
   static get properties(): PropertyDeclarations {
     return {
-      disabled: { type: Boolean, reflect: true },
-    }
+      disabled: { type: Boolean, reflect: true }
+    };
   }
 
-  _button?: HTMLButtonElement | null
+  _button?: HTMLButtonElement | null;
 
   connectedCallback(): void {
-    super.connectedCallback()
-    this.addEventListener('click', this)
+    super.connectedCallback();
+    this.addEventListener("click", this);
   }
 
   disconnectedCallback(): void {
-    super.disconnectedCallback()
-    this.removeEventListener('click', this)
+    super.disconnectedCallback();
+    this.removeEventListener("click", this);
   }
 
   firstUpdated(): void {
-    this._button = this.querySelector('button')
+    this._button = this.querySelector("button");
   }
 
   handleEvent(evt: Event): void {
-    evt.stopPropagation()
-    this._button?.focus()
+    evt.stopPropagation();
+    this._button?.focus();
   }
 
   render(): TemplateResult {
@@ -98,10 +92,10 @@ export default class SimpleButton extends LitElement {
       <button ?disabled=${this.disabled}>
         <slot></slot>
       </button>
-    `
+    `;
   }
 }
 
-if (!window.customElements.get('simple-button')) {
-  customElement('simple-button')(SimpleButton)
+if (!window.customElements.get("simple-button")) {
+  customElement("simple-button")(SimpleButton);
 }
