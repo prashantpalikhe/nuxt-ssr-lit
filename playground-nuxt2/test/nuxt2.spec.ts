@@ -1,11 +1,10 @@
 // basic.test.js
 import { setupTest, get } from "@nuxt/test-utils";
-describe("ssr", () => {
+describe.skip("ssr", () => {
   setupTest({
     server: true,
     testDir: __dirname
   });
-
   it("renders the index page with a single simple element", async () => {
     // Get response to a server-rendered page with `get`.
     const html = await get("/");

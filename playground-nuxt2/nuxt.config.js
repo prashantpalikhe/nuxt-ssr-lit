@@ -33,22 +33,5 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [NuxtSsrLit],
-  build: {
-    babel: {
-      presets() {
-        const modules = "auto";
-
-        return [
-          [
-            "@nuxt/babel-preset-app",
-            {
-              modules,
-              corejs: { version: 3 }
-            }
-          ]
-        ];
-      }
-    }
-  }
+  modules: [NuxtSsrLit]
 };

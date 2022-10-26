@@ -16,7 +16,7 @@ describe("Lit wrapper plugin", () => {
   }
 
   beforeAll(async () => {
-    sampleMyElement = await loadFile("../elements/my-element.ts");
+    sampleMyElement = await loadFile("../playground-common/elements/my-element.ts");
     samplePage = await loadFile("pages/index.vue");
     sampleMultiComponentPage = await loadFile("pages/multiple-different-element-tags.vue");
     sampleNestedComponentPage = await loadFile("pages/nested-lit-element-in-slot.vue");
