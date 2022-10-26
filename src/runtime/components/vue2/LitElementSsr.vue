@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { renderLitElement } from "../../utils/litRenderer";
+// import { renderLitElement } from "../../utils/litRenderer";
 export default {
   name: "LitElementSsr",
   data() {
@@ -19,7 +19,7 @@ export default {
   },
 
   async serverPrefetch() {
-    this.litSsrHtml = await renderLitElement(this.litElementTagName, this.litElementVnode, () => {});
+    this.litSsrHtml = await `<${this.litElementTagName} />`; //await renderLitElement(this.litElementTagName, this.litElementVnode, () => {});
   }
 };
 </script>

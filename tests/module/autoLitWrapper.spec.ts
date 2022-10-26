@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, test, beforeAll, expect } from "vitest";
-import autoLitWrapper from "../../src/runtime/plugins/nuxt3/autoLitWrapper";
+import autoLitWrapper from "../../src/runtime/plugins/autoLitWrapper";
 
 describe("Lit wrapper plugin", () => {
   let sampleMyElement = "";
@@ -22,7 +22,7 @@ describe("Lit wrapper plugin", () => {
     sampleNestedComponentPage = await loadFile("pages/nested-lit-element-in-slot.vue");
   });
   test("Returns the code unmodified if there are no matching elements", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });
@@ -31,7 +31,7 @@ describe("Lit wrapper plugin", () => {
   });
 
   test("Wraps the template code if there are matching elements", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });
@@ -40,7 +40,7 @@ describe("Lit wrapper plugin", () => {
   });
 
   test("Wraps the code when multiple different components are present", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });

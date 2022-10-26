@@ -7,11 +7,12 @@ import {
   addVitePlugin,
   isNuxt2,
   isNuxt3,
-  extendWebpackConfig
+  extendWebpackConfig,
+  addWebpackPlugin
 } from "@nuxt/kit";
 import { ModuleOptions, Nuxt } from "@nuxt/schema";
 import { name, version } from "../package.json";
-import autoLitWrapper from "./runtime/plugins/nuxt3/autoLitWrapper";
+import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
 export interface NuxtSsrLitOptions extends ModuleOptions {
   litElementPrefix: string | string[];
@@ -36,6 +37,16 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
     (Array.isArray(options.litElementPrefix)
       ? options.litElementPrefix.some((p) => tag.startsWith(p))
       : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
+
+  const srcDir = nuxt.options.srcDir;
+  addVitePlugin(
+    autoLitWrapper.vite({
+      litElementPrefix: options.litElementPrefix,
+      templateSources: options.templateSources,
+      srcDir,
+      sourcemap: nuxt.options.sourcemap
+    })
+  );
 }
 
 async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
@@ -74,6 +85,17 @@ async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
   //   (Array.isArray(options.litElementPrefix)
   //     ? options.litElementPrefix.some((p) => tag.startsWith(p))
   //     : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
+
+  const srcDir = nuxt.options.srcDir;
+  addWebpackPlugin(
+    autoLitWrapper.webpack({
+      litElementPrefix: options.litElementPrefix,
+      templateSources: options.templateSources,
+      srcDir,
+      sourcemap: nuxt.options.sourcemap
+    }),
+    { server: true }
+  );
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -91,20 +113,6 @@ export default defineNuxtModule<ModuleOptions>({
       await setupNuxt3(options as NuxtSsrLitOptions, nuxt);
     } else if (isNuxt2()) {
       await setupNuxt2(options as NuxtSsrLitOptions, nuxt);
-    }
-
-    const srcDir = nuxt.options.srcDir;
-
-    if (isNuxt3()) {
-      // This is temporary
-      addVitePlugin(
-        autoLitWrapper({
-          litElementPrefix: options.litElementPrefix,
-          templateSources: options.templateSources,
-          srcDir,
-          sourcemap: nuxt.options.sourcemap
-        })
-      );
     }
   }
 });

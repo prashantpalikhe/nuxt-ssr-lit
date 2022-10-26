@@ -22,5 +22,5 @@ export default {
   loading: false,
   components: true,
   buildModules: ["@nuxt/typescript-build"],
-  modules: [NuxtSsrLit]
+  modules: [[NuxtSsrLit, { litElementPrefix: ["my-", "simple-"] }]]
 };

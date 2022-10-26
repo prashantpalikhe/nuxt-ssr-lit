@@ -19,7 +19,8 @@
     "@lit-labs/ssr/lib/render-lit-html.js"
   ],
   "scripts": {
-    "build": "npm run dev:prepare && npm run prepack && npm run dev:build",
+    "build": "npm run clean && npm run dev:prepare && npm run prepack && npm run dev:build",
+    "clean": "rimraf dist",
     "prepack": "nuxt-module-build",
     "dev": "npm run dev:nuxt3",
     "dev:nuxt2": "npm --prefix playground-nuxt2 run dev",
@@ -60,6 +61,8 @@
     "nuxt2": "npm:nuxt@^2.15.8",
     "playwright": "^1.27.1",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
+    "unplugin": "^0.10.2",
     "vitest": "^0.24.1"
   }
 }

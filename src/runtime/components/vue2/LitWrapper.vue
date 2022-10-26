@@ -1,8 +1,8 @@
 <template>
-  <client-only>
+  <div>
     <slot />
-    <LitElementSsr slot="placeholder" />
-  </client-only>
+    <LitElementSsr v-if="isServer" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,7 +12,7 @@ export default {
   components: { LitElementSsr },
   data() {
     return {
-      isServer: false
+      isServer: process.server
     };
   }
 };
