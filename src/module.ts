@@ -93,8 +93,7 @@ async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
       templateSources: options.templateSources,
       srcDir,
       sourcemap: nuxt.options.sourcemap
-    }),
-    { server: true }
+    })
   );
 }
 
