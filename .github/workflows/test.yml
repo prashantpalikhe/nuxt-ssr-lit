@@ -25,7 +25,7 @@ jobs:
         run: npm run build
 
       - name: Test Nuxt 3
-        run: npm Test
+        run: npm test
 
       - name: Test Nuxt 2
         run: npm run test:nuxt2
