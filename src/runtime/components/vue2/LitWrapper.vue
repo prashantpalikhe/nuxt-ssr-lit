@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <client-only>
     <slot />
-    <LitElementSsr v-if="isServer" />
-  </div>
+    <LitElementSsr slot="placeholder"><slot /></LitElementSsr>
+  </client-only>
 </template>
 
 <script lang="ts">

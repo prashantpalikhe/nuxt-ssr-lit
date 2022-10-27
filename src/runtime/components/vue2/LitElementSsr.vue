@@ -1,25 +1,33 @@
 <template>
-  <component :is="litElementTagName" v-html="litSsrHtml" />
+  <div>
+    <component :is="litElementTagName" v-if="litSsrHtml" v-html="litSsrHtml" />
+    <slot v-else />
+  </div>
 </template>
 
 <script lang="ts">
-// import { renderLitElement } from "../../utils/litRenderer";
+// import { createRenderer } from "vue-server-renderer";
+import { renderLitElement } from "../../utils/litRenderer";
 export default {
   name: "LitElementSsr",
   data() {
-    const defaultSlot = this.$slots.default?.();
+    // eslint-disable-next-line vue/require-slots-as-functions
+    const defaultSlot = this.$slots.default;
     const litElementVnode = defaultSlot?.[0];
-    const litElementTagName = litElementVnode?.type;
+    const litElementTagName = litElementVnode?.tag;
+    // const { renderToString } = createRenderer();
 
     return {
       litElementVnode,
       litElementTagName,
       litSsrHtml: ""
+      // renderToString
     };
   },
 
   async serverPrefetch() {
-    this.litSsrHtml = await `<${this.litElementTagName} />`; //await renderLitElement(this.litElementTagName, this.litElementVnode, () => {});
+    console.log("in server prefetch for ", this.litElementTagName);
+    this.litSsrHtml = await renderLitElement(this.litElementTagName, this.litElementVnode);
   }
 };
 </script>

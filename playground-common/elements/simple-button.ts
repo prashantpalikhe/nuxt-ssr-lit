@@ -53,7 +53,7 @@ const styles = css`
 
 export default class SimpleButton extends LitElement {
   static styles = styles;
-  disabled = false;
+  declare disabled;
 
   constructor() {
     super();
