@@ -1,4 +1,4 @@
-import NuxtSsrLit from "nuxt-ssr-lit";
+import NuxtSsrLit from "..";
 
 export default {
   head: {
