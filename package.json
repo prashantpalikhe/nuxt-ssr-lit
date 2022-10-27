@@ -20,6 +20,7 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run dev:prepare && npm run prepack && npm run dev:build",
+    "build:prepare": "npm run clean && npm run dev:prepare && npm run prepack",
     "clean": "rimraf dist && rimraf */.nuxt && rimraf */.output",
     "prepack": "nuxt-module-build",
     "dev": "npm run dev:nuxt3",
