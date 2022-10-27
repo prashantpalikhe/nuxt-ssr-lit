@@ -1,4 +1,15 @@
 {
   "private": true,
-  "name": "nuxt3-playground"
+  "name": "nuxt3-playground",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "prepare": "nuxi prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.0.0-rc.12"
+  },
+  "dependencies": {
+    "nuxt-ssr-lit": "file:.."
+  }
 }

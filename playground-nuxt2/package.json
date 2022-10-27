@@ -5,6 +5,7 @@
     "scripts": {
         "dev": "nuxt",
         "build": "nuxt build",
+        "prepare": "echo \"noop\"",
         "start": "nuxt start",
         "test": "node --experimental-vm-modules node_modules/.bin/jest"
     },
