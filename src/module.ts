@@ -30,7 +30,7 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
   const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
   nuxt.options.nitro.plugins = nuxt.options.nitro.plugins || [];
-  nuxt.options.nitro.plugins.push(resolveRuntimeModule("./plugins/nitro/test"));
+  nuxt.options.nitro.plugins.push(resolveRuntimeModule("./plugins/nitro/nitroLitRenderer"));
 
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/shim.client"));
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/hydrateSupport.client"));
