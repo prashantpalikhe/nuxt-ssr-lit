@@ -59,10 +59,12 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
+    "nitropack": "^0.6.0",
     "nuxi": "^3.0.0-rc.12",
     "nuxt": "^3.0.0-rc.12",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
+    "ultrahtml": "^0.4.0",
     "unplugin": "^0.10.2",
     "vitest": "^0.24.1"
   }

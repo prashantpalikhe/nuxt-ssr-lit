@@ -80,7 +80,10 @@ function attachPropsToRenderer(renderer, tagName, vNode) {
 }
 
 function getAttributesToRender(renderer: LitElementRenderer): string {
-  return iterableToString(renderer.renderAttributes());
+  if (renderer.element.attributes) {
+    return iterableToString(renderer.renderAttributes());
+  }
+  return "";
 }
 
 function getShadowContents(renderer: LitElementRenderer): string {

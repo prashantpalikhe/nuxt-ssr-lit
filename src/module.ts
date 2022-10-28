@@ -25,11 +25,16 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
     "@lit-labs/ssr/lib/install-global-dom-shim.js",
     "@lit-labs/ssr/lib/render-lit-html.js"
   );
+
   const { resolve } = createResolver(import.meta.url);
   const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
+  nuxt.options.nitro.plugins = nuxt.options.nitro.plugins || [];
+  nuxt.options.nitro.plugins.push(resolveRuntimeModule("./plugins/nitro/test"));
+
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/shim.client"));
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/hydrateSupport.client"));
+  addPlugin(resolveRuntimeModule("./plugins/nuxt3/domShim.server"));
 
   await addComponentsDir({ path: resolve("./runtime/components/vue3") });
   const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
@@ -39,14 +44,14 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
       : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
 
   const srcDir = nuxt.options.srcDir;
-  addVitePlugin(
-    autoLitWrapper.vite({
-      litElementPrefix: options.litElementPrefix,
-      templateSources: options.templateSources,
-      srcDir,
-      sourcemap: nuxt.options.sourcemap
-    })
-  );
+  // addVitePlugin(
+  //   autoLitWrapper.vite({
+  //     litElementPrefix: options.litElementPrefix,
+  //     templateSources: options.templateSources,
+  //     srcDir,
+  //     sourcemap: nuxt.options.sourcemap
+  //   })
+  // );
 }
 
 async function setupNuxt2(options: NuxtSsrLitOptions, nuxt: Nuxt) {
