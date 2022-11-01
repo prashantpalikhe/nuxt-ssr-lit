@@ -29,12 +29,12 @@ async function setupNuxt3(options: NuxtSsrLitOptions, nuxt: Nuxt) {
   const { resolve } = createResolver(import.meta.url);
   const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
-  nuxt.options.nitro.plugins = nuxt.options.nitro.plugins || [];
-  nuxt.options.nitro.plugins.push(resolveRuntimeModule("./plugins/nitro/nitroLitRenderer"));
-
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/shim.client"));
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/hydrateSupport.client"));
   addPlugin(resolveRuntimeModule("./plugins/nuxt3/domShim.server"));
+
+  nuxt.options.nitro.plugins = nuxt.options.nitro.plugins || [];
+  nuxt.options.nitro.plugins.push(resolveRuntimeModule("./plugins/nitro/nitroLitRenderer"));
 
   await addComponentsDir({ path: resolve("./runtime/components/vue3") });
   const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);

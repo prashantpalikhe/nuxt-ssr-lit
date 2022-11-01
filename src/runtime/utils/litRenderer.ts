@@ -7,8 +7,9 @@
  * Having it twice for Nuxt 2 does nothing as the shim is a singleton and will not overwrite itself if it is
  * already installed
  */
-import "@lit-labs/ssr/lib/install-global-dom-shim";
+import "@lit-labs/ssr/lib/install-global-dom-shim.js";
 import "@lit-labs/ssr/lib/render-lit-html.js";
+
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
 import { isCustomElementTag, getCustomElementConstructor } from "./customElements";
 
@@ -30,7 +31,6 @@ export async function renderLitElement(tagName: string, vNode: any, renderToStri
     const shadowContents = getShadowContents(renderer);
     const resolvedSlots = (await resolveSlots(vNode, renderToString)) || [];
     const slots = resolvedSlots.join("");
-
     return `<${tagName}${getAttributesToRender(
       renderer
     )}><template shadowroot="open">${shadowContents}</template>${slots}</${tagName}>`;
@@ -51,6 +51,11 @@ function resolveSlots(vNode: any, renderToString: any): Promise<any> {
   const childToHtmlPromises = children.map((child) => {
     if (child.__v_isVNode) {
       return renderToString(child);
+    } else if (child.value) {
+      if (typeof child.value === "string") {
+        return child.value;
+      }
+      return renderToString(child.value);
     }
 
     return Promise.resolve(child);
@@ -62,7 +67,6 @@ function resolveSlots(vNode: any, renderToString: any): Promise<any> {
 function attachPropsToRenderer(renderer, tagName, vNode) {
   const customElementConstructor = getCustomElementConstructor(tagName);
   const props = vNode.props;
-
   if (props) {
     for (const [key, value] of Object.entries(props)) {
       // check if this is a reactive property
@@ -71,7 +75,12 @@ function attachPropsToRenderer(renderer, tagName, vNode) {
         typeof customElementConstructor !== "string" &&
         key in customElementConstructor.prototype
       ) {
-        renderer.setProperty(key, value);
+        // This gets around the issue of properties having a key but no value
+        if (value === "") {
+          renderer.setProperty(key, true);
+        } else {
+          renderer.setProperty(key, value);
+        }
       } else {
         renderer.setAttribute(key, value);
       }

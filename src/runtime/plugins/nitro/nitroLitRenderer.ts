@@ -15,6 +15,7 @@ export default defineNitroPlugin((nitroApp: NitroApp) => {
 async function renderAllElements(htmlContext: NuxtRenderHTMLContext) {
   for (let i = 0; i < htmlContext.body.length; i++) {
     const markup = htmlContext.body[i];
+
     const ast = parse(markup);
     let output = "";
     let tag = "";
@@ -27,7 +28,19 @@ async function renderAllElements(htmlContext: NuxtRenderHTMLContext) {
           "";
       }
     });
-    const magic = new MagicString(markup);
+    /**
+     * The problem - the string that is produced by rendering a node with ultrahtml or parse5
+     * does not know the difference between properties and attributes.
+     * The rendering comes back as `<simple-element disabled=''>` rather than `<simple-element disabled>`
+     * which is what the author wrote.
+     * So, when we try to match the rendered/serialized tag with out output so we can replace it,
+     * it does not match exactly
+     *
+     * To get around this, I am rendering the whole tree with ultrahtml first,
+     * so that it will then match. Again, probably not very performant, but it works
+     */
+    const magic = new MagicString(await render(parse(markup), { sanitize: false }));
+
     if (output && output !== "") {
       magic.replace(tag, output);
     }
