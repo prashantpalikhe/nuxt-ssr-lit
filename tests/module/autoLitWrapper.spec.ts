@@ -10,19 +10,19 @@ describe("Lit wrapper plugin", () => {
   let sampleNestedComponentPage = "";
 
   async function loadFile(pageFileName: string): Promise<string> {
-    return await fs.readFile(path.resolve(path.join(__dirname, "/../../playground/", pageFileName)), {
+    return await fs.readFile(path.resolve(path.join(__dirname, "/../../playground-nuxt3/", pageFileName)), {
       encoding: "utf-8"
     });
   }
 
   beforeAll(async () => {
-    sampleMyElement = await loadFile("my-element.ts");
+    sampleMyElement = await loadFile("../playground-common/elements/my-element.ts");
     samplePage = await loadFile("pages/index.vue");
     sampleMultiComponentPage = await loadFile("pages/multiple-different-element-tags.vue");
     sampleNestedComponentPage = await loadFile("pages/nested-lit-element-in-slot.vue");
   });
   test("Returns the code unmodified if there are no matching elements", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });
@@ -31,7 +31,7 @@ describe("Lit wrapper plugin", () => {
   });
 
   test("Wraps the template code if there are matching elements", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });
@@ -40,7 +40,7 @@ describe("Lit wrapper plugin", () => {
   });
 
   test("Wraps the code when multiple different components are present", () => {
-    const plugin = autoLitWrapper({
+    const plugin = autoLitWrapper.vite({
       litElementPrefix: "my-",
       srcDir: "src"
     });

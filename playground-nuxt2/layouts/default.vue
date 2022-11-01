@@ -26,7 +26,7 @@
     </header>
 
     <main>
-      <NuxtPage />
+      <Nuxt />
     </main>
   </div>
 </template>

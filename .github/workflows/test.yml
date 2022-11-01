@@ -1,0 +1,35 @@
+name: PR Check
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prepare
+        run: npm run build:prepare
+
+      - name: Install Nuxt 2 Playground dependencies
+        run: cd playground-nuxt2 && npm ci
+
+      - name: Install Nuxt 3 Playground dependencies
+        run: cd playground-nuxt3 && npm ci
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Test Nuxt 3
+        run: npm test
+
+      - name: Test Nuxt 2
+        run: npm run test:nuxt2
+    

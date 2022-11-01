@@ -53,14 +53,17 @@ const styles = css`
 
 export default class SimpleButton extends LitElement {
   static styles = styles;
-
-  static properties = {
-    disabled: { type: Boolean, reflect: true }
-  };
+  declare disabled;
 
   constructor() {
     super();
     this.disabled = false;
+  }
+
+  static get properties(): PropertyDeclarations {
+    return {
+      disabled: { type: Boolean, reflect: true }
+    };
   }
 
   _button?: HTMLButtonElement | null;
@@ -93,6 +96,6 @@ export default class SimpleButton extends LitElement {
   }
 }
 
-if (!customElements.get("simple-button")) {
+if (!window.customElements.get("simple-button")) {
   customElement("simple-button")(SimpleButton);
 }
