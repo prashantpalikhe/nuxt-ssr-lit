@@ -20,8 +20,10 @@ export class MyElement extends LitElement {
     }
   `;
 
-  @property()
-  name?: string = "default";
+  constructor() {
+    super();
+    this.name = "default";
+  }
 
   onButtonClick() {
     console.log("Lit button clicked");

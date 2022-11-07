@@ -1,12 +1,5 @@
-<template>
-  <div class="lit-wrapper" v-if="litSsrHtml" v-html="litSsrHtml" />
-  <div v-else>
-    <slot />
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, h } from "vue";
 // Note - these two imports need to be in this order and before the lit-element-renderer. Importing them as a plugin places these _after_ the renderer import so they **must** be in this file
 // The dom-shim installation is a singleton and will only run once with minimal overhead.
 import "@lit-labs/ssr/lib/install-global-dom-shim.js";
@@ -16,10 +9,8 @@ import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
 import { isCustomElementTag, getCustomElementConstructor } from "../utils/customElements";
 
 export default defineComponent({
-  name: "LitWrapper",
-
   data() {
-    const defaultSlot = this.$slots.default?.();
+    const defaultSlot = this.$slots.default?.()?.[0]?.children;
     const litElementVnode = defaultSlot?.[0];
     const litElementTagName = litElementVnode?.type;
 
@@ -28,32 +19,6 @@ export default defineComponent({
       litElementTagName,
       litSsrHtml: ""
     };
-  },
-
-  async serverPrefetch() {
-    if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
-      return;
-    }
-
-    try {
-      const renderer = new LitElementRenderer(this.litElementTagName);
-
-      this.attachPropsToRenderer(renderer);
-
-      renderer.connectedCallback();
-
-      const shadowContents = this.getShadowContents(renderer);
-      const resolvedSlots = (await this.resolveSlots()) || [];
-      const slots = resolvedSlots.join("");
-
-      this.litSsrHtml = `<${this.litElementTagName}${this.getAttributesToRender(
-        renderer
-      )}><template shadowroot="open">${shadowContents}</template>${slots}</${this.litElementTagName}>`;
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      this.litSsrHtml = "";
-    }
   },
 
   methods: {
@@ -111,11 +76,36 @@ export default defineComponent({
 
       return shadowContents;
     }
+  },
+
+  async serverPrefetch() {
+    if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
+      return;
+    }
+
+    try {
+      const renderer = new LitElementRenderer(this.litElementTagName);
+
+      this.attachPropsToRenderer(renderer);
+
+      renderer.connectedCallback();
+
+      const shadowContents = this.getShadowContents(renderer);
+      const resolvedSlots = (await this.resolveSlots()) || [];
+      const slots = resolvedSlots.join("");
+
+      this.litSsrHtml = `<template shadowroot="open">${shadowContents}</template>${slots}`;
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      this.litSsrHtml = "";
+    }
+  },
+
+  render() {
+    return h(this.litElementTagName, {
+      innerHTML: this.litSsrHtml
+    });
   }
 });
 </script>
-<style lang="css">
-.lit-wrapper {
-  display: unset;
-}
-</style>
