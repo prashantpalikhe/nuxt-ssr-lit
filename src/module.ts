@@ -1,12 +1,4 @@
-import {
-  defineNuxtModule,
-  addPlugin,
-  addComponentsDir,
-  resolveModule,
-  createResolver,
-  addVitePlugin,
-  addComponent
-} from "@nuxt/kit";
+import { defineNuxtModule, addPlugin, resolveModule, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
@@ -44,15 +36,14 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     });
 
     await addComponent({
-      name: "LitWrapperServer",
-      filePath: resolve("./runtime/components/LitWrapperServer.vue"),
-      mode: "server"
+      name: "LitWrapperClient",
+      filePath: resolve("./runtime/components/LitWrapperClient.vue")
     });
 
     await addComponent({
-      name: "LitWrapperClient",
-      filePath: resolve("./runtime/components/LitWrapperClient.vue"),
-      mode: "client"
+      name: "LitWrapperServer",
+      filePath: resolve("./runtime/components/LitWrapperServer.vue"),
+      mode: "server"
     });
 
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);

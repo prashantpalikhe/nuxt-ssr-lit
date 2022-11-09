@@ -1,15 +1,10 @@
 <template>
-  <LitWrapperServer v-if="isServer">
-    <slot />
-  </LitWrapperServer>
-
-  <LitWrapperClient v-else>
-    <slot />
-  </LitWrapperClient>
+  <LitWrapperServer v-if="isServer"><slot></slot></LitWrapperServer>
+  <LitWrapperClient v-else><slot></slot></LitWrapperClient>
 </template>
 
 <script>
-import { h, defineComponent } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "LitWrapper",

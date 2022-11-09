@@ -17,7 +17,8 @@ export default defineComponent({
     return {
       litElementVnode,
       litElementTagName,
-      litSsrHtml: ""
+      litSsrHtml: "",
+      renderer: null
     };
   },
 
@@ -39,42 +40,51 @@ export default defineComponent({
       return Promise.all(childToHtmlPromises);
     },
 
-    attachPropsToRenderer(renderer) {
-      const CustomElementConstructor = getCustomElementConstructor(this.litElementTagName);
+    attachPropsToRenderer() {
+      const customElementConstructor = getCustomElementConstructor(this.litElementTagName);
       const props = this.litElementVnode.props;
 
       if (props) {
         for (const [key, value] of Object.entries(props)) {
           // check if this is a reactive property
-          if (key in CustomElementConstructor.prototype) {
-            renderer.setProperty(key, value);
+          if (
+            customElementConstructor !== null &&
+            typeof customElementConstructor !== "string" &&
+            key in customElementConstructor.prototype
+          ) {
+            // This gets around the issue of properties having a key but no value
+            if (value === "") {
+              this.renderer.setProperty(key, true);
+            } else {
+              this.renderer.setProperty(key, value);
+            }
           } else {
-            renderer.setAttribute(key, value);
+            this.renderer.setAttribute(key, value);
           }
         }
       }
     },
 
-    getAttributesToRender(renderer) {
-      const yieldedAttrs = renderer.renderAttributes();
-
-      let attrContents = "";
-      for (const chunk of yieldedAttrs) {
-        attrContents += chunk;
+    getAttributesToRender() {
+      if (this.renderer.element.attributes) {
+        return Object.fromEntries(
+          this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
+        );
       }
 
-      return attrContents;
+      return {};
     },
 
-    getShadowContents(renderer) {
-      const yieldedShadowContents = renderer.renderShadow({});
+    getShadowContents() {
+      return this.iterableToString(this.renderer.renderShadow({}));
+    },
 
-      let shadowContents = "";
-      for (const chunk of yieldedShadowContents) {
-        shadowContents += chunk;
+    iterableToString(iterable: Iterable<string>) {
+      let s = "";
+      for (const i of iterable) {
+        s += i;
       }
-
-      return shadowContents;
+      return s;
     }
   },
 
@@ -84,13 +94,13 @@ export default defineComponent({
     }
 
     try {
-      const renderer = new LitElementRenderer(this.litElementTagName);
+      this.renderer = new LitElementRenderer(this.litElementTagName);
 
-      this.attachPropsToRenderer(renderer);
+      this.attachPropsToRenderer();
 
-      renderer.connectedCallback();
+      this.renderer.connectedCallback();
 
-      const shadowContents = this.getShadowContents(renderer);
+      const shadowContents = this.getShadowContents();
       const resolvedSlots = (await this.resolveSlots()) || [];
       const slots = resolvedSlots.join("");
 
@@ -103,8 +113,11 @@ export default defineComponent({
   },
 
   render() {
+    const attrs = this.getAttributesToRender();
+
     return h(this.litElementTagName, {
-      innerHTML: this.litSsrHtml
+      innerHTML: this.litSsrHtml,
+      attrs
     });
   }
 });

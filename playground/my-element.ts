@@ -2,6 +2,10 @@ import { LitElement, css, html } from "lit";
 import { property } from "lit/decorators.js";
 
 export class MyElement extends LitElement {
+  static properties = {
+    name: { type: String }
+  };
+
   static styles = css`
     .my-element {
       background-color: black;
