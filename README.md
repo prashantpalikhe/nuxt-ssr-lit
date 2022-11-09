@@ -24,7 +24,7 @@ import { defineNuxtConfig } from "nuxt";
 
 export default defineNuxtConfig({
   modules: [
-    ["nuxt-ssr-lit", {litElementPrefix: 'acme-'}],
+    ["nuxt-ssr-lit", { litElementPrefix: ['acme-'] }],
     // ...
   ]
 });
