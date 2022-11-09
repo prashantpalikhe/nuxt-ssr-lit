@@ -37,12 +37,12 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     await addComponent({
       name: "LitWrapperClient",
-      filePath: resolve("./runtime/components/LitWrapperClient.vue")
+      filePath: resolve("./runtime/components/LitWrapperClient.ts")
     });
 
     await addComponent({
       name: "LitWrapperServer",
-      filePath: resolve("./runtime/components/LitWrapperServer.vue"),
+      filePath: resolve("./runtime/components/LitWrapperServer.ts"),
       mode: "server"
     });
 
