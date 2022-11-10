@@ -48,3 +48,9 @@ So, if there is a Lit element used in one of the components. E.g. `<acme-button>
 [The LitWrapper component on the server side](./src/runtime/components/LitWrapperServer.vue) uses the [@lit-labs/ssr](https://www.npmjs.com/package/@lit-labs/ssr)'s [LitElementRenderer](https://github.com/lit/lit/blob/main/packages/labs/ssr/src/lib/lit-element-renderer.ts) to render the wrapped Lit element with [Declarative Shadow DOM](https://web.dev/declarative-shadow-dom/). This makes the Lit component render properly on the browser without having the JS to load and execute and as soon the server HTML is parsed.
 
 [The LitWrapper component on the client side](./src/runtime/components/LitWrapperClient.vue) does nothing and let the normal client-side hydration take place.
+
+## Caveats
+
+The Lit components are SSR-ed on the Node side by applying a [tiny DOM shim](https://lit.dev/docs/ssr/dom-emulation/) to Node. Not all DOM APIs are available. E.g. getting the assigned slots or children, dispatching custom events, adding event listeners on [lifecycle hooks that are called on the server-side](https://lit.dev/docs/ssr/authoring/#standard-custom-element-and-litelement) will not work. Avoiding such client-side activities on server-run code will take you long way.
+
+Also, check the `@lit-labs/ssr`'s [library status](https://lit.dev/docs/ssr/overview/#library-status) for more information.
