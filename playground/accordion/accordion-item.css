@@ -1,0 +1,29 @@
+.accordion-item__invoker {
+    display: flex;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    border-top: 1px solid black;
+    color: black;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 20px 48px 16px 0;
+    position: relative;
+    text-align: left;
+    width: 100%;
+}
+
+.accordion-item__invoker[aria-expanded='true'] {
+    color: green;
+}
+
+.accordion-item__invoker:hover,
+.accordion-item__invoker.accordion-item__invoker[aria-expanded='true']:hover {
+    color: blue;
+}
+
+.accordion-item__content:not([hidden]) {
+    padding-bottom: 20px;
+}

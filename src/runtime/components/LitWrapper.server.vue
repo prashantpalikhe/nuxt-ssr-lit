@@ -1,5 +1,5 @@
 <template>
-  <div class="lit-wrapper" v-if="litSsrHtml" v-html="litSsrHtml" />
+  <div v-if="litSsrHtml" class="lit-wrapper" v-html="litSsrHtml" />
   <div v-else>
     <slot />
   </div>
@@ -82,7 +82,11 @@ export default defineComponent({
         for (const [key, value] of Object.entries(props)) {
           // check if this is a reactive property
           if (key in CustomElementConstructor.prototype) {
-            renderer.setProperty(key, value);
+            if (value === "") {
+              renderer.setProperty(key, true);
+            } else {
+              renderer.setProperty(key, value);
+            }
           } else {
             renderer.setAttribute(key, value);
           }
