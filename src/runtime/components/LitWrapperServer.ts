@@ -49,14 +49,10 @@ export default defineComponent({
           if (
             customElementConstructor !== null &&
             typeof customElementConstructor !== "string" &&
-            key in customElementConstructor.prototype
+            key in customElementConstructor.prototype &&
+            value === ""
           ) {
-            // This gets around the issue of properties having a key but no value
-            if (value === "") {
-              this.renderer.setAttribute(key, true);
-            } else {
-              this.renderer.setAttribute(key, value);
-            }
+            this.renderer.setAttribute(key, true);
           } else {
             this.renderer.setAttribute(key, value);
           }
@@ -66,17 +62,9 @@ export default defineComponent({
 
     getAttributesToRender() {
       if (this.renderer.element.attributes) {
-        const attributesAsString = this.iterableToString(this.renderer.renderAttributes());
-        const attributesAsObject = attributesAsString
-          .split(" ")
-          .filter((attribute) => attribute !== "")
-          .reduce((acc, attribute) => {
-            const [key, value] = attribute.split("=");
-            acc[key] = value ? value.replace(/"/g, "") : true;
-            return acc;
-          }, {});
-
-        return attributesAsObject;
+        return Object.fromEntries(
+          this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
+        );
       }
 
       return {};

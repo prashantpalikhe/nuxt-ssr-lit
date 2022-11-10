@@ -2,12 +2,11 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import componentStyles from "./accordion-item.css?inline";
 
-@customElement("my-accordion-item")
 export class AccordionItem extends LitElement {
   static get properties() {
     return {
-      title: { type: String },
-      open: { type: Boolean }
+      title: { type: String, reflect: true },
+      open: { type: Boolean, reflect: true }
     };
   }
 
@@ -21,6 +20,8 @@ export class AccordionItem extends LitElement {
       `
     ];
   }
+
+  declare open: boolean;
 
   constructor() {
     super();
@@ -77,4 +78,7 @@ export class AccordionItem extends LitElement {
       </div>
     </div>`;
   }
+}
+if (!customElements.get("my-accordion-item")) {
+  customElement("my-accordion-item")(AccordionItem);
 }
