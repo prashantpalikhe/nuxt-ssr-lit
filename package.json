@@ -30,6 +30,8 @@
     "magic-string": "^0.26.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.2.0",
+    "@commitlint/config-conventional": "^17.2.0",
     "@nuxt/module-builder": "^0.1.7",
     "@nuxt/schema": "^3.0.0-rc.11",
     "@nuxt/test-utils-edge": "^3.0.0-rc.12-27759910.9e6d292",
@@ -40,6 +42,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
+    "husky": "^8.0.2",
     "nuxt": "^3.0.0-rc.12",
     "prettier": "^2.7.1",
     "vitest": "^0.24.1"
