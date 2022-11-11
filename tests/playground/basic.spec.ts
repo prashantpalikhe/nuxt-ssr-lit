@@ -23,12 +23,10 @@ describe("ssr", async () => {
   it("renders nested lit components", async () => {
     // Get response to a server-rendered page with `$fetch`.
     const html = await $fetch("/nested-lit-element-in-slot");
+    console.log(html);
     expect(html).toContain('<my-element><template shadowroot="open"><style>');
     expect(html).toContain(
       '<!--/lit-part--></template><div slot="prepend">I am a Lit element within another Lit element</div></my-element>'
-    );
-    expect(html).toContain(
-      '<!--/lit-part--></template><span slot="prepend"><div class="lit-wrapper"><my-element onMyEvent="function handleNestedLitElementClick()'
     );
   });
   it("renders component attributes", async () => {

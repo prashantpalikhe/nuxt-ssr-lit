@@ -1,5 +1,8 @@
 import { defineComponent, h } from "vue";
-import "@lit-labs/ssr/lib/render-with-global-dom-shim";
+// Note - these two imports need to be in this order and before the lit-element-renderer. Importing them as a plugin places these _after_ the renderer import so they **must** be in this file
+// The dom-shim installation is a singleton and will only run once with minimal overhead.
+import "@lit-labs/ssr/lib/install-global-dom-shim.js";
+import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
 import { isCustomElementTag, getCustomElementConstructor } from "../utils/customElements";
@@ -46,14 +49,10 @@ export default defineComponent({
           if (
             customElementConstructor !== null &&
             typeof customElementConstructor !== "string" &&
-            key in customElementConstructor.prototype
+            key in customElementConstructor.prototype &&
+            value === ""
           ) {
-            // This gets around the issue of properties having a key but no value
-            if (value === "") {
-              this.renderer.setProperty(key, true);
-            } else {
-              this.renderer.setProperty(key, value);
-            }
+            this.renderer.setAttribute(key, true);
           } else {
             this.renderer.setAttribute(key, value);
           }
@@ -113,7 +112,7 @@ export default defineComponent({
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      attrs
+      ...attrs
     });
   }
 });
