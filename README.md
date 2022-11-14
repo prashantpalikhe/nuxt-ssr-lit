@@ -1,10 +1,10 @@
-# nuxt-ssr-lit (🚧 WIP)
+# nuxt-ssr-lit
 
 Nuxt3 module for server-side rendering and client-side hydration of Lit custom elements.
 
 ## 🚀 Usage
 
-_Note: This module is for Nuxt3._
+_Note: This module is for Nuxt3._ The [work on Nuxt2 support](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/9) is in progress. We are looking for assistance in finishing up the module.
 
 ### Installation
 
@@ -14,8 +14,6 @@ Install `nuxt-ssr-lit`.
 npm install nuxt-ssr-lit
 # yarn add nuxt-ssr-lit
 ```
-
-_Note: This module is not yet available in NPM registry_
 
 Add following code to modules section of nuxt.config.js.
 
