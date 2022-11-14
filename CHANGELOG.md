@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.1...v1.0.2) (2022-11-14)
+
+
+### Bug Fixes
+
+* upgrade release process to node 16 ([#25](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/25)) ([01a5c2a](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/01a5c2acafe7390ffa3e87669dc118ff0d5dcb7b))
+
 ## [1.0.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.0...v1.0.1) (2022-11-14)
 
 
