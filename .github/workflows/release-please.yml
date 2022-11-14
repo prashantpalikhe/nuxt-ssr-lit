@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3
+        id: release
         with:
           release-type: node
           package-name: nuxt-ssr-lit
@@ -22,6 +23,10 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
       - run: npm ci
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run dev:prepare
+        if: ${{ steps.release.outputs.release_created }}
+      - run: npm run build
         if: ${{ steps.release.outputs.release_created }}
       - run: npm publish
         env:
