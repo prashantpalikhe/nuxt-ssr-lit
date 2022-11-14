@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.0...v1.0.1) (2022-11-14)
+
+
+### Bug Fixes
+
+* add build step to release-please ([416419e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/416419e4a71ab5029542b4885610207105dc9c58))
+* release-please doesn't auto-release ([206bf28](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/206bf28a585c632851143e21a5666e84a437c899))
+
 ## 1.0.0 (2022-11-14)
 
 ### Features
