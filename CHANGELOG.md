@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.2...v1.0.3) (2022-11-15)
+
+
+### Bug Fixes
+
+* changed config key to ssrLit. Fixes [#27](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/27) ([#28](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/28)) ([184fb57](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/184fb573c8e5a38d8e5262d8d686093a8c80b785))
+
 ## [1.0.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.1...v1.0.2) (2022-11-14)
 
 
