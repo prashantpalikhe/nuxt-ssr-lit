@@ -1,6 +1,6 @@
 # nuxt-ssr-lit
 
-Nuxt3 module for server-side rendering and client-side hydration of Lit custom elements.
+A Nuxt3 module for server-side rendering and client-side hydration of Lit custom elements.
 
 ## 🚀 Usage
 

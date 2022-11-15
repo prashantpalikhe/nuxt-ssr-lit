@@ -11,7 +11,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
   meta: {
     name,
     version,
-    configKey: "nuxtSsrLit"
+    configKey: "ssrLit"
   },
   defaults: {
     litElementPrefix: "",
