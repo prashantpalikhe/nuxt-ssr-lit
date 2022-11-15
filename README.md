@@ -4,7 +4,7 @@ A Nuxt3 module for server-side rendering and client-side hydration of Lit custom
 
 ## 🚀 Usage
 
-_Note: This module is for Nuxt3. Support for Nuxt2 is in progress._
+_Note: This module is for Nuxt3._ The [work on Nuxt2 support](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/9) is in progress. We are looking for assistance in finishing up the module.
 
 ### Installation
 
