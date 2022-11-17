@@ -21,6 +21,9 @@
           <li>
             <NuxtLink to="/simple-element"> A different element </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/attribute-testing"> Testing different attributes </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>
