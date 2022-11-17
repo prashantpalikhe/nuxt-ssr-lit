@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.3...v1.0.4) (2022-11-17)
+
+
+### Bug Fixes
+
+* properties of elements can be incorrectly rendered. Fixes [#30](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/30) ([#31](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/31)) ([ea32b7f](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/ea32b7ff01444817bfaeeb65f865537968f4dcb4))
+
 ## [1.0.3](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.2...v1.0.3) (2022-11-15)
 
 
