@@ -49,10 +49,9 @@ export default defineComponent({
           if (
             customElementConstructor !== null &&
             typeof customElementConstructor !== "string" &&
-            key in customElementConstructor.prototype &&
-            value === ""
+            key in customElementConstructor.prototype
           ) {
-            this.renderer.setAttribute(key, true);
+            this.renderer.setProperty(key, value);
           } else {
             this.renderer.setAttribute(key, value);
           }
