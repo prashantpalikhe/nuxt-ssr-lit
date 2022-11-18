@@ -5,8 +5,8 @@ import componentStyles from "./accordion-item.css?inline";
 export class AccordionItem extends LitElement {
   static get properties() {
     return {
-      title: { type: String, reflect: true },
-      open: { type: Boolean, reflect: true }
+      title: { type: String },
+      open: { type: Boolean }
     };
   }
 
