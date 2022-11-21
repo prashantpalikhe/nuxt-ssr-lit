@@ -64,7 +64,7 @@ export default defineComponent({
       if (this.renderer) {
         return this.iterableToString(
           this.renderer.renderShadow({
-            elementRenderers: [],
+            elementRenderers: [LitElementRenderer],
             customElementInstanceStack: [],
             customElementHostStack: [],
             deferHydration: false

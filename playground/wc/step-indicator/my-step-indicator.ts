@@ -67,10 +67,10 @@ export class MyStepIndicator extends LitElement {
       this.labels.map((label, index) => {
         return html`
           <my-step-indicator-item
-            .orientation=${this.orientation}
-            .fit=${this.fit}
-            .state=${this.getStateName(index)}
-            label=${label}
+            orientation=${this.orientation}
+            fit=${this.fit}
+            state=${this.getStateName(index)}
+            .label=${label}
           >
           </my-step-indicator-item>
         `;
