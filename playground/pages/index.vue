@@ -14,5 +14,7 @@
         ullam earum iusto quia rem nihil impedit itaque labore vel neque repellat, inventore quaerat.
       </my-accordion-item>
     </my-accordion>
+
+    <my-step-indicator :labels="['label1', 'label2', 'label3']"></my-step-indicator>
   </article>
 </template>
