@@ -52,7 +52,9 @@ export default defineComponent({
             typeof customElementConstructor !== "string" && // It's not just a string
             key in customElementConstructor.prototype // The property we're looking for is on the prototype
           ) {
-            const isBooleanProp = customElementConstructor.properties[key]?.type === Boolean;
+            const isBooleanProp =
+              customElementConstructor.elementProperties &&
+              typeof customElementConstructor.elementProperties.get(key)?.type() === "boolean";
             if (isBooleanProp && value === "") {
               this.renderer.setProperty(key, true);
             } else {

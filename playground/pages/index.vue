@@ -15,6 +15,6 @@
       </my-accordion-item>
     </my-accordion>
 
-    <my-step-indicator :labels="['label1', 'label2', 'label3']"></my-step-indicator>
+    <my-step-indicator :labels.prop="['label1', 'label2', 'label3']"></my-step-indicator>
   </article>
 </template>

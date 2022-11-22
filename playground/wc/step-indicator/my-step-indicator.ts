@@ -35,7 +35,7 @@ export class MyStepIndicator extends LitElement {
   static properties = {
     currentindex: { type: Number },
     fit: { type: String, attribute: true, reflect: true },
-    labels: { type: Array },
+    labels: { type: Array, reflect: true },
     orientation: { type: String, attribute: true, reflect: true }
   };
 
@@ -58,6 +58,8 @@ export class MyStepIndicator extends LitElement {
   }
 
   private renderSteps(): TemplateResult[] | TemplateResult {
+    console.log("render steps with labels", this.labels);
+
     if (!this.labels?.length) {
       return html`<slot></slot>`;
     }
