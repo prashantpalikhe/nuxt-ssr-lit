@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.4...v1.0.5) (2022-11-22)
+
+
+### Bug Fixes
+
+* **#36:** always load the dom shim if the nuxt-ssr-lit module is used ([#37](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/37)) ([c95ca36](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/c95ca36d9a6412a036e42f81c1fee784a0324af1))
+
 ## [1.0.4](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.3...v1.0.4) (2022-11-17)
 
 
