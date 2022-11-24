@@ -17,7 +17,7 @@ export default function autoLitWrapper({
 }: AutoLitWrapperOptions) {
   return {
     name: "autoLitWrapper",
-    transform(code, id) {
+    transform(code: string, id: string) {
       const skipTransform =
         id.includes("node_modules") || !templateSources?.some((dir) => id.includes(`${srcDir}/${dir}`));
       if (skipTransform) {
