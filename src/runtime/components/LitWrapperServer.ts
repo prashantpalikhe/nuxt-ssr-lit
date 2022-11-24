@@ -67,6 +67,16 @@ export default defineComponent({
       }
     },
 
+    getAttributesToRender() {
+      if (this.renderer.element.attributes) {
+        return Object.fromEntries(
+          this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
+        );
+      }
+
+      return {};
+    },
+
     getShadowContents(): string | undefined {
       if (this.renderer) {
         return this.iterableToString(
@@ -119,9 +129,12 @@ export default defineComponent({
       return h(this.litElementVnode);
     }
 
+    const attrs = this.getAttributesToRender();
+
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...this.litElementVnode.props
+      ...attrs,
+      "defer-hydration": true
     });
   }
 });
