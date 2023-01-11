@@ -1,7 +1,4 @@
 import { defineComponent, h } from "vue";
-// Note - these two imports need to be in this order and before the lit-element-renderer. Importing them as a plugin places these _after_ the renderer import so they **must** be in this file
-// The dom-shim installation is a singleton and will only run once with minimal overhead.
-import "@lit-labs/ssr/lib/install-global-dom-shim.js";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
@@ -51,7 +48,14 @@ export default defineComponent({
             typeof customElementConstructor !== "string" &&
             key in customElementConstructor.prototype
           ) {
-            this.renderer.setProperty(key, value);
+            const isBooleanProp = customElementConstructor.properties[key]?.type === Boolean;
+
+            if (isBooleanProp && value === "") {
+              // handle key only boolean props e.g. <my-element disabled></my-element>
+              this.renderer.setProperty(key, true);
+            } else {
+              this.renderer.setProperty(key, value);
+            }
           } else {
             this.renderer.setAttribute(key, value);
           }
