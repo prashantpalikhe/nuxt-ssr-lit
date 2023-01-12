@@ -129,8 +129,7 @@ export default defineComponent({
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...attrs,
-      "defer-hydration": true
+      ...attrs
     });
   }
 });
