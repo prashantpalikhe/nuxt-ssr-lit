@@ -26,7 +26,6 @@
   "dependencies": {
     "@lit-labs/ssr": "^3.0.0",
     "@nuxt/kit": "^3.0.0",
-    "@vue/runtime-core": "file:../core/packages/runtime-core",
     "@webcomponents/template-shadowroot": "^0.1.0",
     "magic-string": "^0.26.7"
   },
