@@ -1,8 +1,4 @@
 import { defineComponent, h } from "vue";
-import type { VNodeArrayChildren, VNode } from "vue";
-// Note - these two imports need to be in this order and before the lit-element-renderer. Importing them as a plugin places these _after_ the renderer import so they **must** be in this file
-// The dom-shim installation is a singleton and will only run once with minimal overhead.
-import "@lit-labs/ssr/lib/install-global-dom-shim.js";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";

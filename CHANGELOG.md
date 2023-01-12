@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.1.0...v1.1.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* error detecting boolean properties causing renderer to fail. ([#43](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/43)) ([a72c28f](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/a72c28f7dc20fe762018748f7d928f7bf009cdd3))
+
+## [1.1.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.5...v1.1.0) (2023-01-11)
+
+
+### Features
+
+* upgrade to lit-labs/ssr 3.0.0 and Nuxt 3 ([#40](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/40)) ([b3da81b](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/b3da81b4fdbb2468f7bbc4b1f03b3a1d27f20a93))
+
 ## [1.0.5](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.0.4...v1.0.5) (2022-11-22)
 
 

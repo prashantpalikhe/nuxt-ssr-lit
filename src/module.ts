@@ -19,10 +19,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
   },
   async setup(options, nuxt) {
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
-    nuxt.options.nitro.moduleSideEffects.push(
-      "@lit-labs/ssr/lib/install-global-dom-shim.js",
-      "@lit-labs/ssr/lib/render-lit-html.js"
-    );
+    nuxt.options.nitro.moduleSideEffects.push("@lit-labs/ssr/lib/render-lit-html.js");
 
     const { resolve } = createResolver(import.meta.url);
     const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
