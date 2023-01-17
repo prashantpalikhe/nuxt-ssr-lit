@@ -64,7 +64,6 @@ export default defineComponent({
     },
 
     getAttributesToRender(): Record<string, unknown> {
-      console.log("Attrs for", this.litElementTagName, this.renderer.element.attributes);
       if (this.renderer.element.attributes) {
         return Object.fromEntries(
           this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
@@ -130,7 +129,8 @@ export default defineComponent({
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...attrs
+      ...attrs,
+      "defer-hydration": true
     });
   }
 });
