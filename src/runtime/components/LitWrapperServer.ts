@@ -8,25 +8,25 @@ export default defineComponent({
   data() {
     const defaultSlot = this.$slots.default?.()?.[0]?.children;
     const litElementVnode = defaultSlot?.[0];
-    const litElementTagName = litElementVnode?.type;
+    const litElementTagName = litElementVnode?.type as string | symbol;
 
     return {
       litElementVnode,
       litElementTagName,
       litSsrHtml: "",
-      renderer: null
+      renderer: null as LitElementRenderer | null
     };
   },
 
   methods: {
-    resolveSlots() {
+    resolveSlots(): Promise<unknown[]> {
       let children = this.litElementVnode.children || [];
       if (!Array.isArray(children)) {
         children = [children];
       }
 
       const childToHtmlPromises = children.map((child) => {
-        if (child.__v_isVNode) {
+        if (child && typeof child === "object" && child.__v_isVNode) {
           return renderToString(child);
         }
 
@@ -36,22 +36,22 @@ export default defineComponent({
       return Promise.all(childToHtmlPromises);
     },
 
-    attachPropsToRenderer() {
+    attachPropsToRenderer(): void {
       const customElementConstructor = getCustomElementConstructor(this.litElementTagName);
       const props = this.litElementVnode.props;
 
-      if (props) {
+      if (props && this.renderer) {
         for (const [key, value] of Object.entries(props)) {
           // check if this is a reactive property
           if (
-            customElementConstructor !== null &&
-            typeof customElementConstructor !== "string" &&
-            key in customElementConstructor.prototype
+            customElementConstructor !== null && // The element exists
+            typeof customElementConstructor !== "string" && // It's not just a string
+            key in customElementConstructor.prototype // The property we're looking for is on the prototype
           ) {
-            const isBooleanProp = customElementConstructor.elementProperties[key]?.type === Boolean;
-
+            const isBooleanProp =
+              customElementConstructor.elementProperties &&
+              typeof customElementConstructor.elementProperties.get(key)?.type() === "boolean";
             if (isBooleanProp && value === "") {
-              // handle key only boolean props e.g. <my-element disabled></my-element>
               this.renderer.setProperty(key, true);
             } else {
               this.renderer.setProperty(key, value);
@@ -63,7 +63,7 @@ export default defineComponent({
       }
     },
 
-    getAttributesToRender() {
+    getAttributesToRender(): Record<string, unknown> {
       if (this.renderer.element.attributes) {
         return Object.fromEntries(
           this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
@@ -73,11 +73,20 @@ export default defineComponent({
       return {};
     },
 
-    getShadowContents() {
-      return this.iterableToString(this.renderer.renderShadow({}));
+    getShadowContents(): string | undefined {
+      if (this.renderer) {
+        return this.iterableToString(
+          this.renderer.renderShadow({
+            elementRenderers: [LitElementRenderer],
+            customElementInstanceStack: [],
+            customElementHostStack: [],
+            deferHydration: false
+          })
+        );
+      }
     },
 
-    iterableToString(iterable: Iterable<string>) {
+    iterableToString(iterable: Iterable<string>): string {
       let s = "";
       for (const i of iterable) {
         s += i;
@@ -86,13 +95,13 @@ export default defineComponent({
     }
   },
 
-  async serverPrefetch() {
+  async serverPrefetch(): Promise<void> {
     if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
       return;
     }
 
     try {
-      this.renderer = new LitElementRenderer(this.litElementTagName);
+      this.renderer = new LitElementRenderer(this.litElementTagName as string); // symbols are rejected in isCustomElementTag
 
       this.attachPropsToRenderer();
 
@@ -111,11 +120,17 @@ export default defineComponent({
   },
 
   render() {
+    // This is the case when the node is a fragment created by a v-for on a lit element
+    if (typeof this.litElementTagName === "symbol") {
+      return h(this.litElementVnode);
+    }
+
     const attrs = this.getAttributesToRender();
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...attrs
+      ...attrs,
+      "defer-hydration": true
     });
   }
 });

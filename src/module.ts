@@ -1,4 +1,13 @@
-import { defineNuxtModule, addPlugin, resolveModule, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
+import {
+  defineNuxtModule,
+  addPlugin,
+  resolveModule,
+  createResolver,
+  addVitePlugin,
+  addComponent,
+  addTemplate,
+  addPluginTemplate
+} from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
@@ -41,6 +50,29 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
       name: "LitWrapperServer",
       filePath: resolve("./runtime/components/LitWrapperServer"),
       mode: "server"
+    });
+
+    // This creates a virtual plugin that passes the compiler options
+    // to the vue app. This does not happen otherwise, and is needed
+    // so that the element hydrates correctly
+    addPluginTemplate({
+      filename: "compilerOptions.mjs",
+      getContents() {
+        return `import { defineNuxtPlugin } from "#imports";
+    export default defineNuxtPlugin(( app ) => {
+      app.vueApp.config.compilerOptions = {};
+      app.vueApp.config.compilerOptions.isCustomElement = (tag) =>
+        ${
+          Array.isArray(options.litElementPrefix)
+            ? `['${options.litElementPrefix.join("','")}'].some((p) => tag.startsWith(p))`
+            : `tag.startsWith(${
+                options.litElementPrefix
+              })) || ${nuxt.options.vue.compilerOptions.isCustomElement?.toString()}`
+        }
+      ;
+    })`;
+      },
+      mode: "client"
     });
 
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
