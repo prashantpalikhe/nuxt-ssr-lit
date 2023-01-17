@@ -6,8 +6,8 @@ import { isCustomElementTag, getCustomElementConstructor } from "../utils/custom
 
 export default defineComponent({
   data() {
-    const defaultSlot = this.$slots.default?.()?.[0]?.children as VNodeArrayChildren;
-    const litElementVnode = defaultSlot?.[0] as VNode;
+    const defaultSlot = this.$slots.default?.()?.[0]?.children;
+    const litElementVnode = defaultSlot?.[0];
     const litElementTagName = litElementVnode?.type as string | symbol;
 
     return {
@@ -19,8 +19,8 @@ export default defineComponent({
   },
 
   methods: {
-    resolveSlots() {
-      let children = (this.litElementVnode.children as VNodeArrayChildren | string) || [];
+    resolveSlots(): Promise<unknown[]> {
+      let children = this.litElementVnode.children || [];
       if (!Array.isArray(children)) {
         children = [children];
       }
