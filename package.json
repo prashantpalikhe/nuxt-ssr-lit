@@ -19,6 +19,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:clean": "rimraf playground/.nuxt playground/.output playground/node_modules",
     "lint": "eslint \"src/**/*.*\"  --fix",
     "test": "vitest run tests",
     "test:watch": "vitest"
@@ -26,6 +27,7 @@
   "dependencies": {
     "@lit-labs/ssr": "^3.0.0",
     "@nuxt/kit": "^3.0.0",
+    "@vue/runtime-core": "file:../core/packages/runtime-core",
     "@webcomponents/template-shadowroot": "^0.1.0",
     "magic-string": "^0.26.7"
   },
@@ -34,7 +36,7 @@
     "@commitlint/config-conventional": "^17.2.0",
     "@nuxt/module-builder": "^0.1.7",
     "@nuxt/schema": "^3.0.0",
-    "@nuxt/test-utils-edge": "^3.0.0-rc.12-27759910.9e6d292",
+    "@nuxt/test-utils": "^3.0.0",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
@@ -45,6 +47,7 @@
     "husky": "^8.0.2",
     "nuxt": "^3.0.0",
     "prettier": "^2.7.1",
+    "rimraf": "^4.0.4",
     "vitest": "^0.24.1"
   }
 }

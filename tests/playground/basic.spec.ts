@@ -1,7 +1,7 @@
 // basic.test.js
 import { fileURLToPath } from "node:url";
 import { describe, it, expect } from "vitest";
-import { setup, $fetch } from "@nuxt/test-utils-edge";
+import { setup, $fetch } from "@nuxt/test-utils";
 describe("ssr", async () => {
   await setup({
     rootDir: fileURLToPath(new URL("../../playground", import.meta.url))
@@ -23,7 +23,6 @@ describe("ssr", async () => {
   it("renders nested lit components", async () => {
     // Get response to a server-rendered page with `$fetch`.
     const html = await $fetch("/nested-lit-element-in-slot");
-    console.log(html);
     expect(html).toContain('<my-element><template shadowroot="open"><style>');
     expect(html).toContain(
       '<!--/lit-part--></template><div slot="prepend">I am a Lit element within another Lit element</div></my-element>'
