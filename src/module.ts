@@ -4,7 +4,6 @@ import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string | string[];
-  templateSources?: string[];
 }
 
 export default defineNuxtModule<NuxtSsrLitOptions>({
@@ -14,8 +13,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     configKey: "ssrLit"
   },
   defaults: {
-    litElementPrefix: "",
-    templateSources: ["pages", "components", "layouts", "app.vue"]
+    litElementPrefix: ""
   },
   async setup(options, nuxt) {
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
@@ -49,13 +47,9 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
         ? options.litElementPrefix.some((p) => tag.startsWith(p))
         : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
 
-    const srcDir = nuxt.options.srcDir;
-
     addVitePlugin(
       autoLitWrapper({
         litElementPrefix: options.litElementPrefix,
-        templateSources: options.templateSources,
-        srcDir,
         sourcemap: nuxt.options.sourcemap
       })
     );

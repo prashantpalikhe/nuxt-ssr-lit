@@ -27,7 +27,8 @@
     "@lit-labs/ssr": "^3.0.0",
     "@nuxt/kit": "^3.0.0",
     "@webcomponents/template-shadowroot": "^0.1.0",
-    "magic-string": "^0.26.7"
+    "magic-string": "^0.26.7",
+    "ufo": "^1.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",

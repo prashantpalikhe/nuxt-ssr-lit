@@ -23,17 +23,15 @@ describe("Lit wrapper plugin", () => {
   });
   test("Returns the code unmodified if there are no matching elements", () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-",
-      srcDir: "src"
+      litElementPrefix: "my-"
     });
-    const t = plugin.transform(sampleMyElement, "src/components/my-element");
+    const t = plugin.transform(sampleMyElement, "src/components/my-element.vue");
     expect(t.code).toEqual(sampleMyElement);
   });
 
   test("Wraps the template code if there are matching elements", () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-",
-      srcDir: "src"
+      litElementPrefix: "my-"
     });
     const t = plugin.transform(samplePage, "src/pages/index.vue");
     expect(t.code).toContain("<LitWrapper><my-element>I am a SSR-ed Lit element</my-element></LitWrapper>");
@@ -41,8 +39,7 @@ describe("Lit wrapper plugin", () => {
 
   test("Wraps the code when multiple different components are present", () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-",
-      srcDir: "src"
+      litElementPrefix: "my-"
     });
     const t = plugin.transform(sampleNestedComponentPage, "src/pages/nested-lit-element-in-slot.vue");
     const expectedCode = `<LitWrapper><my-element>
@@ -57,4 +54,12 @@ describe("Lit wrapper plugin", () => {
   });
 
   test("Wraps only the outer element if lit-elements are nested", () => {});
+
+  test("Wraps the custom element in a Vue file that is outside the src directory", () => {
+    const plugin = autoLitWrapper({
+      litElementPrefix: "my-"
+    });
+    const t = plugin.transform(samplePage, "packages/foo-bar/components/page.vue");
+    expect(t.code).toContain("<LitWrapper><my-element>I am a SSR-ed Lit element</my-element></LitWrapper>");
+  });
 });
