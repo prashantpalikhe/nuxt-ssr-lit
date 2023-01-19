@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.1.1...v1.2.0) (2023-01-19)
+
+
+### Features
+
+* process vue files outside the src dir ([#45](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/45)) ([84a9e33](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/84a9e33146731413fbba47ce3e06b6629bd4165a))
+
 ## [1.1.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.1.0...v1.1.1) (2023-01-11)
 
 
