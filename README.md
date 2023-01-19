@@ -39,7 +39,7 @@ That's it! Now all the Lit elements prefixed with `acme-` will be Server-Side Re
 
 All the Lit elements in the Nuxt project that uses the prefix(es) provided in the module option are wrapped with a Vue component called [LitWrapper](./src/runtime/components/LitWrapper.vue).
 
-This auto-wrapping is done via a Vite Plugin called [AutoLitWrapper](./src/runtime/plugins/autoLitWrapper.ts) and therefore happens during build time. And the plugin, by default, only transforms code in the directories where Vue components are present. This keeps the Vite plugin fast by preventing unnecessary work.
+This auto-wrapping is done via a Vite Plugin called [AutoLitWrapper](./src/runtime/plugins/autoLitWrapper.ts) and therefore happens during build time. By default, the plugin only operates on Vue files, which helps to optimize performance by avoiding unnecessary processing.
 
 So, if there is a Lit element used in one of the components. E.g. `<acme-button>Hello world</acme-button>`, the code that is actually generated and used by Nuxt/Vue will be `<LitWrapper><acme-button>Hello world</acme-button></LitWrapper>`.
 

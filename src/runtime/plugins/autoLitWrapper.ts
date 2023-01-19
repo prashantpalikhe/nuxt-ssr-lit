@@ -1,8 +1,9 @@
+import { pathToFileURL } from "node:url";
+import { parseQuery, parseURL } from "ufo";
 import MagicString from "magic-string";
 import type { NuxtSsrLitOptions } from "../../module";
 
 interface AutoLitWrapperOptions extends NuxtSsrLitOptions {
-  srcDir: string; // Location of your source code root i.e. from `nuxt.options.srcDir`
   sourcemap?: {
     server: boolean;
     client: boolean;
@@ -11,16 +12,17 @@ interface AutoLitWrapperOptions extends NuxtSsrLitOptions {
 
 export default function autoLitWrapper({
   litElementPrefix = "",
-  srcDir,
-  templateSources = ["pages", "components", "layouts", "app.vue"],
   sourcemap = { client: false, server: true }
 }: AutoLitWrapperOptions) {
   return {
     name: "autoLitWrapper",
-    transform(code, id) {
-      const skipTransform =
-        id.includes("node_modules") || !templateSources?.some((dir) => id.includes(`${srcDir}/${dir}`));
-      if (skipTransform) {
+    transform(code: string, id: string) {
+      const { pathname, search } = parseURL(decodeURIComponent(pathToFileURL(id).href));
+      const { type } = parseQuery(search);
+
+      const isVueFile = pathname.endsWith(".vue") && (type === "script" || !search);
+
+      if (!isVueFile) {
         return;
       }
 
