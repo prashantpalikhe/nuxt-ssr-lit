@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.2.0...v1.2.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* elementProperties is a Map and not a POJO ([#47](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/47)) ([87a03ef](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/87a03ef06813d629c57c54e2897f2ac5dd159f99))
+
 ## [1.2.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.1.1...v1.2.0) (2023-01-19)
 
 
