@@ -48,7 +48,7 @@ export default defineComponent({
             typeof customElementConstructor !== "string" &&
             key in customElementConstructor.prototype
           ) {
-            const isBooleanProp = customElementConstructor.elementProperties[key]?.type === Boolean;
+            const isBooleanProp = customElementConstructor.elementProperties.get(key)?.type === Boolean;
 
             if (isBooleanProp && value === "") {
               // handle key only boolean props e.g. <my-element disabled></my-element>
@@ -111,11 +111,12 @@ export default defineComponent({
   },
 
   render() {
-    const attrs = this.getAttributesToRender();
+    // const attrs = this.getAttributesToRender();
+    const props = this.litElementVnode.props || {};
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...attrs
+      ...props
     });
   }
 });
