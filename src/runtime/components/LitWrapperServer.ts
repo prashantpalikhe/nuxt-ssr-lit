@@ -111,12 +111,14 @@ export default defineComponent({
   },
 
   render() {
-    // const attrs = this.getAttributesToRender();
+    if (!this.litElementVnode) return;
+
     const props = this.litElementVnode.props || {};
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...props
+      ...props,
+      "defer-hydration": true
     });
   }
 });
