@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.2.1...v1.2.2) (2023-01-26)
+
+
+### Bug Fixes
+
+* handle v-if that results in no vnode and hydrate Lit after Vue ([#49](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/49)) ([e0f832e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/e0f832e164880d2871bb1b7d529a8cfc037c4841))
+
 ## [1.2.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.2.0...v1.2.1) (2023-01-20)
 
 
