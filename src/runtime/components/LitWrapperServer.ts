@@ -6,8 +6,7 @@ import { isCustomElementTag, getCustomElementConstructor } from "../utils/custom
 
 export default defineComponent({
   data() {
-    const defaultSlot = this.$slots.default?.()?.[0]?.children;
-    const litElementVnode = defaultSlot?.[0];
+    const litElementVnode = this.$slots.default?.();
     const litElementTagName = litElementVnode?.type;
 
     return {

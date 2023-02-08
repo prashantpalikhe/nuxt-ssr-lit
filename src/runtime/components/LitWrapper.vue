@@ -1,18 +1,18 @@
-<template>
-  <LitWrapperServer v-if="isServer"><slot></slot></LitWrapperServer>
-  <LitWrapperClient v-else><slot></slot></LitWrapperClient>
-</template>
-
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, h, withCtx } from "vue";
+import LitWrapperClient from "./LitWrapperClient";
+import LitWrapperServer from "./LitWrapperServer";
 
 export default defineComponent({
   name: "LitWrapper",
 
-  data() {
-    return {
-      isServer: process.server
-    };
+  render() {
+    const [wrappedCustomElement] = this.$slots.default();
+
+    return h(
+      process.server ? LitWrapperServer : LitWrapperClient,
+      withCtx(() => wrappedCustomElement)
+    );
   }
 });
 </script>

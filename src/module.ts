@@ -1,6 +1,7 @@
 import { defineNuxtModule, addPlugin, resolveModule, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
+import treeshakeLitWrapperServerCode from "./runtime/plugins/treeshakeLitWrapperServerCode";
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string | string[];
@@ -30,17 +31,6 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
       filePath: resolve("./runtime/components/LitWrapper.vue")
     });
 
-    await addComponent({
-      name: "LitWrapperClient",
-      filePath: resolve("./runtime/components/LitWrapperClient")
-    });
-
-    await addComponent({
-      name: "LitWrapperServer",
-      filePath: resolve("./runtime/components/LitWrapperServer"),
-      mode: "server"
-    });
-
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
     nuxt.options.vue.compilerOptions.isCustomElement = (tag) =>
       (Array.isArray(options.litElementPrefix)
@@ -50,6 +40,12 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     addVitePlugin(
       autoLitWrapper({
         litElementPrefix: options.litElementPrefix,
+        sourcemap: nuxt.options.sourcemap
+      })
+    );
+
+    addVitePlugin(
+      treeshakeLitWrapperServerCode({
         sourcemap: nuxt.options.sourcemap
       })
     );
