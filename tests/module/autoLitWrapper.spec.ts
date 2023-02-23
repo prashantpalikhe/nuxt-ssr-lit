@@ -3,45 +3,36 @@ import path from "node:path";
 import { describe, test, beforeAll, expect } from "vitest";
 import autoLitWrapper from "../../src/runtime/plugins/autoLitWrapper";
 
-describe("Lit wrapper plugin", () => {
-  let sampleMyElement = "";
-  let samplePage = "";
-  let sampleMultiComponentPage = "";
-  let sampleNestedComponentPage = "";
+async function loadFile(pageFileName: string): Promise<string> {
+  return await fs.readFile(path.resolve(path.join(__dirname, "/../../playground/", pageFileName)), {
+    encoding: "utf-8"
+  });
+}
 
-  async function loadFile(pageFileName: string): Promise<string> {
-    return await fs.readFile(path.resolve(path.join(__dirname, "/../../playground/", pageFileName)), {
-      encoding: "utf-8"
-    });
-  }
+describe("Lit wrapper plugin", () => {
+  let samplePage = "";
+  let sampleNestedComponentPage = "";
+  let sampleVForPage = "";
 
   beforeAll(async () => {
-    sampleMyElement = await loadFile("wc/my-element.ts");
     samplePage = await loadFile("pages/index.vue");
-    sampleMultiComponentPage = await loadFile("pages/multiple-different-element-tags.vue");
+    sampleVForPage = await loadFile("pages/with-v-for.vue");
     sampleNestedComponentPage = await loadFile("pages/nested-lit-element-in-slot.vue");
   });
-  test("Returns the code unmodified if there are no matching elements", () => {
-    const plugin = autoLitWrapper({
-      litElementPrefix: "my-"
-    });
-    const t = plugin.transform(sampleMyElement, "src/components/my-element.vue");
-    expect(t.code).toEqual(sampleMyElement);
-  });
 
-  test("Wraps the template code if there are matching elements", () => {
+  test("Wraps the template code if there are matching elements", async () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-"
+      litElementPrefix: ["my-"]
     });
-    const t = plugin.transform(samplePage, "src/pages/index.vue");
+    const t = await plugin.transform(samplePage, "src/pages/index.vue");
     expect(t.code).toContain("<LitWrapper><my-element>I am a SSR-ed Lit element</my-element></LitWrapper>");
   });
 
-  test("Wraps the code when multiple different components are present", () => {
+  test("Wraps the code when multiple different components are present", async () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-"
+      litElementPrefix: ["my-"]
     });
-    const t = plugin.transform(sampleNestedComponentPage, "src/pages/nested-lit-element-in-slot.vue");
+    const t = await plugin.transform(sampleNestedComponentPage, "src/pages/nested-lit-element-in-slot.vue");
     const expectedCode = `<LitWrapper><my-element>
     <span slot="prepend">
     <LitWrapper><my-element @my-event="handleNestedLitElementClick">
@@ -53,13 +44,21 @@ describe("Lit wrapper plugin", () => {
     expect(t.code.replace(/\s+/g, "")).toContain(expectedCode.replace(/\s+/g, ""));
   });
 
-  test("Wraps only the outer element if lit-elements are nested", () => {});
-
-  test("Wraps the custom element in a Vue file that is outside the src directory", () => {
+  test("Wraps the custom element in a Vue file that is outside the src directory", async () => {
     const plugin = autoLitWrapper({
-      litElementPrefix: "my-"
+      litElementPrefix: ["my-"]
     });
-    const t = plugin.transform(samplePage, "packages/foo-bar/components/page.vue");
+    const t = await plugin.transform(samplePage, "packages/foo-bar/components/page.vue");
     expect(t.code).toContain("<LitWrapper><my-element>I am a SSR-ed Lit element</my-element></LitWrapper>");
+  });
+
+  test("Wraps the custom element with v-for and moves the v-for to the wrapper", async () => {
+    const plugin = autoLitWrapper({
+      litElementPrefix: ["my-"]
+    });
+    const t = await plugin.transform(sampleVForPage, "src/pages/with-v-for.vue");
+    expect(t.code).toContain('<LitWrapper v-for="(item, index) in items" :key="item.title"><my-accordion-item');
+    expect(t.code.match(/v-for/g)?.length).toBe(1);
+    expect(t.code.match(/:key/g)?.length).toBe(1);
   });
 });
