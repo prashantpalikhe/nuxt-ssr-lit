@@ -24,6 +24,9 @@
           <li>
             <NuxtLink to="/attribute-testing"> Testing different attributes </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/with-v-for"> With v-for </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>

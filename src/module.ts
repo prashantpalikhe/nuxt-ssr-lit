@@ -13,7 +13,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     configKey: "ssrLit"
   },
   defaults: {
-    litElementPrefix: ""
+    litElementPrefix: []
   },
   async setup(options, nuxt) {
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
@@ -49,8 +49,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     addVitePlugin(
       autoLitWrapper({
-        litElementPrefix: options.litElementPrefix,
-        sourcemap: nuxt.options.sourcemap
+        litElementPrefix: options.litElementPrefix
       })
     );
   }
