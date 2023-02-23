@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.2.2...v1.3.0) (2023-02-23)
+
+
+### Features
+
+* add support for v-for by using ultrahtml to transform code ([#53](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/53)) ([4b88b41](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/4b88b4171dc6b3e91a7f1f487f95fe42d0b39d27))
+
 ## [1.2.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.2.1...v1.2.2) (2023-01-26)
 
 
