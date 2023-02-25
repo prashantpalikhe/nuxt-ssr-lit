@@ -22,7 +22,8 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     const { resolve } = createResolver(import.meta.url);
     const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
-    addPlugin(resolveRuntimeModule("./plugins/shim.client"));
+    addPlugin(resolveRuntimeModule("./plugins/antiFouc.server"));
+    addPlugin(resolveRuntimeModule("./plugins/polyfill.client"));
     addPlugin(resolveRuntimeModule("./plugins/hydrateSupport.client"));
 
     await addComponent({
