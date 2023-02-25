@@ -102,7 +102,7 @@ export default defineComponent({
       const resolvedSlots = (await this.resolveSlots()) || [];
       const slots = resolvedSlots.join("");
 
-      this.litSsrHtml = `<template shadowroot="open">${shadowContents}</template>${slots}`;
+      this.litSsrHtml = `<template shadowrootmode="open">${shadowContents}</template>${slots}`;
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
