@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.3.1...v1.3.2) (2023-02-25)
+
+
+### Bug Fixes
+
+* both shadowroot and shadowrootmode attributes need to be present… ([#57](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/57)) ([a983e2c](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/a983e2c1df806dee3fd9b4b3fafc9444dc94177c))
+
 ## [1.3.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.3.0...v1.3.1) (2023-02-25)
 
 
