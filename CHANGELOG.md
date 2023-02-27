@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.3.2...v1.4.0) (2023-02-27)
+
+
+### Features
+
+* handle FOUC in browsers without native DSD and support standard… ([#59](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/59)) ([1c072d6](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/1c072d627779bc5d0990e0e50cd62c0a6a1756a7))
+
 ## [1.3.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.3.1...v1.3.2) (2023-02-25)
 
 
