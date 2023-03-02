@@ -13,10 +13,12 @@ describe("Lit wrapper plugin", () => {
   let samplePage = "";
   let sampleNestedComponentPage = "";
   let sampleVForPage = "";
+  let sampleVIfPage = "";
 
   beforeAll(async () => {
     samplePage = await loadFile("pages/index.vue");
     sampleVForPage = await loadFile("pages/with-v-for.vue");
+    sampleVIfPage = await loadFile("pages/with-v-if.vue");
     sampleNestedComponentPage = await loadFile("pages/nested-lit-element-in-slot.vue");
   });
 
@@ -60,5 +62,19 @@ describe("Lit wrapper plugin", () => {
     expect(t.code).toContain('<LitWrapper v-for="(item, index) in items" :key="item.title"><my-accordion-item');
     expect(t.code.match(/v-for/g)?.length).toBe(1);
     expect(t.code.match(/:key/g)?.length).toBe(1);
+  });
+
+  test("Wraps the custom element with v-if and v-else and moves them to the corresponding wrapper", async () => {
+    const plugin = autoLitWrapper({
+      litElementPrefix: ["my-"]
+    });
+    const t = await plugin.transform(sampleVIfPage, "src/pages/with-v-if.vue");
+
+    expect(t.code).toContain('<LitWrapper v-if="true"><my-accordion-item');
+    expect(t.code).toContain('<LitWrapper v-else-if="false"><my-accordion-item');
+    expect(t.code).toContain('<LitWrapper v-else=""><my-accordion-item');
+
+    expect(t.code.match(/v-if/g)?.length).toBe(1);
+    expect(t.code.match(/v-else/g)?.length).toBe(2);
   });
 });
