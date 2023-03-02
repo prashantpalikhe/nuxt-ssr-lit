@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.0...v1.4.1) (2023-03-02)
+
+
+### Bug Fixes
+
+* move v-if, v-else-if and v-else to the wrapper ([02562d7](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/02562d71d0e8bb809533c27effc672950a523be9))
+
 ## [1.4.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.3.2...v1.4.0) (2023-02-27)
 
 
