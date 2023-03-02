@@ -27,6 +27,9 @@
           <li>
             <NuxtLink to="/with-v-for"> With v-for </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/with-v-if"> With v-if </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>

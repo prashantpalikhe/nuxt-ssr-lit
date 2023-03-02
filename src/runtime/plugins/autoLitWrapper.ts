@@ -3,8 +3,19 @@ import { parseURL } from "ufo";
 import { parse, walk, ELEMENT_NODE, Node, render } from "ultrahtml";
 import type { NuxtSsrLitOptions } from "../../module";
 
-const V_FOR_ATTRIBUTE = "v-for";
-const V_FOR_KEY_ATTRIBUTE = ":key";
+const V_FOR_DIRECTIVE = "v-for";
+const V_FOR_KEY_DIRECTIVE = ":key";
+const V_IF_DIRECTIVE = "v-if";
+const V_ELSE_IF_DIRECTIVE = "v-else-if";
+const V_ELSE_DIRECTIVE = "v-else";
+
+function transferDirectiveToWrapper(node: Node, wrapper: Node, directive: string) {
+  if (directive in node.attributes) {
+    wrapper.attributes[directive] = node.attributes[directive];
+
+    delete node.attributes[directive];
+  }
+}
 
 export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOptions) {
   return {
@@ -38,10 +49,6 @@ export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOpti
           return;
         }
 
-        const attributes = node.attributes;
-
-        const hasVFor = node.attributes[V_FOR_ATTRIBUTE];
-
         const wrapper: Node = {
           name: "LitWrapper",
           type: ELEMENT_NODE,
@@ -51,13 +58,14 @@ export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOpti
           loc: node.loc
         };
 
-        if (hasVFor) {
-          wrapper.attributes[V_FOR_ATTRIBUTE] = attributes[V_FOR_ATTRIBUTE];
-          wrapper.attributes[V_FOR_KEY_ATTRIBUTE] = attributes[V_FOR_KEY_ATTRIBUTE];
-
-          delete node.attributes[V_FOR_ATTRIBUTE];
-          delete node.attributes[V_FOR_KEY_ATTRIBUTE];
+        if (node.attributes[V_FOR_DIRECTIVE]) {
+          transferDirectiveToWrapper(node, wrapper, V_FOR_DIRECTIVE);
+          transferDirectiveToWrapper(node, wrapper, V_FOR_KEY_DIRECTIVE);
         }
+
+        transferDirectiveToWrapper(node, wrapper, V_IF_DIRECTIVE);
+        transferDirectiveToWrapper(node, wrapper, V_ELSE_IF_DIRECTIVE);
+        transferDirectiveToWrapper(node, wrapper, V_ELSE_DIRECTIVE);
 
         delete node.attributes[""];
 
