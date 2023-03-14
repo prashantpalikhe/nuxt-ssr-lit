@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.1...v1.4.2) (2023-03-14)
+
+
+### Bug Fixes
+
+* remove beta version creep ([#64](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/64)) ([ba714db](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/ba714db90b96edc93059ad0e29f5cdcc58d20256))
+
 ## [1.4.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.0...v1.4.1) (2023-03-02)
 
 
