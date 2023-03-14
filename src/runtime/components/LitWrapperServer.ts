@@ -74,7 +74,14 @@ export default defineComponent({
     },
 
     getShadowContents() {
-      return this.iterableToString(this.renderer.renderShadow({}));
+      return this.iterableToString(
+        this.renderer.renderShadow({
+          elementRenderers: [LitElementRenderer],
+          customElementInstanceStack: [],
+          customElementHostStack: [],
+          deferHydration: true
+        })
+      );
     },
 
     iterableToString(iterable: Iterable<string>) {
@@ -117,8 +124,7 @@ export default defineComponent({
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...props,
-      "defer-hydration": true
+      ...props
     });
   }
 });
