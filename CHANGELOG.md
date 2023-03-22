@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.2...v1.4.3) (2023-03-22)
+
+
+### Bug Fixes
+
+* delete empty attributes added to nodes by ultrahtml parser ([#66](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/66)) ([3b5fba9](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/3b5fba9624446abfeb90063cbbc074cd69eeabb6))
+
 ## [1.4.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.1...v1.4.2) (2023-03-14)
 
 
