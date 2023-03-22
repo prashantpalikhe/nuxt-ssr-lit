@@ -45,6 +45,10 @@ export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOpti
       const ast = parse(code);
 
       await walk(ast, (node) => {
+        if (node?.attributes) {
+          delete node.attributes[""];
+        }
+
         if (node.type !== ELEMENT_NODE || !prefixRegex.test(node.name)) {
           return;
         }
