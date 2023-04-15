@@ -1,4 +1,4 @@
-import { defineNuxtModule, addPlugin, resolveModule, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
+import { defineNuxtModule, addPlugin, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
@@ -20,11 +20,10 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     nuxt.options.nitro.moduleSideEffects.push("@lit-labs/ssr/lib/render-lit-html.js");
 
     const { resolve } = createResolver(import.meta.url);
-    const resolveRuntimeModule = (path: string) => resolveModule(path, { paths: resolve("./runtime") });
 
-    addPlugin(resolveRuntimeModule("./plugins/antiFouc.server"));
-    addPlugin(resolveRuntimeModule("./plugins/polyfill.client"));
-    addPlugin(resolveRuntimeModule("./plugins/hydrateSupport.client"));
+    addPlugin(resolve("./runtime/plugins/antiFouc.server"));
+    addPlugin(resolve("./runtime/plugins/polyfill.client"));
+    addPlugin(resolve("./runtime/plugins/hydrateSupport.client"));
 
     await addComponent({
       name: "LitWrapper",
@@ -38,8 +37,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
 
     await addComponent({
       name: "LitWrapperServer",
-      filePath: resolve("./runtime/components/LitWrapperServer"),
-      mode: "server"
+      filePath: resolve("./runtime/components/LitWrapperServer")
     });
 
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
@@ -48,10 +46,6 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
         ? options.litElementPrefix.some((p) => tag.startsWith(p))
         : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
 
-    addVitePlugin(
-      autoLitWrapper({
-        litElementPrefix: options.litElementPrefix
-      })
-    );
+    addVitePlugin(autoLitWrapper({ litElementPrefix: options.litElementPrefix }));
   }
 });
