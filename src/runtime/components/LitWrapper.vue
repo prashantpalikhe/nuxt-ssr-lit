@@ -1,18 +1,14 @@
-<template>
-  <LitWrapperServer v-if="isServer"><slot></slot></LitWrapperServer>
-  <LitWrapperClient v-else><slot></slot></LitWrapperClient>
-</template>
+<script lang="ts">
+import { h, defineComponent, defineAsyncComponent } from "vue";
 
-<script>
-import { defineComponent } from "vue";
+import LitWrapperClient from "./LitWrapperClient.vue";
+const LitWrapperServer = defineAsyncComponent(() => import("./LitWrapperServer.vue"));
 
 export default defineComponent({
   name: "LitWrapper",
 
-  data() {
-    return {
-      isServer: process.server
-    };
+  render() {
+    return h(process.server ? LitWrapperServer : LitWrapperClient, this.$slots.default);
   }
 });
 </script>

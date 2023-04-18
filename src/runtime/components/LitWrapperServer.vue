@@ -1,4 +1,5 @@
-import { defineComponent, h } from "vue";
+<script lang="ts">
+import { defineComponent, h, isVNode } from "vue";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { renderToString } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
@@ -6,12 +7,11 @@ import { isCustomElementTag, getCustomElementConstructor } from "../utils/custom
 
 export default defineComponent({
   data() {
-    const defaultSlot = this.$slots.default?.()?.[0]?.children;
-    const litElementVnode = defaultSlot?.[0];
-    const litElementTagName = litElementVnode?.type;
+    const [litElementVNode] = this.$slots.default();
+    const litElementTagName = litElementVNode?.type;
 
     return {
-      litElementVnode,
+      litElementVNode,
       litElementTagName,
       litSsrHtml: "",
       renderer: null
@@ -20,13 +20,13 @@ export default defineComponent({
 
   methods: {
     resolveSlots() {
-      let children = this.litElementVnode.children || [];
+      let children = this.litElementVNode.children || [];
       if (!Array.isArray(children)) {
         children = [children];
       }
 
       const childToHtmlPromises = children.map((child) => {
-        if (child.__v_isVNode) {
+        if (isVNode(child)) {
           return renderToString(child);
         }
 
@@ -38,7 +38,7 @@ export default defineComponent({
 
     attachPropsToRenderer() {
       const customElementConstructor = getCustomElementConstructor(this.litElementTagName);
-      const props = this.litElementVnode.props;
+      const props = this.litElementVNode.props;
 
       if (props) {
         for (const [key, value] of Object.entries(props)) {
@@ -94,7 +94,7 @@ export default defineComponent({
   },
 
   async serverPrefetch() {
-    if (!this.litElementVnode || !isCustomElementTag(this.litElementTagName)) {
+    if (!this.litElementVNode || !isCustomElementTag(this.litElementTagName)) {
       return;
     }
 
@@ -118,9 +118,9 @@ export default defineComponent({
   },
 
   render() {
-    if (!this.litElementVnode) return;
+    if (!this.litElementVNode) return;
 
-    const props = this.litElementVnode.props || {};
+    const props = this.litElementVNode.props || {};
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
@@ -128,3 +128,4 @@ export default defineComponent({
     });
   }
 });
+</script>

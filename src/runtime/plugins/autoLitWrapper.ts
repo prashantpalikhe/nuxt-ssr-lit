@@ -1,4 +1,5 @@
 import { pathToFileURL } from "node:url";
+import type { Plugin } from "vite";
 import { parseURL } from "ufo";
 import { parse, walk, ELEMENT_NODE, Node, render } from "ultrahtml";
 import type { NuxtSsrLitOptions } from "../../module";
@@ -20,6 +21,7 @@ function transferDirectiveToWrapper(node: Node, wrapper: Node, directive: string
 export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOptions) {
   return {
     name: "autoLitWrapper",
+    enforce: "pre",
     async transform(code: string, id: string) {
       const litElementPrefixes = Array.isArray(litElementPrefix) ? litElementPrefix : [litElementPrefix];
 
@@ -83,5 +85,5 @@ export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOpti
         map: null
       };
     }
-  };
+  } as Plugin;
 }
