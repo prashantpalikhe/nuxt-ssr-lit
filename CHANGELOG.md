@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.4...v1.5.0) (2023-04-18)
+
+
+### Features
+
+* upgrade and add support for Nuxt 3.4 ([#71](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/71)) ([8ee6734](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/8ee67348cd97a39be994abb6d49b41a260852c82))
+
 ## [1.4.4](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.3...v1.4.4) (2023-04-07)
 
 
