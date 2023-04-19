@@ -1,4 +1,4 @@
-import { defineNuxtModule, addPlugin, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
+import { defineNuxtModule, addPlugin, createResolver, addVitePlugin, addComponentsDir } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
@@ -25,20 +25,7 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     addPlugin(resolve("./runtime/plugins/polyfill.client"));
     addPlugin(resolve("./runtime/plugins/hydrateSupport.client"));
 
-    await addComponent({
-      name: "LitWrapper",
-      filePath: resolve("./runtime/components/LitWrapper.vue")
-    });
-
-    await addComponent({
-      name: "LitWrapperClient",
-      filePath: resolve("./runtime/components/LitWrapperClient")
-    });
-
-    await addComponent({
-      name: "LitWrapperServer",
-      filePath: resolve("./runtime/components/LitWrapperServer")
-    });
+    await addComponentsDir({ path: resolve("./runtime/components/") });
 
     const isCustomElement = nuxt.options.vue.compilerOptions.isCustomElement || (() => false);
     nuxt.options.vue.compilerOptions.isCustomElement = (tag) =>
