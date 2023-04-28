@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.0...v1.5.1) (2023-04-28)
+
+
+### Bug Fixes
+
+* wrongly published beta version ([#74](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/74)) ([0200d02](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/0200d02d6a9527e53fcd0dcb91eabedf34693b4a))
+
 ## [1.5.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.4.4...v1.5.0) (2023-04-18)
 
 
