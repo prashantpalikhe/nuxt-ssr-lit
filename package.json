@@ -24,20 +24,19 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@lit-labs/ssr": "^3.1.1",
-    "@nuxt/kit": "^3.4.1",
-    "@webcomponents/template-shadowroot": "^0.1.0",
+    "@lit-labs/ssr": "^3.1.2",
+    "@nuxt/kit": "^3.5.0",
+    "@webcomponents/template-shadowroot": "^0.2.1",
     "cheerio": "^1.0.0-rc.12",
-    "magic-string": "^0.26.7",
-    "ufo": "^1.0.1",
+    "ufo": "^1.1.2",
     "ultrahtml": "^1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@nuxt/module-builder": "^0.3.0",
-    "@nuxt/schema": "^3.4.1",
-    "@nuxt/test-utils-edge": "^3.4.2-28024595.b602b66a",
+    "@nuxt/module-builder": "^0.3.1",
+    "@nuxt/schema": "^3.5.0",
+    "@nuxt/test-utils-edge": "^3.5.1-28072176.2cdc22a7",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
@@ -46,8 +45,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.6.0",
     "husky": "^8.0.2",
-    "nuxt": "^3.4.1",
+    "nuxt": "^3.5.0",
     "prettier": "^2.7.1",
-    "vitest": "^0.29.8"
+    "vitest": "^0.31.1"
   }
 }
