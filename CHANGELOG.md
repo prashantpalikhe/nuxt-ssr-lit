@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.3](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.2...v1.5.3) (2023-06-20)
+
+
+### Bug Fixes
+
+* allow nested Lit components to hydrate correctly by self managin… ([#79](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/79)) ([66bad0e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/66bad0eaf4435ee89b9dcea1ce394f6241aa783e))
+
 ## [1.5.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.1...v1.5.2) (2023-05-18)
 
 
