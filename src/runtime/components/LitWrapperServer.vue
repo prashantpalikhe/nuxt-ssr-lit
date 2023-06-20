@@ -78,8 +78,7 @@ export default defineComponent({
         this.renderer.renderShadow({
           elementRenderers: [LitElementRenderer],
           customElementInstanceStack: [],
-          customElementHostStack: [],
-          deferHydration: true
+          customElementHostStack: []
         })
       );
     },
@@ -124,7 +123,8 @@ export default defineComponent({
 
     return h(this.litElementTagName, {
       innerHTML: this.litSsrHtml,
-      ...props
+      ...props,
+      "defer-hydration": true
     });
   }
 });
