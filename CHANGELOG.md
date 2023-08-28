@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.8](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.7...v1.5.8) (2023-08-28)
+
+
+### Bug Fixes
+
+* updated ufo to 1.3.0 ([#89](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/89)) ([cfa3a48](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/cfa3a48c50209b0c5cb39216df8f28a87505abec))
+
 ## [1.5.7](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.6...v1.5.7) (2023-08-28)
 
 
