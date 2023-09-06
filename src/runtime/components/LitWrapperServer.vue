@@ -1,131 +1,59 @@
 <script lang="ts">
-import { defineComponent, h, isVNode } from "vue";
+import { defineComponent, getCurrentInstance, ssrUtils } from "vue";
 import "@lit-labs/ssr/lib/render-lit-html.js";
-import { renderToString } from "@vue/server-renderer";
-import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
-import { isCustomElementTag, getCustomElementConstructor } from "../utils/customElements";
+import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
+import { createSSRVNodesBuffer } from "../utils/ssr";
+import { createLitElementRenderer, getShadowContents } from "../utils/litElementRenderer";
 
 export default defineComponent({
-  data() {
-    const [litElementVNode] = this.$slots.default();
+  setup(_, ctx) {
+    const vm = getCurrentInstance();
+
+    const defaultSlot = ctx.slots.default?.();
+
+    const [litElementVNode] = defaultSlot || [];
     const litElementTagName = litElementVNode?.type;
 
+    const ssrVNodes = createSSRVNodesBuffer();
+
+    // We only want to render the children of the lit element, not the Lit element itself
+    // The Lit element will be rendered in the ssrRender function
+    const litElementChildren = Array.isArray(litElementVNode?.children)
+      ? litElementVNode?.children
+      : [litElementVNode?.children];
+
+    if (litElementChildren) {
+      for (let i = 0; i < litElementChildren.length; i++) {
+        ssrRenderVNode(ssrVNodes.push, ssrUtils.normalizeVNode(litElementChildren[i]), vm);
+      }
+    }
+
     return {
+      ssrVNodes,
       litElementVNode,
-      litElementTagName,
-      litSsrHtml: "",
-      renderer: null
+      litElementTagName
     };
   },
 
-  methods: {
-    resolveSlots() {
-      let children = this.litElementVNode.children || [];
-      if (!Array.isArray(children)) {
-        children = [children];
-      }
+  ssrRender(ctx: any, push: any) {
+    const props = ctx.litElementVNode?.props || {};
+    const renderer = createLitElementRenderer(ctx.litElementTagName as string, props);
 
-      const childToHtmlPromises = children.map((child) => {
-        if (isVNode(child)) {
-          return renderToString(child);
-        }
-
-        return Promise.resolve(child);
-      });
-
-      return Promise.all(childToHtmlPromises);
-    },
-
-    attachPropsToRenderer() {
-      const customElementConstructor = getCustomElementConstructor(this.litElementTagName);
-      const props = this.litElementVNode.props;
-
-      if (props) {
-        for (const [key, value] of Object.entries(props)) {
-          // check if this is a reactive property
-          if (
-            customElementConstructor !== null &&
-            typeof customElementConstructor !== "string" &&
-            key in customElementConstructor.prototype
-          ) {
-            const isBooleanProp = customElementConstructor.elementProperties.get(key)?.type === Boolean;
-
-            if (isBooleanProp && value === "") {
-              // handle key only boolean props e.g. <my-element disabled></my-element>
-              this.renderer.setProperty(key, true);
-            } else {
-              this.renderer.setProperty(key, value);
-            }
-          } else {
-            this.renderer.setAttribute(key, value);
-          }
-        }
-      }
-    },
-
-    getAttributesToRender() {
-      if (this.renderer.element.attributes) {
-        return Object.fromEntries(
-          this.renderer.element.attributes.map((attribute) => [attribute.name, attribute.value])
-        );
-      }
-
-      return {};
-    },
-
-    getShadowContents() {
-      return this.iterableToString(
-        this.renderer.renderShadow({
-          elementRenderers: [LitElementRenderer],
-          customElementInstanceStack: [],
-          customElementHostStack: []
-        })
-      );
-    },
-
-    iterableToString(iterable: Iterable<string>) {
-      let s = "";
-      for (const i of iterable) {
-        s += i;
-      }
-      return s;
-    }
-  },
-
-  async serverPrefetch() {
-    if (!this.litElementVNode || !isCustomElementTag(this.litElementTagName)) {
-      return;
-    }
+    if (!renderer) return null;
 
     try {
-      this.renderer = new LitElementRenderer(this.litElementTagName);
+      renderer.connectedCallback();
 
-      this.attachPropsToRenderer();
-
-      this.renderer.connectedCallback();
-
-      const shadowContents = this.getShadowContents();
-      const resolvedSlots = (await this.resolveSlots()) || [];
-      const slots = resolvedSlots.join("");
-
-      this.litSsrHtml = `<template shadowrootmode="open" shadowroot="open">${shadowContents}</template>${slots}`;
+      push(`<${ctx.litElementTagName}${ssrRenderAttrs(props)} defer-hydration="true">`);
+      push(`<template shadowrootmode="open" shadowroot="open">${getShadowContents(renderer)}</template>`);
+      push(ctx.ssrVNodes.getBuffer());
+      push(`</${ctx.litElementTagName}>`);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      this.litSsrHtml = "";
+
+      return null;
     }
-  },
-
-  render() {
-    if (!this.litElementVNode) return;
-
-    const props = this.litElementVNode.props || {};
-
-    return h(this.litElementTagName, {
-      innerHTML: this.litSsrHtml,
-      ...props,
-      "defer-hydration": true
-    });
   }
 });
 </script>

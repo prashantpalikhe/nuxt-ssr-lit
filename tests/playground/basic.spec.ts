@@ -53,4 +53,11 @@ describe("ssr", async () => {
     expect($(".accordion-item__content").eq(0).attr()?.hidden).toBeUndefined();
     expect($(".accordion-item__content").eq(1).attr()?.hidden).toBeDefined();
   });
+
+  it("renders provide/inject correctly on server", async () => {
+    const html = await $fetch("/with-provide-inject");
+
+    const $ = cheerio.load(html);
+    expect($("#injectedVariable").text()).toBe("I am injected");
+  });
 });

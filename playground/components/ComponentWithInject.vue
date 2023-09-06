@@ -1,5 +1,5 @@
 <template>
-  <h1>
+  <h1 id="injectedVariable">
     {{ injectedVariable }}
   </h1>
 </template>
