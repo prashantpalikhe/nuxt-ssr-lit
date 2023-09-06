@@ -30,6 +30,9 @@
           <li>
             <NuxtLink to="/with-v-if"> With v-if </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/with-provide-inject"> With provide/inject </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>
