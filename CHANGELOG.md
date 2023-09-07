@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.8...v1.6.0) (2023-09-07)
+
+
+### Features
+
+* change the way we render the component on server ([#93](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/93)) ([e36e88e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/e36e88e1de224958e8cd471f5fe4a70700e3f982))
+
 ## [1.5.8](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.7...v1.5.8) (2023-08-28)
 
 
