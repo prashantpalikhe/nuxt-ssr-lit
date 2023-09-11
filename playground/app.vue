@@ -33,6 +33,9 @@
           <li>
             <NuxtLink to="/with-provide-inject"> With provide/inject </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/fallthrough-attributes"> Fallthrough attributes </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>

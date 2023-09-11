@@ -60,4 +60,15 @@ describe("ssr", async () => {
     const $ = cheerio.load(html);
     expect($("#injectedVariable").text()).toBe("I am injected");
   });
+
+  it("renders the fallthrough attributes correctly on server", async () => {
+    const html = await $fetch("/fallthrough-attributes");
+
+    const $ = cheerio.load(html);
+
+    expect($(".this-class-should-exist").length).toBe(1);
+    expect($(".this-class-should-also-exist").length).toBe(1);
+    expect($("[data-attr-should-exist]").length).toBe(1);
+    expect($("[data-attr-should-also-exist]").length).toBe(1);
+  });
 });
