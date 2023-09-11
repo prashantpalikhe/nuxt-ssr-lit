@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.0...v1.6.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* updated Nuxt to 3.7.1 ([#95](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/95)) ([f9ce787](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/f9ce78725a30469d0d1f6d7d326103ec7b5171ef))
+
 ## [1.6.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.5.8...v1.6.0) (2023-09-07)
 
 
