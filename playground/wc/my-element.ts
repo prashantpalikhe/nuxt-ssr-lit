@@ -1,9 +1,9 @@
 import { LitElement, css, html } from "lit";
-import { property } from "lit/decorators.js";
 
 export class MyElement extends LitElement {
   static properties = {
-    name: { type: String }
+    name: { type: String },
+    theme: { type: String }
   };
 
   static styles = css`
@@ -11,6 +11,11 @@ export class MyElement extends LitElement {
       background-color: black;
       color: white;
       padding: 16px;
+    }
+
+    .my-element--light {
+      background-color: gray;
+      color: black;
     }
 
     button {
@@ -27,6 +32,7 @@ export class MyElement extends LitElement {
   constructor() {
     super();
     this.name = "default";
+    this.theme = "dark";
   }
 
   onButtonClick() {
@@ -40,7 +46,7 @@ export class MyElement extends LitElement {
   }
 
   render() {
-    return html` <div class="my-element">
+    return html` <div class="my-element my-element--${this.theme}">
       <slot name="prepend">Default prepend text</slot>
       <div>
         <button type="button" @click="${this.onButtonClick}"><slot>Lit button with name "${this.name}"</slot></button>

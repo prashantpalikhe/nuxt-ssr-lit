@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, getCurrentInstance, ssrUtils } from "vue";
+import { defineComponent, getCurrentInstance, ssrUtils, mergeProps } from "vue";
 import "@lit-labs/ssr/lib/render-lit-html.js";
 import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
 import { createSSRVNodesBuffer } from "../utils/ssr";
@@ -35,7 +35,8 @@ export default defineComponent({
     };
   },
 
-  ssrRender(ctx: any, push: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ssrRender(ctx: any, push: any, parent: any, attrs: any) {
     const props = ctx.litElementVNode?.props || {};
     const renderer = createLitElementRenderer(ctx.litElementTagName as string, props);
 
@@ -44,7 +45,7 @@ export default defineComponent({
     try {
       renderer.connectedCallback();
 
-      push(`<${ctx.litElementTagName}${ssrRenderAttrs(props)} defer-hydration="true">`);
+      push(`<${ctx.litElementTagName}${ssrRenderAttrs(mergeProps(props, attrs))} defer-hydration="true">`);
       push(`<template shadowrootmode="open" shadowroot="open">${getShadowContents(renderer)}</template>`);
       push(ctx.ssrVNodes.getBuffer());
       push(`</${ctx.litElementTagName}>`);
