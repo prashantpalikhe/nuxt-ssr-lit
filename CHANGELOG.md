@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.1...v1.6.2) (2023-09-12)
+
+
+### Bug Fixes
+
+* issue with fallthrough attributes not working with new server re… ([#97](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/97)) ([d4bf56a](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/d4bf56a559f9272766d0644b48aa60636ac54f8a))
+
 ## [1.6.1](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.0...v1.6.1) (2023-09-11)
 
 
