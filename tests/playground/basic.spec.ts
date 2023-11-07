@@ -71,4 +71,9 @@ describe("ssr", async () => {
     expect($("[data-attr-should-exist]").length).toBe(1);
     expect($("[data-attr-should-also-exist]").length).toBe(1);
   });
+
+  it("renders element with child that should defer hydration", async () => {
+    const html = await $fetch("/simple-parent");
+    expect(html).toContain("<simple-child defer-hydration>");
+  });
 });
