@@ -16,8 +16,8 @@ export function getShadowContents(renderer: LitElementRenderer): string {
     // @ts-ignore
     renderer.renderShadow({
       elementRenderers: [LitElementRenderer],
-      customElementInstanceStack: [],
-      customElementHostStack: []
+      customElementInstanceStack: [renderer],
+      customElementHostStack: [renderer]
     }) as Iterable<string>
   );
 }
