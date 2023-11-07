@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.5](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.4...v1.6.5) (2023-11-07)
+
+
+### Bug Fixes
+
+* correctly defer hydration for child custom elements ([#108](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/108)) ([131172f](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/131172f50468f8718a371b4c4cc40a83ed1e54e2))
+
 ## [1.6.4](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.3...v1.6.4) (2023-10-11)
 
 
