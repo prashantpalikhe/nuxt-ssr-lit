@@ -1,7 +1,8 @@
 import { pathToFileURL } from "node:url";
 import type { Plugin } from "vite";
 import { parseURL } from "ufo";
-import { parse, walk, ELEMENT_NODE, Node, render } from "ultrahtml";
+import { parse, walk, ELEMENT_NODE, render } from "ultrahtml";
+import type { Node } from "ultrahtml";
 import type { NuxtSsrLitOptions } from "../../module";
 
 const V_FOR_DIRECTIVE = "v-for";
