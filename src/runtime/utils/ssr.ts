@@ -1,3 +1,4 @@
+// eslint-disable-next-line vue/prefer-import-from-vue
 import { isString, isPromise, isArray } from "@vue/shared";
 
 // eslint-disable-next-line no-use-before-define
