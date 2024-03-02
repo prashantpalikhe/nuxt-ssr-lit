@@ -1,54 +1,46 @@
 <script lang="ts">
-import { defineComponent, getCurrentInstance, ssrUtils, mergeProps } from "vue";
-import "@lit-labs/ssr/lib/render-lit-html.js";
+import { defineComponent, ssrUtils, mergeProps } from "vue";
+import type { ComponentInternalInstance } from "vue";
 import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
-import { createSSRVNodesBuffer } from "../utils/ssr";
 import { createLitElementRenderer, getShadowContents } from "../utils/litElementRenderer";
 
+type PushFn = Parameters<typeof ssrRenderVNode>[0];
+
 export default defineComponent({
-  setup(_, ctx) {
-    const vm = getCurrentInstance();
+  ssrRender(
+    ctx: ComponentInternalInstance["proxy"],
+    push: PushFn,
+    litWrapperInstance: ComponentInternalInstance,
+    litWrapperAttrs: Record<string, unknown>
+  ) {
+    const [litElementVNode] = litWrapperInstance.slots.default!();
+    const litElementTagName = String(litElementVNode.type);
 
-    const defaultSlot = ctx.slots.default?.();
+    const litElementVNodeProps = litElementVNode.props || {};
+    const renderer = createLitElementRenderer(litElementTagName, litElementVNodeProps);
 
-    const [litElementVNode] = defaultSlot || [];
-    const litElementTagName = litElementVNode?.type;
-
-    const ssrVNodes = createSSRVNodesBuffer();
-
-    // We only want to render the children of the lit element, not the Lit element itself
-    // The Lit element will be rendered in the ssrRender function
-    const litElementChildren = Array.isArray(litElementVNode?.children)
-      ? litElementVNode?.children
-      : [litElementVNode?.children];
-
-    if (litElementChildren) {
-      for (let i = 0; i < litElementChildren.length; i++) {
-        ssrRenderVNode(ssrVNodes.push, ssrUtils.normalizeVNode(litElementChildren[i]), vm);
-      }
+    if (!renderer) {
+      return null;
     }
-
-    return {
-      ssrVNodes,
-      litElementVNode,
-      litElementTagName
-    };
-  },
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ssrRender(ctx: any, push: any, parent: any, attrs: any) {
-    const props = ctx.litElementVNode?.props || {};
-    const renderer = createLitElementRenderer(ctx.litElementTagName as string, props);
-
-    if (!renderer) return null;
 
     try {
       renderer.connectedCallback();
 
-      push(`<${ctx.litElementTagName}${ssrRenderAttrs(mergeProps(props, attrs))} defer-hydration="true">`);
+      const attributes = ssrRenderAttrs(mergeProps(litElementVNodeProps, litWrapperAttrs));
+
+      push(`<${litElementTagName}${attributes} defer-hydration="true">`);
       push(`<template shadowrootmode="open" shadowroot="open">${getShadowContents(renderer)}</template>`);
-      push(ctx.ssrVNodes.getBuffer());
-      push(`</${ctx.litElementTagName}>`);
+
+      // Render the LitElement slot
+      const litElementChildren = litElementVNode.children
+        ? Array.isArray(litElementVNode.children)
+          ? litElementVNode.children
+          : [litElementVNode.children]
+        : [];
+
+      litElementChildren.forEach((child) => ssrRenderVNode(push, ssrUtils.normalizeVNode(child), litWrapperInstance));
+
+      push(`</${litElementTagName}>`);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

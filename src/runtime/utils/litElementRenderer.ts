@@ -1,13 +1,16 @@
+import type { VNodeProps } from "vue";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
 import { getCustomElementConstructor, isCustomElementTag } from "./customElements";
 
-export function createLitElementRenderer(tagName: string, props: Record<string, unknown>): LitElementRenderer | null {
+export function createLitElementRenderer(tagName: string, props: VNodeProps): LitElementRenderer | null {
   if (!isCustomElementTag(tagName)) {
     return null;
   }
 
   const renderer = new LitElementRenderer(tagName);
-  return attachPropsToRenderer(renderer, props);
+  attachPropsToRenderer(renderer, props);
+
+  return renderer;
 }
 
 export function getShadowContents(renderer: LitElementRenderer): string {
@@ -22,7 +25,7 @@ export function getShadowContents(renderer: LitElementRenderer): string {
   );
 }
 
-function attachPropsToRenderer(renderer: LitElementRenderer, props: Record<string, unknown>): LitElementRenderer {
+function attachPropsToRenderer(renderer: LitElementRenderer, props: VNodeProps): LitElementRenderer {
   const customElementConstructor = getCustomElementConstructor(renderer.tagName);
 
   if (props) {
