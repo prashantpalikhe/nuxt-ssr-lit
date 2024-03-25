@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.13](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.12...v1.6.13) (2024-03-25)
+
+
+### Bug Fixes
+
+* opt in to `import.meta.*` properties ([#130](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/130)) ([5037823](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/5037823259d6ac218f09cfc1a3def37bd70355c6))
+
 ## [1.6.12](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.11...v1.6.12) (2024-03-17)
 
 
