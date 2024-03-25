@@ -8,7 +8,7 @@ export default defineComponent({
   name: "LitWrapper",
 
   render() {
-    return h(process.server ? LitWrapperServer : LitWrapperClient, this.$slots.default);
+    return h(import.meta.server ? LitWrapperServer : LitWrapperClient, this.$slots.default);
   }
 });
 </script>
