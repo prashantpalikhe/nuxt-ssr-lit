@@ -12,7 +12,6 @@ Install `nuxt-ssr-lit`.
 
 ```shell
 npx nuxi@latest module add ssr-lit
-# npx nuxi@latest module add ssr-lit
 ```
 
 Add following code to modules section of nuxt.config.js.
