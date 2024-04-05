@@ -13,18 +13,6 @@ export function createLitElementRenderer(tagName: string, props: VNodeProps): Li
   return renderer;
 }
 
-export function getShadowContents(renderer: LitElementRenderer): string {
-  return iterableToString(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    renderer.renderShadow({
-      elementRenderers: [LitElementRenderer],
-      customElementInstanceStack: [renderer],
-      customElementHostStack: [renderer]
-    }) as Iterable<string>
-  );
-}
-
 function attachPropsToRenderer(renderer: LitElementRenderer, props: VNodeProps): LitElementRenderer {
   const customElementConstructor = getCustomElementConstructor(renderer.tagName);
 
@@ -51,12 +39,4 @@ function attachPropsToRenderer(renderer: LitElementRenderer, props: VNodeProps):
   }
 
   return renderer;
-}
-
-function iterableToString(iterable: Iterable<string>) {
-  let s = "";
-  for (const i of iterable) {
-    s += i;
-  }
-  return s;
 }

@@ -2,7 +2,8 @@
 import { defineComponent, ssrUtils, mergeProps } from "vue";
 import type { ComponentInternalInstance } from "vue";
 import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
-import { createLitElementRenderer, getShadowContents } from "../utils/litElementRenderer";
+import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
+import { createLitElementRenderer } from "../utils/litElementRenderer";
 
 type PushFn = Parameters<typeof ssrRenderVNode>[0];
 
@@ -28,8 +29,21 @@ export default defineComponent({
 
       const attributes = ssrRenderAttrs(mergeProps(litElementVNodeProps, litWrapperAttrs));
 
-      push(`<${litElementTagName}${attributes} defer-hydration="true">`);
-      push(`<template shadowrootmode="open" shadowroot="open">${getShadowContents(renderer)}</template>`);
+      push(
+        `<${litElementTagName}${attributes} defer-hydration="true"><template shadowrootmode="open" shadowroot="open">`
+      );
+
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      for (const shadowContent of renderer.renderShadow({
+        elementRenderers: [LitElementRenderer],
+        customElementInstanceStack: [renderer],
+        customElementHostStack: [renderer]
+      }) as Iterable<string>) {
+        push(shadowContent);
+      }
+
+      push(`</template>`);
 
       // Render the LitElement slot
       const litElementChildren = litElementVNode.children
