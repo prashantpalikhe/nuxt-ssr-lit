@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.14](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.13...v1.6.14) (2024-04-05)
+
+
+### Bug Fixes
+
+* push Lit shadow contents directly in Vue ssr buffer ([#133](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/133)) ([4b920d7](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/4b920d7a8e1549e4532b1fe81f86236b74ed5c79))
+
 ## [1.6.13](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.12...v1.6.13) (2024-03-25)
 
 
