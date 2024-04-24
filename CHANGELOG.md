@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.16](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.15...v1.6.16) (2024-04-24)
+
+
+### Bug Fixes
+
+* only alter the template for the lit components, nothing else ([#138](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/138)) ([c2dab2a](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/c2dab2a4f73b86208229af8b6e1c9343a60fb891))
+
 ## [1.6.15](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.14...v1.6.15) (2024-04-05)
 
 
