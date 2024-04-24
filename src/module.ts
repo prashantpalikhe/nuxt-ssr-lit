@@ -46,6 +46,11 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
         ? options.litElementPrefix.some((p) => tag.startsWith(p))
         : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
 
-    addVitePlugin(autoLitWrapper({ litElementPrefix: options.litElementPrefix }));
+    addVitePlugin(
+      autoLitWrapper({
+        litElementPrefix: options.litElementPrefix,
+        sourcemap: !!nuxt.options.sourcemap.server || !!nuxt.options.sourcemap.client
+      })
+    );
   }
 });

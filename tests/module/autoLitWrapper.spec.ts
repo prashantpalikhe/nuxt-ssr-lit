@@ -72,9 +72,102 @@ describe("Lit wrapper plugin", () => {
 
     expect(t.code).toContain('<LitWrapper v-if="true"><my-accordion-item');
     expect(t.code).toContain('<LitWrapper v-else-if="false"><my-accordion-item');
-    expect(t.code).toContain('<LitWrapper v-else=""><my-accordion-item');
+    expect(t.code).toContain("<LitWrapper v-else><my-accordion-item");
 
     expect(t.code.match(/v-if/g)?.length).toBe(1);
     expect(t.code.match(/v-else/g)?.length).toBe(2);
+  });
+
+  test("Handles different situations of wrapping", async () => {
+    const plugin = autoLitWrapper({
+      litElementPrefix: ["my-", "some-"]
+    });
+    const sourceCode = `
+    <template>
+      <div>
+        <my-element
+          v-if="true"
+          foo
+          foo="bar"
+          :baz="qux"
+          v-bind="{ ...someObj }"
+          @click="handleClick"
+          @blur="handleBlur()"
+          v-bind:foo="bar"
+          @custom-event="($event) => handleCustomEvent()">
+          <some-element :foo="'bar'" :baz="qux">
+            <some-other-element />
+          </some-element>
+        </my-element>
+    
+        <my-element v-else-if="false">Else if</my-element>
+        <my-element v-else>
+          <do-not-wrap-me />
+        </my-element>
+
+        <my-element v-for="(item, index) in items" :key="item.title">
+          <some-element :foo="'bar'" :baz="qux">
+            <some-other-element />
+          </some-element>
+        </my-element>
+
+        <SomeComponent>
+          <template #someslot="{ foo }">
+            <my-element>
+              <some-element :foo="'bar'" :baz="qux">
+                <some-other-element />
+              </some-element>
+            </my-element>
+          </template>
+        </SomeComponent>
+      </div>
+    </template>
+    `;
+
+    const expectedCode = `
+    <template>
+      <div>
+        <LitWrapper v-if="true"><my-element
+         
+          foo
+          foo="bar"
+          :baz="qux"
+          v-bind="{ ...someObj }"
+          @click="handleClick"
+          @blur="handleBlur()"
+          v-bind:foo="bar"
+          @custom-event="($event) => handleCustomEvent()">
+          <LitWrapper><some-element :foo="'bar'" :baz="qux">
+            <LitWrapper><some-other-element /></LitWrapper>
+          </some-element></LitWrapper>
+        </my-element></LitWrapper>
+    
+        <LitWrapper v-else-if="false"><my-element>Else if</my-element></LitWrapper>
+        <LitWrapper v-else><my-element>
+          <do-not-wrap-me />
+        </my-element></LitWrapper>
+
+        <LitWrapper v-for="(item, index) in items" :key="item.title"><my-element>
+          <LitWrapper><some-element :foo="'bar'" :baz="qux">
+            <LitWrapper><some-other-element /></LitWrapper>
+          </some-element></LitWrapper>
+        </my-element></LitWrapper>
+
+        <SomeComponent>
+          <template #someslot="{ foo }">
+            <LitWrapper><my-element>
+              <LitWrapper><some-element :foo="'bar'" :baz="qux">
+                <LitWrapper><some-other-element /></LitWrapper>
+              </some-element></LitWrapper>
+            </my-element></LitWrapper>
+          </template>
+        </SomeComponent>
+      </div>
+    </template>
+    `;
+
+    const t = await plugin.transform(sourceCode, "src/pages/index.vue");
+
+    expect(t.code).toBe(expectedCode);
   });
 });
