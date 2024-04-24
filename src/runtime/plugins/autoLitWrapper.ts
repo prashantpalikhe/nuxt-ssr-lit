@@ -1,25 +1,18 @@
 import { pathToFileURL } from "node:url";
 import type { Plugin } from "vite";
 import { parseURL } from "ufo";
-import { parse, walk, ELEMENT_NODE, render } from "ultrahtml";
-import type { Node } from "ultrahtml";
+import MagicString from "magic-string";
+import { parse, walk, ELEMENT_NODE } from "ultrahtml";
+
 import type { NuxtSsrLitOptions } from "../../module";
 
-const V_FOR_DIRECTIVE = "v-for";
-const V_FOR_KEY_DIRECTIVE = ":key";
-const V_IF_DIRECTIVE = "v-if";
-const V_ELSE_IF_DIRECTIVE = "v-else-if";
-const V_ELSE_DIRECTIVE = "v-else";
+const allAttributesToMove = ["v-for", ":key", "v-if", "v-else-if", "v-else"];
+const attributesToMoveRegex = new RegExp(allAttributesToMove.map((attr) => `(\\s${attr}(="[^"]*")?)`).join("|"), "gi");
 
-function transferDirectiveToWrapper(node: Node, wrapper: Node, directive: string) {
-  if (directive in node.attributes) {
-    wrapper.attributes[directive] = node.attributes[directive];
-
-    delete node.attributes[directive];
-  }
-}
-
-export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOptions) {
+export default function autoLitWrapper({
+  litElementPrefix = [],
+  sourcemap = false
+}: NuxtSsrLitOptions & { sourcemap?: boolean }) {
   return {
     name: "autoLitWrapper",
     enforce: "pre",
@@ -46,45 +39,41 @@ export default function autoLitWrapper({ litElementPrefix = [] }: NuxtSsrLitOpti
       const prefixRegex = new RegExp(`^(${litElementPrefixes.join("|")})`, "i");
 
       const ast = parse(code);
+      const s = new MagicString(code);
 
       await walk(ast, (node) => {
-        if (node?.attributes) {
-          delete node.attributes[""];
-        }
-
         if (node.type !== ELEMENT_NODE || !prefixRegex.test(node.name)) {
           return;
         }
 
-        const wrapper: Node = {
-          name: "LitWrapper",
-          type: ELEMENT_NODE,
-          parent: node.parent,
-          children: [node],
-          attributes: {},
-          loc: node.loc
-        };
+        const foundAttributesToMove = Object.keys(node.attributes).filter((attr) => allAttributesToMove.includes(attr));
 
-        if (node.attributes[V_FOR_DIRECTIVE]) {
-          transferDirectiveToWrapper(node, wrapper, V_FOR_DIRECTIVE);
-          transferDirectiveToWrapper(node, wrapper, V_FOR_KEY_DIRECTIVE);
-        }
+        const attributesToAdd = foundAttributesToMove.length
+          ? ` ${foundAttributesToMove
+              .map((attr) => (node.attributes[attr] ? `${attr}="${node.attributes[attr]}"` : attr))
+              .join(" ")}`
+          : "";
 
-        transferDirectiveToWrapper(node, wrapper, V_IF_DIRECTIVE);
-        transferDirectiveToWrapper(node, wrapper, V_ELSE_IF_DIRECTIVE);
-        transferDirectiveToWrapper(node, wrapper, V_ELSE_DIRECTIVE);
+        const wrapperStartTag = `<LitWrapper${attributesToAdd}>`;
+        const wrapperEndTag = `</LitWrapper>`;
 
-        delete node.attributes[""];
+        const nodeWithAttributesRemoved = code
+          .slice(node.loc[0].start, node.loc[0].end)
+          .replace(attributesToMoveRegex, "")
+          .trim();
 
-        node.parent.children.splice(node.parent.children.indexOf(node), 1, wrapper);
+        s.overwrite(node.loc[0].start, node.loc[0].end, nodeWithAttributesRemoved);
+
+        s.prependLeft(node.loc[0].start, wrapperStartTag);
+        s.appendRight(node.loc[1].end, wrapperEndTag);
       });
 
-      const transformedCode = await render(ast);
-
-      return {
-        code: transformedCode,
-        map: null
-      };
+      if (s.hasChanged()) {
+        return {
+          code: s.toString(),
+          map: sourcemap ? s.generateMap({ hires: true }) : null
+        };
+      }
     }
   } as Plugin;
 }
