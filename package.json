@@ -24,7 +24,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@lit-labs/ssr": "^3.2.1",
+    "@lit-labs/ssr": "^3.2.2",
     "@nuxt/kit": "^3.11.2",
     "@webcomponents/template-shadowroot": "^0.2.1",
     "magic-string": "^0.30.10",
