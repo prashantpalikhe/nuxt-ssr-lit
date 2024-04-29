@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.17](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.16...v1.6.17) (2024-04-29)
+
+
+### Bug Fixes
+
+* upgrade lit and lit-labs/ssr ([#140](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/140)) ([19f8d03](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/19f8d039796e63b534d8840a00ffc68c8a5314df))
+
 ## [1.6.16](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.15...v1.6.16) (2024-04-24)
 
 
