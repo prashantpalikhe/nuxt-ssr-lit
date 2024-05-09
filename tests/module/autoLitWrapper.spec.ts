@@ -87,7 +87,8 @@ describe("Lit wrapper plugin", () => {
       <div>
         <my-element
           v-if="true"
-          foo
+          :key="someKey"
+          some-attr
           foo="bar"
           :baz="qux"
           v-bind="{ ...someObj }"
@@ -100,7 +101,7 @@ describe("Lit wrapper plugin", () => {
           </some-element>
         </my-element>
     
-        <my-element v-else-if="false">Else if</my-element>
+        <my-element v-else-if="2 > 1">Else if</my-element>
         <my-element v-else>
           <do-not-wrap-me />
         </my-element>
@@ -120,16 +121,31 @@ describe("Lit wrapper plugin", () => {
             </my-element>
           </template>
         </SomeComponent>
+
+        <my-element :foo="'bar'" key="someKey"       />
+        <SomeComponent @click="handleClick" />
+
+        <my-element>
+
+          <div>Some content {{ someExpression ? someValue1 : someValue 2 }}</div>
+        </my-element>
       </div>
     </template>
+
+    <script setup lang="ts">
+    import { ref } from 'vue';
+
+    const someKey = ref<string>('some key');
+    </script>
     `;
 
     const expectedCode = `
     <template>
       <div>
-        <LitWrapper v-if="true"><my-element
+        <LitWrapper v-if="true" :key="someKey"><my-element
          
-          foo
+         
+          some-attr
           foo="bar"
           :baz="qux"
           v-bind="{ ...someObj }"
@@ -142,7 +158,7 @@ describe("Lit wrapper plugin", () => {
           </some-element></LitWrapper>
         </my-element></LitWrapper>
     
-        <LitWrapper v-else-if="false"><my-element>Else if</my-element></LitWrapper>
+        <LitWrapper v-else-if="2 > 1"><my-element>Else if</my-element></LitWrapper>
         <LitWrapper v-else><my-element>
           <do-not-wrap-me />
         </my-element></LitWrapper>
@@ -162,12 +178,42 @@ describe("Lit wrapper plugin", () => {
             </my-element></LitWrapper>
           </template>
         </SomeComponent>
+
+        <LitWrapper><my-element :foo="'bar'" key="someKey"       /></LitWrapper>
+        <SomeComponent @click="handleClick" />
+
+        <LitWrapper><my-element>
+
+          <div>Some content {{ someExpression ? someValue1 : someValue 2 }}</div>
+        </my-element></LitWrapper>
       </div>
     </template>
+
+    <script setup lang="ts">
+    import { ref } from 'vue';
+
+    const someKey = ref<string>('some key');
+    </script>
     `;
 
     const t = await plugin.transform(sourceCode, "src/pages/index.vue");
 
     expect(t.code).toBe(expectedCode);
+  });
+
+  test.skip("Playground", () => {
+    const plugin = autoLitWrapper({
+      litElementPrefix: ["my-"]
+    });
+
+    const sourceCode = `
+    <template>
+      <my-element>test</my-element>
+    </template>
+    `;
+
+    const t = plugin.transform(sourceCode, "src/pages/index.vue");
+
+    console.log(t.code);
   });
 });

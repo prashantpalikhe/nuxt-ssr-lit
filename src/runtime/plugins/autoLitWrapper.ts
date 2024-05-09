@@ -1,13 +1,13 @@
 import { pathToFileURL } from "node:url";
-import type { Plugin } from "vite";
 import { parseURL } from "ufo";
+import type { Plugin } from "vite";
 import MagicString from "magic-string";
-import { parse, walk, ELEMENT_NODE } from "ultrahtml";
-
+import { parse } from "@vue/compiler-sfc";
+import { transform, NodeTypes } from "@vue/compiler-core";
 import type { NuxtSsrLitOptions } from "../../module";
 
-const allAttributesToMove = ["v-for", ":key", "v-if", "v-else-if", "v-else"];
-const attributesToMoveRegex = new RegExp(allAttributesToMove.map((attr) => `(\\s${attr}(="[^"]*")?)`).join("|"), "gi");
+const allDirectivesToMove = ["v-for", ":key", "v-if", "v-else-if", "v-else"];
+const directivesToMoveRegex = new RegExp(allDirectivesToMove.map((attr) => `(\\s${attr}(="[^"]*")?)`).join("|"), "gi");
 
 export default function autoLitWrapper({
   litElementPrefix = [],
@@ -16,9 +16,8 @@ export default function autoLitWrapper({
   return {
     name: "autoLitWrapper",
     enforce: "pre",
-    async transform(code: string, id: string) {
+    transform(code: string, id: string) {
       const litElementPrefixes = Array.isArray(litElementPrefix) ? litElementPrefix : [litElementPrefix];
-
       const { pathname } = parseURL(decodeURIComponent(pathToFileURL(id).href));
       const isVueFile = pathname.endsWith(".vue");
 
@@ -27,7 +26,6 @@ export default function autoLitWrapper({
       }
 
       const template = code.match(/<template>([\s\S]*)<\/template>/);
-
       if (!template) {
         return;
       }
@@ -36,36 +34,90 @@ export default function autoLitWrapper({
         return;
       }
 
+      const ast = parse(code).descriptor.template?.ast;
+
+      if (!ast) {
+        return;
+      }
+
+      const s = new MagicString(code);
       const prefixRegex = new RegExp(`^(${litElementPrefixes.join("|")})`, "i");
 
-      const ast = parse(code);
-      const s = new MagicString(code);
+      transform(ast, {
+        nodeTransforms: [
+          (node) => {
+            if (node.type !== NodeTypes.ELEMENT || !prefixRegex.test(node.tag)) {
+              return;
+            }
 
-      await walk(ast, (node) => {
-        if (node.type !== ELEMENT_NODE || !prefixRegex.test(node.name)) {
-          return;
-        }
+            const foundDirectivesToMove = node.props.filter((prop) => allDirectivesToMove.includes(prop.rawName));
 
-        const foundAttributesToMove = Object.keys(node.attributes).filter((attr) => allAttributesToMove.includes(attr));
+            const directivesToAdd = foundDirectivesToMove.length
+              ? ` ${foundDirectivesToMove.map((attr) => attr.loc.source).join(" ")}`
+              : "";
 
-        const attributesToAdd = foundAttributesToMove.length
-          ? ` ${foundAttributesToMove
-              .map((attr) => (node.attributes[attr] ? `${attr}="${node.attributes[attr]}"` : attr))
-              .join(" ")}`
-          : "";
+            const wrapperStartTag = `<LitWrapper${directivesToAdd}>`;
+            const wrapperEndTag = "</LitWrapper>";
 
-        const wrapperStartTag = `<LitWrapper${attributesToAdd}>`;
-        const wrapperEndTag = `</LitWrapper>`;
+            const nodeStart = node.loc.start.offset;
+            const nodeEnd = node.loc.end.offset;
 
-        const nodeWithAttributesRemoved = code
-          .slice(node.loc[0].start, node.loc[0].end)
-          .replace(attributesToMoveRegex, "")
-          .trim();
+            if (node.isSelfClosing) {
+              /**
+               * Converts
+               *
+               * ```html
+               * <my-element v-if="someCondition" />
+               * ```
+               *
+               *  to
+               *
+               * `<LitWrapper v-if="someCondition"><my-element /></LitWrapper>`
+               */
+              const nodeWithDirectivesRemoved = code
+                .slice(nodeStart, nodeEnd)
+                .replace(directivesToMoveRegex, "")
+                .trim();
 
-        s.overwrite(node.loc[0].start, node.loc[0].end, nodeWithAttributesRemoved);
+              s.overwrite(nodeStart, nodeEnd, `${wrapperStartTag}${nodeWithDirectivesRemoved}${wrapperEndTag}`);
+            } else {
+              /**
+               * Converts
+               *
+               * ```html
+               * <my-element v-if="someCondition">
+               *  <div>Some content</div>
+               * </my-element>
+               * ```
+               *
+               * to
+               *
+               * ```html
+               * <LitWrapper v-if="someCondition">
+               *   <my-element>
+               *     <div>Some content</div>
+               *   </my-element>
+               * </LitWrapper>
+               * ```
+               */
+              let contentStart = nodeStart + node.tag.length + 2;
+              if (node.props.length > 0) {
+                const lastProp = node.props[node.props.length - 1];
+                contentStart = lastProp.loc.end.offset;
+              }
 
-        s.prependLeft(node.loc[0].start, wrapperStartTag);
-        s.appendRight(node.loc[1].end, wrapperEndTag);
+              const nodeWithDirectivesRemoved = code
+                .slice(nodeStart, contentStart)
+                .replace(directivesToMoveRegex, "")
+                .trim();
+
+              s.overwrite(nodeStart, contentStart, nodeWithDirectivesRemoved);
+
+              s.prependLeft(nodeStart, wrapperStartTag);
+              s.appendRight(nodeEnd, wrapperEndTag);
+            }
+          }
+        ]
       });
 
       if (s.hasChanged()) {
