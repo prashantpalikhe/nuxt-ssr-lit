@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.18](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.17...v1.6.18) (2024-05-09)
+
+
+### Bug Fixes
+
+* use vue compiler for ast generation ([#143](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/143)) ([5796006](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/5796006e6b34e1afcfa64af5a3b47fb1293d762e))
+
 ## [1.6.17](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.16...v1.6.17) (2024-04-29)
 
 
