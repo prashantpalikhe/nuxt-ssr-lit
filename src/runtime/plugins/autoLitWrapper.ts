@@ -1,5 +1,5 @@
 import { pathToFileURL } from "node:url";
-import { parseURL } from "ufo";
+import { parseURL, parseQuery } from "ufo";
 import type { Plugin } from "vite";
 import MagicString from "magic-string";
 import { parse } from "@vue/compiler-sfc";
@@ -9,19 +9,50 @@ import type { NuxtSsrLitOptions } from "../../module";
 const allDirectivesToMove = ["v-for", ":key", "v-if", "v-else-if", "v-else"];
 const directivesToMoveRegex = new RegExp(allDirectivesToMove.map((attr) => `(\\s${attr}(="[^"]*")?)`).join("|"), "gi");
 
+function isVue(id: string, opts: { type?: Array<"template" | "script" | "style"> } = {}) {
+  // Bare `.vue` file (in Vite)
+  const { search } = parseURL(decodeURIComponent(pathToFileURL(id).href));
+  if (id.endsWith(".vue") && !search) {
+    return true;
+  }
+
+  if (!search) {
+    return false;
+  }
+
+  const query = parseQuery(search);
+
+  // Component async/lazy wrapper
+  if (query.nuxt_component) {
+    return false;
+  }
+
+  // Macro
+  if (query.macro && (search === "?macro=true" || !opts.type || opts.type.includes("script"))) {
+    return true;
+  }
+
+  // Non-Vue or Styles
+  const type = "setup" in query ? "script" : (query.type as "script" | "template" | "style");
+  if (!("vue" in query) || (opts.type && !opts.type.includes(type))) {
+    return false;
+  }
+
+  // Query `?vue&type=template` (in Webpack or external template)
+  return true;
+}
+
 export default function autoLitWrapper({
   litElementPrefix = [],
   sourcemap = false
 }: NuxtSsrLitOptions & { sourcemap?: boolean }) {
+  const litElementPrefixes = Array.isArray(litElementPrefix) ? litElementPrefix : [litElementPrefix];
+
   return {
     name: "autoLitWrapper",
     enforce: "pre",
     transform(code: string, id: string) {
-      const litElementPrefixes = Array.isArray(litElementPrefix) ? litElementPrefix : [litElementPrefix];
-      const { pathname } = parseURL(decodeURIComponent(pathToFileURL(id).href));
-      const isVueFile = pathname.endsWith(".vue");
-
-      if (!isVueFile || id.includes("macro=true")) {
+      if (!isVue(id, { type: ["template"] })) {
         return;
       }
 
@@ -123,7 +154,7 @@ export default function autoLitWrapper({
       if (s.hasChanged()) {
         return {
           code: s.toString(),
-          map: sourcemap ? s.generateMap({ hires: true }) : null
+          map: sourcemap ? s.generateMap({ hires: true }) : undefined
         };
       }
     }
