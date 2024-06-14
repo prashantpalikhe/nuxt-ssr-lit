@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@lit-labs/ssr": "^3.2.2",
-    "@nuxt/kit": "^3.11.2",
+    "@nuxt/kit": "^3.12.1",
     "@vue/compiler-core": "^3.4.27",
     "@vue/compiler-sfc": "^3.4.27",
     "@webcomponents/template-shadowroot": "^0.2.1",
@@ -47,7 +47,7 @@
     "eslint-plugin-prettier": "^5.1.2",
     "eslint-plugin-vue": "^9.19.2",
     "husky": "^8.0.3",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.12.1",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3",
     "vitest": "^0.31.1"
