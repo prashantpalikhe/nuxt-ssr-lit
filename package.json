@@ -26,17 +26,17 @@
   "dependencies": {
     "@lit-labs/ssr": "^3.2.2",
     "@nuxt/kit": "^3.12.1",
-    "@vue/compiler-core": "^3.4.27",
-    "@vue/compiler-sfc": "^3.4.27",
+    "@vue/compiler-core": "^3.4.28",
+    "@vue/compiler-sfc": "^3.4.28",
     "@webcomponents/template-shadowroot": "^0.2.1",
     "magic-string": "^0.30.10",
-    "ufo": "^1.3.2"
+    "ufo": "^1.5.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@nuxt/module-builder": "^0.5.5",
-    "@nuxt/schema": "^3.11.2",
+    "@nuxt/module-builder": "^0.7.1",
+    "@nuxt/schema": "^3.12.1",
     "@nuxt/test-utils-edge": "^3.8.0-28284309.b3d3d7f4",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@vue/eslint-config-prettier": "^9.0.0",
