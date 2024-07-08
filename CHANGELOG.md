@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.22](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.21...v1.6.22) (2024-07-08)
+
+
+### Bug Fixes
+
+* use node 20 for release ([#151](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/151)) ([69fccb2](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/69fccb298a269097c7beab65c0b641497c91714f))
+
 ## [1.6.21](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.20...v1.6.21) (2024-07-08)
 
 
