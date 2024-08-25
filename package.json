@@ -35,7 +35,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
-    "@nuxt/module-builder": "^0.8.1",
+    "@nuxt/module-builder": "^0.8.3",
     "@nuxt/schema": "^3.12.4",
     "@nuxt/test-utils-edge": "^3.8.0-28284309.b3d3d7f4",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
