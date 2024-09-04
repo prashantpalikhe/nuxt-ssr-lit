@@ -4,7 +4,7 @@ A Nuxt3 module for server-side rendering and client-side hydration of Lit custom
 
 ## 🚀 Usage
 
-_Note: This module is for Nuxt3._ The [work on Nuxt2 support](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/9) is in progress. We are looking for assistance in finishing up the module.
+_Note: This module is for Nuxt3._ Please see this issue [on Nuxt2 support](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/9). We are looking for assistance in finishing up the module.
 
 ### Installation
 
@@ -27,12 +27,30 @@ export default defineNuxtConfig({
 });
 ```
 
-That's it! Now all the Lit elements prefixed with `acme-` will be Server-Side Rendered.
+That's it! Now all the Lit elements prefixed with `acme-` will be Server-Side Rendered. If there are any other custom elements in the project they will be client-side rendered.
 
 ## 👨‍💻 Development
 
 - Run `npm run dev:prepare` to generate type stubs.
 - Use `npm run dev` to start [playground](./playground) in development mode.
+
+
+## Common issues
+
+### `TypeError: customElements.get(...) is not a constructor`
+
+This error occurs when the Lit element is not properly registered. This can happen because the element is not set up correctly, or it can be due to the element having side effects. You may also only see this error when running in production mode.
+
+To fix this, your custom element library can be registered in the `nuxt.config.js` file.
+
+```js
+export default defineNuxtConfig({
+  ...
+  nitro: {
+    moduleSideEffects: ["my-custom-element-library"]
+  }
+});
+```
 
 ## How does it work?
 
