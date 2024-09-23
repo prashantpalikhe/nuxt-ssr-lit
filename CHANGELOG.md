@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.26](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.25...v1.6.26) (2024-09-23)
+
+
+### Bug Fixes
+
+* update vue and nuxt ([#162](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/162)) ([70cec94](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/70cec94a7471a55525ac71a38dedfa796bc00d3c))
+
 ## [1.6.25](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.24...v1.6.25) (2024-09-04)
 
 
