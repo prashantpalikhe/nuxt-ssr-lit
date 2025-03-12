@@ -1,4 +1,4 @@
-import { css, html, LitElement, PropertyDeclarations, TemplateResult } from "lit";
+import { css, html, LitElement, type PropertyDeclarations, type TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
 const styles = css`
@@ -40,7 +40,9 @@ const styles = css`
 
   :host button:focus {
     border-color: white;
-    box-shadow: 0 0 0 1px #919191, inset 0 0 0 1px #919191;
+    box-shadow:
+      0 0 0 1px #919191,
+      inset 0 0 0 1px #919191;
   }
 
   :host button:disabled {
