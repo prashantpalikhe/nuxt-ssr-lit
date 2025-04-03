@@ -1,4 +1,4 @@
-import { css, html, LitElement, PropertyDeclarations, TemplateResult } from "lit";
+import { css, html, LitElement, type PropertyDeclarations, type TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 
 const styles = css`
