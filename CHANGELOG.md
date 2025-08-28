@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.32](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.31...v1.6.32) (2025-08-28)
+
+
+### Bug Fixes
+
+* trigger release after pinning lit labs ssr ([#180](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/180)) ([5d1be1e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/5d1be1eab1f7c9cf5888c7a1b7630b6b2b182c5b))
+
 ## [1.6.31](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.30...v1.6.31) (2025-08-28)
 
 
