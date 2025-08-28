@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.31](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.30...v1.6.31) (2025-08-28)
+
+
+### Bug Fixes
+
+* pin lit labs ssr to version 3.2.2 ([#177](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/177)) ([428e0f6](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/428e0f60f180e449ae95559b6e5bcb808e46161b))
+
 ## [1.6.30](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.29...v1.6.30) (2025-04-03)
 
 
