@@ -27,13 +27,12 @@ export default defineNuxtConfig({
 });
 ```
 
-That's it! Now all the Lit elements prefixed with `acme-` will be Server-Side Rendered. If there are any other custom elements in the project they will be client-side rendered.
+That's it! Now all the Lit elements prefixed with `acme-` will be server-side rendered. If there are any other custom elements in the project they will be client-side rendered.
 
 ## 👨‍💻 Development
 
 - Run `npm run dev:prepare` to generate type stubs.
 - Use `npm run dev` to start [playground](./playground) in development mode.
-
 
 ## Common issues
 
