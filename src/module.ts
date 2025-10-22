@@ -1,9 +1,11 @@
 import { defineNuxtModule, addPlugin, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
 import { name, version } from "../package.json";
+import supressLitWarnings from "./runtime/plugins/supressLitWarnings";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string | string[];
+  suppressedWarnings?: string[];
 }
 
 export default defineNuxtModule<NuxtSsrLitOptions>({
@@ -13,7 +15,8 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     configKey: "ssrLit"
   },
   defaults: {
-    litElementPrefix: []
+    litElementPrefix: [],
+    suppressedWarnings: []
   },
   async setup(options, nuxt) {
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
@@ -45,6 +48,10 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
       (Array.isArray(options.litElementPrefix)
         ? options.litElementPrefix.some((p) => tag.startsWith(p))
         : tag.startsWith(options.litElementPrefix)) || isCustomElement(tag);
+
+    if (nuxt.options.dev || nuxt.options.test) {
+      addVitePlugin(supressLitWarnings(options.suppressedWarnings));
+    }
 
     addVitePlugin(
       autoLitWrapper({
