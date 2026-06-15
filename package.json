@@ -3,19 +3,13 @@
   "version": "1.6.32",
   "license": "MIT",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
-    }
-  },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/types.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build",
+    "build": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
@@ -25,31 +19,33 @@
   },
   "dependencies": {
     "@lit-labs/ssr": "3.2.2",
-    "@nuxt/kit": "^3.16.2",
     "@vue/compiler-core": "^3.5.13",
     "@vue/compiler-sfc": "^3.5.13",
     "@webcomponents/template-shadowroot": "^0.2.1",
-    "magic-string": "^0.30.12",
-    "ufo": "^1.5.4"
+    "magic-string": "^0.30.21",
+    "ufo": "^1.6.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.2.0",
-    "@commitlint/config-conventional": "^17.2.0",
-    "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.16.2",
-    "@nuxt/test-utils-edge": "^3.8.0-28284309.b3d3d7f4",
+    "@commitlint/cli": "^17.8.1",
+    "@commitlint/config-conventional": "^17.8.1",
+    "@nuxt/cli": "3.31",
+    "@nuxt/kit": "3.21",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "3.21",
+    "@nuxt/test-utils": "^3.23.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
-    "cheerio": "^1.0.0-rc.12",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.2",
-    "eslint-plugin-vue": "^9.19.2",
+    "cheerio": "^1.2.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-vue": "^9.33.0",
     "husky": "^8.0.3",
-    "nuxt": "^3.16.2",
-    "prettier": "^3.1.1",
-    "typescript": "^5.3.3",
-    "vitest": "^0.31.1"
+    "nuxt": "3.21",
+    "prettier": "^3.8.4",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.6",
+    "vue-tsc": "^3.3.5"
   }
 }
