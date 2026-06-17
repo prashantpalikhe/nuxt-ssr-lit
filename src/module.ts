@@ -19,6 +19,18 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
     nuxt.options.nitro.moduleSideEffects = nuxt.options.nitro.moduleSideEffects || [];
     nuxt.options.nitro.moduleSideEffects.push("@lit-labs/ssr/lib/render-lit-html.js");
 
+    // Under strict node_modules layouts (e.g. pnpm), @vue/server-renderer gets bundled as CJS,
+    // emitting `import require$$0 from "vue"` and crashing SSR with "vue ... no default export". #176
+    nuxt.options.vite.ssr = nuxt.options.vite.ssr || {};
+    const ssrExternal = nuxt.options.vite.ssr.external;
+    if (Array.isArray(ssrExternal)) {
+      if (!ssrExternal.includes("@vue/server-renderer")) {
+        ssrExternal.push("@vue/server-renderer");
+      }
+    } else if (ssrExternal === undefined) {
+      nuxt.options.vite.ssr.external = ["@vue/server-renderer"];
+    }
+
     const { resolve } = createResolver(import.meta.url);
 
     addPlugin(resolve("./runtime/plugins/antiFouc.server"));
