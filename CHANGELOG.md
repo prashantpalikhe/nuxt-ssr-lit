@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.33](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.32...v1.6.33) (2026-06-17)
+
+
+### Bug Fixes
+
+* keep @vue/server-renderer external to avoid SSR crash under pnpm ([d523267](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/d523267d9ce128ca4154f479a688c40299ee809e))
+
 ## [1.6.32](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.31...v1.6.32) (2025-08-28)
 
 
