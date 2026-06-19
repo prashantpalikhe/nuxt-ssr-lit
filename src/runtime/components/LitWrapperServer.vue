@@ -12,7 +12,9 @@ type PushFn = Parameters<typeof ssrRenderVNode>[0];
  * https://github.com/lit/lit/blob/ada3ffce30cdb6a2f9a9d476767eaf747a0b2667/packages/labs/ssr/src/lib/render-result.ts#L95C1-L129C3
  * Joins a RenderResult or ThunkedRenderResult into a string synchronously.
  *
- * This function throws if a RenderResult contains a Promise.
+ * This function optionally throws if a RenderResult contains a Promise  and `throwOnPromise` is true.
+ *
+ * This behavior is divergent of Lit's collectResultSync as I don't think its useful to fully throw on async value, instead, just silently ignore them is *probably* okay? if Nuxt supports async renders, we can move to using Lit's `await collectResult` which supports promises.
  */
 const collectResultSync = (
   result: RenderResult | ThunkedRenderResult,
