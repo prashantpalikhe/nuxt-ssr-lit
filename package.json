@@ -24,7 +24,8 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@lit-labs/ssr": "3.2.2",
+    "@lit-labs/ssr": "^4.0.0",
+    "@lit-labs/ssr-client": "^1.1.8",
     "@nuxt/kit": "^3.16.2",
     "@vue/compiler-core": "^3.5.13",
     "@vue/compiler-sfc": "^3.5.13",
