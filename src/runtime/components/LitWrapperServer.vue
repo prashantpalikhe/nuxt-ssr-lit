@@ -3,7 +3,6 @@ import { defineComponent, ssrUtils, mergeProps } from "vue";
 import type { ComponentInternalInstance } from "vue";
 import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
-import { collectResultSync } from "@lit-labs/ssr/lib/render-result.js";
 import { createLitElementRenderer } from "../utils/litElementRenderer";
 
 type PushFn = Parameters<typeof ssrRenderVNode>[0];
