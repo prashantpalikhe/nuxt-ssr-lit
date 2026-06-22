@@ -2,7 +2,17 @@ import { defineNuxtConfig } from "nuxt/config";
 import NuxtSsrLit from "..";
 
 export default defineNuxtConfig({
-  modules: [[NuxtSsrLit, { litElementPrefix: ["my-", "simple-"] }]],
+  modules: [
+    [
+      NuxtSsrLit,
+      {
+        litElementPrefix: ["my-", "simple-"],
+        suppressedWarnings: [
+          "Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information."
+        ]
+      }
+    ]
+  ],
   sourcemap: process.env.NODE_ENV === "test" ? false : { client: true, server: true },
   compatibilityDate: "2024-11-05",
   hooks: {
