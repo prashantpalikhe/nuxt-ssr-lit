@@ -72,6 +72,13 @@ describe("ssr", async () => {
     expect($("[data-attr-should-also-exist]").length).toBe(1);
   });
 
+  it("renders the shadow root options declared by the element", async () => {
+    const html = await $fetch("/delegates-focus");
+    expect(html).toContain(
+      '<simple-field defer-hydration="true"><template shadowrootmode="open" shadowroot="open" shadowrootdelegatesfocus><style>'
+    );
+  });
+
   it("renders element with child that should defer hydration", async () => {
     const html = await $fetch("/simple-parent");
     expect(html).toContain("<simple-child defer-hydration>");

@@ -29,8 +29,14 @@ export default defineComponent({
 
       const attributes = ssrRenderAttrs(mergeProps(litElementVNodeProps, litWrapperAttrs));
 
+      // The shadow root options the element declares have to be written to the declarative shadow
+      // root: `delegatesFocus` cannot be recovered on the client, since `createRenderRoot` adopts
+      // the server's shadow root and `ShadowRoot.delegatesFocus` is read-only once it exists.
+      const { mode = "open", delegatesFocus } = renderer.shadowRootOptions;
+      const delegatesFocusAttribute = delegatesFocus ? " shadowrootdelegatesfocus" : "";
+
       push(
-        `<${litElementTagName}${attributes} defer-hydration="true"><template shadowrootmode="open" shadowroot="open">`
+        `<${litElementTagName}${attributes} defer-hydration="true"><template shadowrootmode="${mode}" shadowroot="${mode}"${delegatesFocusAttribute}>`
       );
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
