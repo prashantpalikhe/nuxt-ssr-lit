@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.34](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.33...v1.6.34) (2026-10-19)
+
+
+### Bug Fixes
+
+* write the element's shadowRootOptions to the declarative shadow root ([#191](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/191)) ([bf5376e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/bf5376e8d1e376744ef22bc7b66286a5518e2523)), closes [#190](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/190)
+
 ## [1.6.33](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.32...v1.6.33) (2026-06-17)
 
 
