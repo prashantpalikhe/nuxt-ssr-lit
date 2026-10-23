@@ -1,6 +1,7 @@
 import { defineNuxtModule, addPlugin, createResolver, addVitePlugin, addComponent } from "@nuxt/kit";
 import { name, version } from "../package.json";
 import autoLitWrapper from "./runtime/plugins/autoLitWrapper";
+import litElementHydrateSupport from "./runtime/plugins/litElementHydrateSupport";
 
 export interface NuxtSsrLitOptions {
   litElementPrefix: string | string[];
@@ -31,11 +32,20 @@ export default defineNuxtModule<NuxtSsrLitOptions>({
       nuxt.options.vite.ssr.external = ["@vue/server-renderer"];
     }
 
-    const { resolve } = createResolver(import.meta.url);
+    const { resolve, resolvePath } = createResolver(import.meta.url);
 
     addPlugin(resolve("./runtime/plugins/antiFouc.server"));
     addPlugin(resolve("./runtime/plugins/polyfill.client"));
-    addPlugin(resolve("./runtime/plugins/hydrateSupport.client"));
+    const hydrateSupportPlugin = await resolvePath("./runtime/plugins/hydrateSupport.client", {
+      extensions: [".js", ".mjs", ".ts"]
+    });
+    addPlugin(hydrateSupportPlugin);
+    addVitePlugin(
+      litElementHydrateSupport({
+        importer: hydrateSupportPlugin,
+        sourcemap: !!nuxt.options.sourcemap.client
+      })
+    );
 
     await addComponent({
       name: "LitWrapper",
