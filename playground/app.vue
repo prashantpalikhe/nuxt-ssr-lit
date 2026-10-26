@@ -36,6 +36,9 @@
           <li>
             <NuxtLink to="/fallthrough-attributes"> Fallthrough attributes </NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/changed-on-mount"> Changed on mount </NuxtLink>
+          </li>
         </ul>
       </nav>
     </header>
