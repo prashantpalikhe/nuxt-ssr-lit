@@ -3,7 +3,7 @@ import { defineComponent, ssrUtils, mergeProps } from "vue";
 import type { ComponentInternalInstance } from "vue";
 import { ssrRenderVNode, ssrRenderAttrs } from "@vue/server-renderer";
 import { LitElementRenderer } from "@lit-labs/ssr/lib/lit-element-renderer.js";
-import { createLitElementRenderer } from "../utils/litElementRenderer";
+import { createLitElementRenderer, realize } from "../utils/litElementRenderer";
 
 type PushFn = Parameters<typeof ssrRenderVNode>[0];
 
@@ -41,11 +41,13 @@ export default defineComponent({
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      for (const shadowContent of renderer.renderShadow({
+      for (const shadowContent of realize(renderer.renderShadow({
         elementRenderers: [LitElementRenderer],
         customElementInstanceStack: [renderer],
-        customElementHostStack: [renderer]
-      }) as Iterable<string>) {
+        customElementHostStack: [renderer],
+        eventTargetStack: [renderer.element],
+        slotStack: []
+      }))) {
         push(shadowContent);
       }
 
