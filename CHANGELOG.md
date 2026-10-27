@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.35](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.34...v1.6.35) (2026-10-27)
+
+
+### Bug Fixes
+
+* upgrade `@lit-labs/ssr` to ^4.1.0 ([074ed9e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/074ed9ef62cfa8f27aafa255d85a656a219798aa)), closes [#183](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/183)
+* evaluate lit-element-hydrate-support before lit-element in client builds ([074ed9e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/074ed9ef62cfa8f27aafa255d85a656a219798aa)), closes [#188](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/188)
+
 ## [1.6.34](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.33...v1.6.34) (2026-10-19)
 
 
