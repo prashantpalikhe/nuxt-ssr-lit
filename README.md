@@ -33,6 +33,7 @@ That's it! Now all the Lit elements prefixed with `acme-` will be server-side re
 
 - Run `npm run dev:prepare` to generate type stubs.
 - Use `npm run dev` to start [playground](./playground) in development mode.
+- Run `npx playwright-core install chromium` once: some tests open the playground in Chromium.
 
 ## Common issues
 

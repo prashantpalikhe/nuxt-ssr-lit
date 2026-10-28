@@ -10,7 +10,7 @@ export class MyInner extends LitElement {
   }
 
   render() {
-    return html`<span class="inner inner--${this.label}">Inner element: ${this.label}</span>`;
+    return html`<span>Inner element: ${this.label}</span>`;
   }
 }
 customElements.define("my-inner", MyInner);
@@ -25,7 +25,7 @@ export class MyOuter extends LitElement {
   }
 
   render() {
-    return html`<p class="outer outer--${this.label}">Outer element: ${this.label}</p>
+    return html`<p>Outer element: ${this.label}</p>
       <my-inner .label=${this.label}></my-inner>`;
   }
 }
