@@ -63,11 +63,9 @@ function hydrate(el: ServerRenderedElement) {
     try {
       el.performUpdate?.();
     } catch (error) {
-      // Reported later, as Lit reports a failed update: thrown from here, it would reach Vue's error
-      // handler, which Nuxt turns into an error page while the app is starting.
-      queueMicrotask(() => {
-        throw error;
-      });
+      // Reported the way Lit reports a failed update. Thrown from here, it would reach Vue's error
+      // handler, and Nuxt would show its error page.
+      Promise.reject(error);
     }
   }
   for (const child of rendered) {
