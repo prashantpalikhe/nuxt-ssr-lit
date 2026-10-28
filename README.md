@@ -33,6 +33,7 @@ That's it! Now all the Lit elements prefixed with `acme-` will be server-side re
 
 - Run `npm run dev:prepare` to generate type stubs.
 - Use `npm run dev` to start [playground](./playground) in development mode.
+- Run `npx playwright-core install chromium` once: some tests open the playground in Chromium.
 
 ## Common issues
 
@@ -61,7 +62,7 @@ So, if there is a Lit element used in one of the components. E.g. `<acme-button>
 
 [The LitWrapper component on the server side](./src/runtime/components/LitWrapperServer.ts) uses the [@lit-labs/ssr](https://www.npmjs.com/package/@lit-labs/ssr)'s [LitElementRenderer](https://github.com/lit/lit/blob/main/packages/labs/ssr/src/lib/lit-element-renderer.ts) to render the wrapped Lit element with [Declarative Shadow DOM](https://web.dev/declarative-shadow-dom/). This makes the Lit component render properly on the browser without having the JS to load and execute and as soon the server HTML is parsed.
 
-[The LitWrapper component on the client side](./src/runtime/components/LitWrapperClient.ts) does nothing and let the normal client-side hydration take place.
+[The LitWrapper component on the client side](./src/runtime/components/LitWrapperClient.vue) hydrates the Lit element as soon as it is mounted, while the element still has the values the server rendered it with.
 
 ## Caveats
 
