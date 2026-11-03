@@ -1,6 +1,6 @@
 {
   "name": "nuxt-ssr-lit",
-  "version": "1.6.34",
+  "version": "1.7.0",
   "license": "MIT",
   "type": "module",
   "exports": {
