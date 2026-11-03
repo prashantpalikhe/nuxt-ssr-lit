@@ -7,12 +7,12 @@ const delayed = async <T>(value: T): Promise<T> => {
 }
 
 describe("Realize Thunks Util", () => {
-  test("no thunks", () => {
+  test("no thunks", async () => {
     expect(realize(undefined)).toEqual("");
     expect(realize("<my-element />")).toEqual("<my-element />");
     expect(realize(["<my-element>", "</my-element>"])).toEqual(["<my-element>", "</my-element>"]);
-    expect(realize(Promise.resolve(["<my-element>", "</my-element>"]))).resolves.toEqual(["<my-element>", "</my-element>"]);
-    expect(realize(delayed(["<my-element>", "</my-element>"]))).resolves.toEqual(["<my-element>", "</my-element>"]);
+    await expect(realize(Promise.resolve(["<my-element>", "</my-element>"]))).resolves.toEqual(["<my-element>", "</my-element>"]);
+    await expect(realize(delayed(["<my-element>", "</my-element>"]))).resolves.toEqual(["<my-element>", "</my-element>"]);
   });
   test("simple thunks", () => {
     expect(realize(() => "<my-element />")).toEqual("<my-element />");
@@ -24,9 +24,9 @@ describe("Realize Thunks Util", () => {
     expect(realize(["<my-element>", () => { }, "</my-element>"])).toEqual(["<my-element>", "</my-element>"]);
     expect(realize(() => ["<my-element>", () => { }, "</my-element>"])).toEqual(["<my-element>", "</my-element>"]);
   });
-  test("thunks in promises", () => {
-    expect(realize(delayed([() => "<my-element />"]))).resolves.toEqual(["<my-element />"]);
-    expect(realize(delayed(["<my-element>", () => ["test"], "</my-element>"]))).resolves.toEqual(["<my-element>", ["test"], "</my-element>"]);
+  test("thunks in promises", async () => {
+    await expect(realize(delayed([() => "<my-element />"]))).resolves.toEqual(["<my-element />"]);
+    await expect(realize(delayed(["<my-element>", () => ["test"], "</my-element>"]))).resolves.toEqual(["<my-element>", ["test"], "</my-element>"]);
     expect(realize(["<my-element>", () => delayed([() => delayed("test")]), "</my-element>"])).toEqual(["<my-element>", Promise.resolve([Promise.resolve("test")]), "</my-element>"]);
   });
 });

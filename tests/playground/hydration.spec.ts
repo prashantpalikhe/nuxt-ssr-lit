@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { describe, it, expect, afterEach } from "vitest";
-import { setup, createPage, url } from "@nuxt/test-utils-edge";
+import { setup, createPage, url } from "@nuxt/test-utils";
 import type { Page } from "playwright-core";
 import type { MyList } from "../../playground/wc/my-list";
 

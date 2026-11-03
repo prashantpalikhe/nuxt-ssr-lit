@@ -4,6 +4,7 @@ import NuxtSsrLit from "..";
 export default defineNuxtConfig({
   modules: [[NuxtSsrLit, { litElementPrefix: ["my-", "simple-"] }]],
   sourcemap: process.env.NODE_ENV === "test" ? false : { client: true, server: true },
+  srcDir: ".",
   compatibilityDate: "2024-11-05",
   hooks: {
     "vite:extendConfig": (config, { isServer }) => {
