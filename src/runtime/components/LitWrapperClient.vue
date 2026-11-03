@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { hydrateServerRenderedElement } from "../utils/hydrate";
 
 export default defineComponent({
   setup(_, context) {
@@ -7,7 +8,7 @@ export default defineComponent({
   },
 
   mounted() {
-    this.$el?.removeAttribute?.("defer-hydration");
+    hydrateServerRenderedElement(this.$el);
   }
 });
 </script>

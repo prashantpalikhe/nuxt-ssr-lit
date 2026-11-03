@@ -48,6 +48,7 @@
     "eslint-plugin-vue": "^9.19.2",
     "husky": "^8.0.3",
     "nuxt": "^3.16.2",
+    "playwright-core": "^1.64.1",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3",
     "vitest": "^0.31.1"
