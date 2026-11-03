@@ -29,5 +29,8 @@ jobs:
       - name: Build packages
         run: npm run build
 
+      - name: Install Chromium for the browser tests
+        run: npx playwright-core install --with-deps --only-shell chromium
+
       - name: Test Nuxt 3
         run: npm test
