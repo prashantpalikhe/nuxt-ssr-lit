@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.7.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.34...v1.7.0) (2026-11-03)
+
+
+### Features
+
+* updated playground and dependencies to nuxt 4 and node 24 ([2b94c45](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/2b94c45152f12528eb17293cf45a21282007edf3))
+* updated playground and dependencies to nuxt 4 and node 24 ([9c22c72](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/9c22c72322381e3a6f86fe09d63319e0c93c4487))
+* upgrade `@lit-labs/ssr` to `v4.*.*` Fixes [#183](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/183) ([1395237](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/139523792458f979d2e1ce75e9a3a7c069f51f3b))
+
+
+### Bug Fixes
+
+* evaluate lit-element-hydrate-support before lit-element in client builds ([9b93a39](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/9b93a39b5b9f27fd9b57dc6fd5b4492277a2abc3))
+* evaluate lit-element-hydrate-support before lit-element in client builds ([9b93a39](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/9b93a39b5b9f27fd9b57dc6fd5b4492277a2abc3))
+* evaluate lit-element-hydrate-support before lit-element in client builds ([074ed9e](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/074ed9ef62cfa8f27aafa255d85a656a219798aa)), closes [#188](https://github.com/prashantpalikhe/nuxt-ssr-lit/issues/188)
+* hydrate server-rendered elements as their wrapper mounts ([d18cd1b](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/d18cd1bd256986dc613fc62005da0d3bdf21434e))
+* hydrate server-rendered elements as their wrapper mounts ([414738b](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/414738b73eafb1e1c3626722a1176324c405c3ef))
+
 ## [1.6.34](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.33...v1.6.34) (2026-10-19)
 
 
