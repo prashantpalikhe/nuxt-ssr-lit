@@ -2,6 +2,10 @@
   "name": "nuxt-ssr-lit",
   "version": "2.0.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashantpalikhe/nuxt-ssr-lit.git"
+  },
   "type": "module",
   "exports": {
     ".": {
