@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.7.0...v2.0.0) (2026-11-10)
+
+
+### Continuous Integration
+
+* publish via npm trusted publishing ([94ffb60](https://github.com/prashantpalikhe/nuxt-ssr-lit/commit/94ffb60bb88bd03f1ee005eb28cb552bbe69a585))
+
 ## [1.7.0](https://github.com/prashantpalikhe/nuxt-ssr-lit/compare/v1.6.34...v1.7.0) (2026-11-03)
 
 
